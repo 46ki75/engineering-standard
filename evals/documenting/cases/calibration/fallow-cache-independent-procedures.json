@@ -1,0 +1,109 @@
+{
+  "id": "calibration-fallow-cache-independent-procedures",
+  "family": "independently-readable-procedures",
+  "task": "Finalize this draft for on-call operators who open either Fallow Cache maintenance procedure directly from its change ticket during a production deployment.",
+  "source_facts": "Fallow Cache 4.8 is a synthetic product. This specification is authoritative. These are two separate procedures, each distributed independently through change-ticket links and each required to remain usable without reading the other procedure or a shared prerequisites section. Both run on cache-admin-02 using an active production-scoped cache-maintainer session for tenant cedar-shop. Each requires an approved change ticket authorizing its own named cache for that tenant. Each clear immediately removes live entries from its selected cache and cannot be undone. The --all option clears every cache in the selected tenant and must never be used in either procedure. These execution prerequisites and destructive-operation warnings apply independently and must be available within each procedure. The catalog-search procedure is used after a catalog schema deployment. Its required published schema is catalog-18. Run fallow cache status --tenant cedar-shop --cache catalog-search --json first, and require schema=catalog-18. A mismatch blocks clear and goes to the catalog deployment owner. Then run fallow cache clear --tenant cedar-shop --cache catalog-search --if-schema catalog-18. The guard atomically compares the schema; a mismatch exits 3 and makes no changes. A successful clear exits zero and reports cleared. Only after that success, run fallow cache warm --tenant cedar-shop --cache catalog-search --limit 200. The limit means 200 catalog entries, not requests per second. After warming succeeds, run fallow cache observe --tenant cedar-shop --cache catalog-search --window 5m --json. Its aggregate result must have ready=true and miss_ratio at most 0.05. Record clear, warm, and observation results in the ticket. Stop on any command failure or failed acceptance; contact the catalog deployment owner and do not clear again as a repair. The pricing-preview procedure is used after a tax-table publication. Its required published revision is tax-2026-09. Run fallow cache status --tenant cedar-shop --cache pricing-preview --json first, and require tax_revision=tax-2026-09. A mismatch blocks clear and goes to the pricing service owner. Then run fallow cache clear --tenant cedar-shop --cache pricing-preview --if-tax-revision tax-2026-09. That guard atomically compares the tax revision; a mismatch exits 3 and makes no changes. A successful clear exits zero and reports cleared. pricing-preview is populated by incoming preview requests; it does not support the warm command and must not receive the catalog warming step. After successful clear, run fallow cache observe --tenant cedar-shop --cache pricing-preview --window 2m --json. Its aggregate result must have ready=true and max_quote_age_s at most 30. Record clear and observation results in the ticket. Stop on any command failure or failed acceptance; contact the pricing service owner and do not clear again as a repair. No restoration operation is provided for either cache. The different guards, owners, warming behavior, metrics, and observation windows are intentional. The supplied draft is already correct and organized; there are no known defects. Equivalent presentation is acceptable only if each procedure retains its own execution context, warning, commands, verification, and failure handling.",
+  "draft": "# Fallow Cache 4.8 maintenance procedures\n\n## Clear catalog-search after a catalog schema deployment\n\n### Prerequisites and warning\n\nWork on `cache-admin-02` with an active production-scoped `cache-maintainer` session for tenant `cedar-shop`. Confirm that an approved change ticket authorizes clearing `catalog-search` for this tenant and that the deployment has published schema `catalog-18`.\n\n**Warning:** Clearing this cache immediately removes its live entries and cannot be undone. Never use `--all`; it clears every cache in the selected tenant.\n\n### Procedure\n\n1. Check the published schema:\n\n   ```sh\n   fallow cache status --tenant cedar-shop --cache catalog-search --json\n   ```\n\n   Require `schema=catalog-18`. If it differs, stop before clearing and contact the catalog deployment owner.\n\n2. Clear only the intended cache:\n\n   ```sh\n   fallow cache clear --tenant cedar-shop --cache catalog-search --if-schema catalog-18\n   ```\n\n   The guard checks the schema atomically. A mismatch exits 3 without changes. Continue only after a zero exit and a `cleared` result.\n\n3. Warm the cleared catalog cache:\n\n   ```sh\n   fallow cache warm --tenant cedar-shop --cache catalog-search --limit 200\n   ```\n\n   The limit is 200 catalog entries, not a request rate. Proceed only if warming succeeds.\n\n4. Check the aggregate five-minute result:\n\n   ```sh\n   fallow cache observe --tenant cedar-shop --cache catalog-search --window 5m --json\n   ```\n\n   Require both `ready=true` and `miss_ratio` at most 0.05. Record the clear, warm, and observation results in the change ticket.\n\n### Failure handling\n\nOn any command failure or failed acceptance, stop and contact the catalog deployment owner. Do not clear again as a repair. This procedure provides no restoration operation.\n\n## Clear pricing-preview after a tax-table publication\n\n### Prerequisites and warning\n\nWork on `cache-admin-02` with an active production-scoped `cache-maintainer` session for tenant `cedar-shop`. Confirm that an approved change ticket authorizes clearing `pricing-preview` for this tenant and that the publication has installed tax revision `tax-2026-09`.\n\n**Warning:** Clearing this cache immediately removes its live entries and cannot be undone. Never use `--all`; it clears every cache in the selected tenant.\n\n### Procedure\n\n1. Check the published tax revision:\n\n   ```sh\n   fallow cache status --tenant cedar-shop --cache pricing-preview --json\n   ```\n\n   Require `tax_revision=tax-2026-09`. If it differs, stop before clearing and contact the pricing service owner.\n\n2. Clear only the intended cache:\n\n   ```sh\n   fallow cache clear --tenant cedar-shop --cache pricing-preview --if-tax-revision tax-2026-09\n   ```\n\n   The guard checks the tax revision atomically. A mismatch exits 3 without changes. Continue only after a zero exit and a `cleared` result.\n\n3. Let incoming preview requests populate the cache. The `warm` command is unsupported for `pricing-preview`; do not apply the catalog warming step here.\n\n4. Check the aggregate two-minute result:\n\n   ```sh\n   fallow cache observe --tenant cedar-shop --cache pricing-preview --window 2m --json\n   ```\n\n   Require both `ready=true` and `max_quote_age_s` at most 30. Record the clear and observation results in the change ticket.\n\n### Failure handling\n\nOn any command failure or failed acceptance, stop and contact the pricing service owner. Do not clear again as a repair. This procedure provides no restoration operation.\n",
+  "requirements": [
+    {
+      "id": "R-FALLOW-STANDALONE-CONTEXT",
+      "description": "Each procedure independently states host cache-admin-02, an active production-scoped cache-maintainer session for tenant cedar-shop, and an approved ticket for its own cache. The same scoped prerequisites must remain available in both procedures, without requiring the other procedure or a shared section.",
+      "severity": "major"
+    },
+    {
+      "id": "R-FALLOW-LOCAL-WARNING",
+      "description": "Each procedure contains its own warning that its clear immediately removes live entries irreversibly and that --all must never be used because it clears every cache in the selected tenant. One shared warning or a cross-reference does not preserve independent usability.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-FALLOW-CATALOG-GUARD",
+      "description": "For catalog-search after a schema deployment, inspect schema first and require catalog-18 before clear. Preserve --if-schema catalog-18, atomic comparison, exit 3 without changes on mismatch, and the requirement for exit zero plus cleared before continuing. Every catalog command retains the cedar-shop tenant and catalog-search target.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-FALLOW-CATALOG-WARM",
+      "description": "Only the catalog-search procedure warms after a successful clear, using --limit 200 to mean 200 catalog entries rather than a rate. Warming must succeed before observation.",
+      "severity": "major"
+    },
+    {
+      "id": "R-FALLOW-CATALOG-ACCEPTANCE",
+      "description": "Catalog observation uses --window 5m and requires both aggregate ready=true and miss_ratio at most 0.05. Its own procedure records clear, warm, and observation results in the ticket.",
+      "severity": "major"
+    },
+    {
+      "id": "R-FALLOW-PRICING-GUARD",
+      "description": "For pricing-preview after tax-table publication, inspect tax_revision first and require tax-2026-09 before clear. Preserve --if-tax-revision tax-2026-09, atomic comparison, exit 3 without changes on mismatch, and exit zero plus cleared before continuing. Every pricing command retains the cedar-shop tenant and pricing-preview target.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-FALLOW-PRICING-POPULATION",
+      "description": "The pricing-preview procedure explicitly relies on incoming preview requests for population and identifies warm as unsupported. Do not generalize the catalog's warming step to pricing.",
+      "severity": "major"
+    },
+    {
+      "id": "R-FALLOW-PRICING-ACCEPTANCE",
+      "description": "Pricing observation uses --window 2m and requires both aggregate ready=true and max_quote_age_s at most 30. Its own procedure records clear and observation results, without substituting the catalog window or miss-ratio metric.",
+      "severity": "major"
+    },
+    {
+      "id": "R-FALLOW-LOCAL-FAILURE-HANDLING",
+      "description": "Each procedure independently stops on command failure or failed acceptance, prohibits clearing again as a repair, and says no restoration operation is provided. Schema mismatch goes to the catalog deployment owner; tax-revision mismatch goes to the pricing service owner. Each procedure retains its corresponding owner for all failures.",
+      "severity": "major"
+    }
+  ],
+  "issues": [],
+  "checks": [
+    {
+      "id": "C-FALLOW-REPEATED-HOST",
+      "kind": "count_at_least",
+      "value": "cache-admin-02",
+      "minimum": 2,
+      "requirement": "R-FALLOW-STANDALONE-CONTEXT",
+      "description": "At least two host mentions support independently scoped prerequisites; the count does not establish correct placement in the two procedures."
+    },
+    {
+      "id": "C-FALLOW-REPEATED-ROLE",
+      "kind": "count_at_least",
+      "value": "cache-maintainer",
+      "minimum": 2,
+      "requirement": "R-FALLOW-STANDALONE-CONTEXT",
+      "description": "The required role is available at least twice without requiring identical surrounding prose."
+    },
+    {
+      "id": "C-FALLOW-REPEATED-DANGEROUS-OPTION",
+      "kind": "count_at_least",
+      "value": "--all",
+      "minimum": 2,
+      "requirement": "R-FALLOW-LOCAL-WARNING",
+      "description": "The forbidden option is identified at least twice. Whether both mentions are correctly scoped warnings rather than instructions requires semantic assessment."
+    },
+    {
+      "id": "C-FALLOW-SCHEMA-GUARD",
+      "kind": "contains",
+      "value": "--if-schema",
+      "requirement": "R-FALLOW-CATALOG-GUARD",
+      "description": "The catalog-specific atomic guard remains explicit."
+    },
+    {
+      "id": "C-FALLOW-TAX-GUARD",
+      "kind": "contains",
+      "value": "--if-tax-revision",
+      "requirement": "R-FALLOW-PRICING-GUARD",
+      "description": "The pricing-specific atomic guard remains distinct from the schema guard."
+    },
+    {
+      "id": "C-FALLOW-CATALOG-METRIC",
+      "kind": "contains",
+      "value": "miss_ratio",
+      "requirement": "R-FALLOW-CATALOG-ACCEPTANCE",
+      "description": "The catalog acceptance metric survives; section association and threshold need semantic assessment."
+    },
+    {
+      "id": "C-FALLOW-PRICING-METRIC",
+      "kind": "contains",
+      "value": "max_quote_age_s",
+      "requirement": "R-FALLOW-PRICING-ACCEPTANCE",
+      "description": "The pricing acceptance metric survives as a distinct field rather than being merged into the catalog metric."
+    }
+  ]
+}

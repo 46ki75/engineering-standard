@@ -1,0 +1,22 @@
+__pycache__/
+
+# Keep reports in Git; retain reproducibility artifacts locally without
+# versioning thousands of transcripts, per-attempt files, and runtime locks.
+/results/*
+!/results/README.md
+!/results/*/
+/results/*/*
+!/results/*/report.md
+!/results/*/analysis.md
+!/results/calibration-2026-09-15-v2/analysis.json
+!/results/*/summary.json
+!/results/*/adjudication.json
+
+# The omission-control suite uses these two recorded documents as fixed fixtures.
+!/results/calibration-2026-09-15-v2/writers/
+/results/calibration-2026-09-15-v2/writers/*
+!/results/calibration-2026-09-15-v2/writers/calibration-mica-render-timeout-reference-B/
+!/results/calibration-2026-09-15-v2/writers/calibration-quarry-relay-stalled-lane-B/
+/results/calibration-2026-09-15-v2/writers/*/*
+!/results/calibration-2026-09-15-v2/writers/calibration-mica-render-timeout-reference-B/output.md
+!/results/calibration-2026-09-15-v2/writers/calibration-quarry-relay-stalled-lane-B/output.md

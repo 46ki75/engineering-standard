@@ -1,0 +1,47 @@
+{
+  "method": "Secondary AI-assisted inspection with arm labels visible; not independent human or blinded judging. Raw judgments are preserved.",
+  "known_issues": {
+    "unique_output_issue_pairs": 12,
+    "resolved": 12
+  },
+  "requirements": {
+    "unique_output_requirement_pairs": 81,
+    "pass": 78,
+    "fail": 3,
+    "scope": "Synthetic fixture requirements; no claim of exhaustive defect discovery."
+  },
+  "missed_omissions": [
+    {
+      "case": "calibration-mica-render-timeout-reference",
+      "arms": ["A", "B", "C"],
+      "requirement": "R-MICA-REQUEST-CONTRACT",
+      "requirement_severity": "major",
+      "original_evidence": "The template identifier selects the stored layout; the record identifier selects the data rendered into that layout.",
+      "original_location": "writers/calibration-mica-render-timeout-reference-A/input.md:20",
+      "output_locations": [
+        "writers/calibration-mica-render-timeout-reference-A/output.md:14-20",
+        "writers/calibration-mica-render-timeout-reference-B/output.md:14-20",
+        "writers/calibration-mica-render-timeout-reference-C/output.md:14-20"
+      ],
+      "finding": "Field names and example values survive, but the distinct layout/data meanings are omitted from all three outputs. Six valid repeated judge assessments pass this compound requirement incorrectly.",
+      "impact_qualification": "The omission violates the annotated requirement; downstream impact is less certain because names remain suggestive and no incorrect request behavior is prescribed."
+    }
+  ],
+  "judge_regression_adjudication": [
+    {
+      "trial": "calibration-quarry-relay-stalled-lane-AB",
+      "arm": "B",
+      "finding": "Not an established regression",
+      "reason": "Judge compares B to A instead of the original. B still captures starting fields, checkpoint path/offset, and observation results.",
+      "evidence": "writers/calibration-quarry-relay-stalled-lane-B/output.md:31-41,69,117"
+    },
+    {
+      "trial": "calibration-quarry-relay-stalled-lane-CB",
+      "arm": "B",
+      "finding": "Reasonable inference with a sourcing qualification, not a confirmed substantive regression",
+      "reason": "Failed/missing observation cannot establish the required acceptance conditions. B reuses the supplied containment action. The source does not separately specify observation-command errors, and A has an equivalent branch.",
+      "evidence": "writers/calibration-quarry-relay-stalled-lane-B/output.md:119; writers/calibration-quarry-relay-stalled-lane-A/output.md:117"
+    }
+  ],
+  "decision": "No demonstrated comparative advantage for C. Improve judge reliability and atomic requirement coverage before full-scale evaluation."
+}

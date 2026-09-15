@@ -1,0 +1,794 @@
+{
+  "counts": {
+    "evidence_error": 0,
+    "missing": 0,
+    "schema_error": 0,
+    "transport_error": 0,
+    "valid": 12
+  },
+  "manifest_sha256": "f5971c4292973f042666226694b4659a624613e86ef3ec6fe93b27b8ec48c9e0",
+  "metrics": {
+    "both_orders_target_success": {
+      "denominator": 6,
+      "numerator": 6,
+      "rate": 1.0
+    },
+    "end_to_end_success": {
+      "denominator": 12,
+      "numerator": 12,
+      "rate": 1.0
+    },
+    "omission_detection": {
+      "denominator": 12,
+      "numerator": 12,
+      "rate": 1.0
+    },
+    "omission_false_pass": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "omitted_uncertain": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "paired_semantic_success": {
+      "denominator": 12,
+      "numerator": 12,
+      "rate": 1.0
+    },
+    "preserved_false_fail": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "preserved_regression_flags": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "preserved_uncertain": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "response_failure": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "swap_decisive_reversal": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "swap_eligible": {
+      "denominator": 6,
+      "numerator": 6,
+      "rate": 1.0
+    },
+    "swap_target_agrees": {
+      "denominator": 6,
+      "numerator": 6,
+      "rate": 1.0
+    },
+    "swap_winner_agrees": {
+      "denominator": 6,
+      "numerator": 6,
+      "rate": 1.0
+    },
+    "swap_winner_disagrees": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "untouched_fail": {
+      "denominator": 360,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "untouched_pass": {
+      "denominator": 360,
+      "numerator": 360,
+      "rate": 1.0
+    },
+    "untouched_uncertain": {
+      "denominator": 360,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "valid_response": {
+      "denominator": 12,
+      "numerator": 12,
+      "rate": 1.0
+    },
+    "winner_omitted": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "winner_preserved": {
+      "denominator": 12,
+      "numerator": 12,
+      "rate": 1.0
+    },
+    "winner_tie": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    },
+    "winner_uncertain": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0.0
+    }
+  },
+  "planned_trial_ids": [
+    "F2-NP",
+    "F1-NP",
+    "Q1-PN",
+    "Q1-NP",
+    "M1-PN",
+    "Q2-PN",
+    "M1-NP",
+    "Q2-NP",
+    "F2-PN",
+    "M2-PN",
+    "F1-PN",
+    "M2-NP"
+  ],
+  "schema_version": 1,
+  "swaps": [
+    {
+      "both_orders_target_success": true,
+      "control_id": "M1",
+      "decisive_reversal": false,
+      "eligible": true,
+      "target_agrees": true,
+      "winner_agrees": true
+    },
+    {
+      "both_orders_target_success": true,
+      "control_id": "M2",
+      "decisive_reversal": false,
+      "eligible": true,
+      "target_agrees": true,
+      "winner_agrees": true
+    },
+    {
+      "both_orders_target_success": true,
+      "control_id": "Q1",
+      "decisive_reversal": false,
+      "eligible": true,
+      "target_agrees": true,
+      "winner_agrees": true
+    },
+    {
+      "both_orders_target_success": true,
+      "control_id": "Q2",
+      "decisive_reversal": false,
+      "eligible": true,
+      "target_agrees": true,
+      "winner_agrees": true
+    },
+    {
+      "both_orders_target_success": true,
+      "control_id": "F1",
+      "decisive_reversal": false,
+      "eligible": true,
+      "target_agrees": true,
+      "winner_agrees": true
+    },
+    {
+      "both_orders_target_success": true,
+      "control_id": "F2",
+      "decisive_reversal": false,
+      "eligible": true,
+      "target_agrees": true,
+      "winner_agrees": true
+    }
+  ],
+  "trials": [
+    {
+      "control_id": "F2",
+      "failures": [],
+      "order": "NP",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "pass",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "fail",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        },
+        "preserved": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "pass",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "pass",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "F2-NP",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "F1",
+      "failures": [],
+      "order": "NP",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "fail",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "pass",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        },
+        "preserved": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "pass",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "pass",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "F1-NP",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "Q1",
+      "failures": [],
+      "order": "PN",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "pass",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "fail",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        },
+        "preserved": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "pass",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "pass",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "Q1-PN",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "Q1",
+      "failures": [],
+      "order": "NP",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "pass",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "fail",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        },
+        "preserved": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "pass",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "pass",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "Q1-NP",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "M1",
+      "failures": [],
+      "order": "PN",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "pass",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "fail",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        },
+        "preserved": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "pass",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "pass",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "M1-PN",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "Q2",
+      "failures": [],
+      "order": "PN",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "fail",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "pass",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        },
+        "preserved": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "pass",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "pass",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "Q2-PN",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "M1",
+      "failures": [],
+      "order": "NP",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "pass",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "fail",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        },
+        "preserved": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "pass",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "pass",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "M1-NP",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "Q2",
+      "failures": [],
+      "order": "NP",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "fail",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "pass",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        },
+        "preserved": {
+          "R-QR-CHECKPOINT-NOT-BACKUP": "pass",
+          "R-QR-CHECKPOINT-OFFSET": "pass",
+          "R-QR-CHECKPOINT-RETENTION": "pass",
+          "R-QR-CONTAINMENT-ONCE": "pass",
+          "R-QR-DUPLICATE-ACCEPTANCE": "pass",
+          "R-QR-FREE-SPACE": "pass",
+          "R-QR-LATENCY-ACCEPTANCE": "pass",
+          "R-QR-OWNER-GUARD": "pass",
+          "R-QR-OWNER-TYPE": "pass",
+          "R-QR-PAUSE-PAYLOADS": "pass",
+          "R-QR-PAUSE-STATE": "pass",
+          "R-QR-PENDING-ACCEPTANCE": "pass",
+          "R-QR-RATE-UNIT": "pass",
+          "R-QR-RESET-NO-REPLAY": "pass",
+          "R-QR-TARGET": "pass",
+          "R-QR-TOKEN-MODE": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "Q2-NP",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "F2",
+      "failures": [],
+      "order": "PN",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "pass",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "fail",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        },
+        "preserved": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "pass",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "pass",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "F2-PN",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "M2",
+      "failures": [],
+      "order": "PN",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "fail",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "pass",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        },
+        "preserved": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "pass",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "pass",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "M2-PN",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "F1",
+      "failures": [],
+      "order": "PN",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "fail",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "pass",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        },
+        "preserved": {
+          "R-FALLOW-CATALOG-ALL-WARNING": "pass",
+          "R-FALLOW-CATALOG-GUARD": "pass",
+          "R-FALLOW-CATALOG-HOST": "pass",
+          "R-FALLOW-CATALOG-LIMIT-UNIT": "pass",
+          "R-FALLOW-CATALOG-MISMATCH": "pass",
+          "R-FALLOW-CATALOG-MISS-RATIO": "pass",
+          "R-FALLOW-CATALOG-READY": "pass",
+          "R-FALLOW-CATALOG-WARM-GATE": "pass",
+          "R-FALLOW-PRICING-AGE": "pass",
+          "R-FALLOW-PRICING-ALL-WARNING": "pass",
+          "R-FALLOW-PRICING-GUARD": "pass",
+          "R-FALLOW-PRICING-HOST": "pass",
+          "R-FALLOW-PRICING-NO-WARM": "pass",
+          "R-FALLOW-PRICING-POPULATION-SOURCE": "pass",
+          "R-FALLOW-PRICING-READY": "pass",
+          "R-FALLOW-PRICING-WINDOW": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "F1-PN",
+      "winner": "preserved"
+    },
+    {
+      "control_id": "M2",
+      "failures": [],
+      "order": "NP",
+      "regressions": {
+        "omitted": 1,
+        "preserved": 0
+      },
+      "requirements": {
+        "omitted": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "fail",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "pass",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        },
+        "preserved": {
+          "R-MICA-ABSENT-HEADER": "pass",
+          "R-MICA-AUTH-SCOPE": "pass",
+          "R-MICA-DRAIN-PRACTICE": "pass",
+          "R-MICA-ENDPOINT": "pass",
+          "R-MICA-INFLIGHT-UNKNOWN": "pass",
+          "R-MICA-LONG-EXAMPLE": "pass",
+          "R-MICA-RECORD-MEANING": "pass",
+          "R-MICA-RECORD-TYPE": "pass",
+          "R-MICA-RELOAD-INVALID": "pass",
+          "R-MICA-REQUEST-TYPE": "pass",
+          "R-MICA-SHORT-EXAMPLE": "pass",
+          "R-MICA-SUCCESS-BODY": "pass",
+          "R-MICA-TEMPLATE-MEANING": "pass",
+          "R-MICA-TEMPLATE-TYPE": "pass",
+          "R-MICA-TIMEOUT-CEILING": "pass",
+          "R-MICA-TIMEOUT-DEFAULT": "pass"
+        }
+      },
+      "status": "valid",
+      "trial_id": "M2-NP",
+      "winner": "preserved"
+    }
+  ]
+}

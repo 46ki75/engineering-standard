@@ -1,0 +1,230 @@
+{
+  "stage": "calibration",
+  "usage": {
+    "writers": {
+      "sessions": 9,
+      "completed": 9,
+      "observed_model_steps": 9,
+      "total_seconds": 293.725881584,
+      "mean_seconds": 32.63620906488889,
+      "reported_cost": 0.0,
+      "tokens": {
+        "input": 18348,
+        "output": 8269,
+        "reasoning": 46,
+        "cache_read": 0,
+        "cache_write": 0
+      }
+    },
+    "judges": {
+      "sessions": 12,
+      "completed": 10,
+      "observed_model_steps": 12,
+      "total_seconds": 215.85913945899998,
+      "mean_seconds": 17.988261621583334,
+      "reported_cost": 0.514448,
+      "tokens": {
+        "input": 24,
+        "output": 20668,
+        "reasoning": 2255,
+        "cache_read": 0,
+        "cache_write": 114068
+      }
+    }
+  },
+  "writers": [
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "arm": "A",
+      "status": "completed",
+      "original_words": 472,
+      "output_words": 476,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "arm": "B",
+      "status": "completed",
+      "original_words": 472,
+      "output_words": 472,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "arm": "C",
+      "status": "completed",
+      "original_words": 472,
+      "output_words": 472,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-mica-render-timeout-reference",
+      "arm": "A",
+      "status": "completed",
+      "original_words": 548,
+      "output_words": 566,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-mica-render-timeout-reference",
+      "arm": "B",
+      "status": "completed",
+      "original_words": 548,
+      "output_words": 580,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-mica-render-timeout-reference",
+      "arm": "C",
+      "status": "completed",
+      "original_words": 548,
+      "output_words": 596,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-quarry-relay-stalled-lane",
+      "arm": "A",
+      "status": "completed",
+      "original_words": 727,
+      "output_words": 704,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-quarry-relay-stalled-lane",
+      "arm": "B",
+      "status": "completed",
+      "original_words": 727,
+      "output_words": 724,
+      "failed_checks": []
+    },
+    {
+      "case": "calibration-quarry-relay-stalled-lane",
+      "arm": "C",
+      "status": "completed",
+      "original_words": 727,
+      "output_words": 695,
+      "failed_checks": []
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "pair": "AB",
+      "votes": [
+        {
+          "order": "AB",
+          "winner": "B",
+          "reason": "Both candidates are functionally identical to the correct original draft, passing all requirements with no regressions or issues (issue list was empty). Right preserves the original wording verbatim (e.g., 'not a request rate', 'This procedure provides no restoration operation'), while left makes trivial cosmetic wording swaps ('not requests per second', 'No restoration operation is provided for this cache') that add no value. Since the original was already correct and complete, right's zero unnecessary changes edges out left's minor unjustified rewording under the unnecessary-change criterion."
+        }
+      ],
+      "order_agrees": false
+    },
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "pair": "BC",
+      "votes": [
+        {
+          "order": "BC",
+          "winner": "tie",
+          "reason": "Both candidates are byte-identical to the original draft, which was already correct and complete per the source facts. All requirements pass identically on both sides, no issues were supplied, and no regressions exist since neither candidate altered the text."
+        },
+        {
+          "order": "CB",
+          "winner": "tie",
+          "reason": "Both candidates are byte-for-byte identical to each other and to the original draft, which the source facts state is already correct and organized with no known defects. All requirements pass identically in both; no regressions or issue changes exist to differentiate them."
+        }
+      ],
+      "order_agrees": true
+    },
+    {
+      "case": "calibration-mica-render-timeout-reference",
+      "pair": "AB",
+      "votes": [
+        {
+          "order": "BA",
+          "winner": "tie",
+          "reason": "Both candidates fully resolve the contradictory-override issue by correcting the 45000 example to timeout_exceeds_limit, satisfy all nine requirements with equivalent fidelity (tables/bullets for clarity), and preserve the undocumented in-flight reload behavior without asserting either outcome. Both make similar moderate structural changes (tables, restructured headers) that are justified by the need to fix the original contradiction and improve clarity, not gratuitous. No meaningful differences in coverage, organization, or regressions were found between the two."
+        }
+      ],
+      "order_agrees": false
+    },
+    {
+      "case": "calibration-mica-render-timeout-reference",
+      "pair": "BC",
+      "votes": [
+        {
+          "order": "BC",
+          "winner": "tie",
+          "reason": "Both candidates make nearly identical, well-organized edits: they correctly fix the contradictory override issue by making the 45000 header example return timeout_exceeds_limit consistently across all sections, preserve all required facts (endpoint contract, response types, config ceiling, header precedence with both examples, input limits, error distinctions, clock scope, reload contract, and the undocumented in-flight behavior framed neutrally with the drain practice caveat). Both use similar table-based restructuring with equivalent minor unnecessary-change scores. No regressions found in either. The differences (right's extra reinforcing sentence about the 60000 ceiling, left's placement of independence note) are stylistic and do not affect requirement satisfaction or issue resolution."
+        },
+        {
+          "order": "CB",
+          "winner": "tie",
+          "reason": "Both candidates resolve the original contradiction identically (45000 correctly rejected, ceiling consistently enforced), preserve all nine requirements with equivalent tables and phrasing, and use nearly identical structure with tables for clarity. Both introduce similar minor reorganization (tables, headers as code blocks) without loss of required content. No meaningful differences in fidelity, completeness, or organization distinguish them."
+        }
+      ],
+      "order_agrees": true
+    },
+    {
+      "case": "calibration-quarry-relay-stalled-lane",
+      "pair": "AB",
+      "votes": [
+        {
+          "order": "AB",
+          "winner": "tie",
+          "reason": "Both candidates fully resolve all three issues (deduplicated pause/reset explanations, reordered prerequisites before mutation) and pass all nine requirements with equivalent fidelity to source facts (exact thresholds, guard behavior, escalation rules). Both restructure into numbered sections with tables for clarity, a justified change given the original's disorganization—this is not gratuitous churn but a direct response to I-QR-LATE-PREREQUISITES. Right's escalation section is marginally thinner on handoff detail (omitting explicit mention of checkpoint path in the failure report), a very minor difference not tied to a hard requirement. Left includes slightly more detail in the failure-escalation reporting list. Differences are cosmetic; both are materially equivalent in fidelity, completeness, and organization (5/5), with equal unnecessary-change scores (1/3, justified restructuring)."
+        },
+        {
+          "order": "BA",
+          "winner": "A",
+          "reason": "Both candidates fully satisfy requirements and resolve all three issues equivalently well, with clear preflight-first structure and consolidated explanations. Right achieves the same completeness with less redundancy: left adds a final 'Prohibited recovery actions' section that partially repeats the receipts-eu prohibition already stated at the top, a minor unnecessary-change cost right avoids by folding prohibitions into the failure-escalation section where they are contextually needed."
+        }
+      ],
+      "order_agrees": false
+    },
+    {
+      "case": "calibration-quarry-relay-stalled-lane",
+      "pair": "BC",
+      "votes": [
+        {
+          "order": "BC",
+          "winner": "tie",
+          "reason": "Both candidates fully satisfy all requirements and resolve all three original issues via near-identical restructuring: prerequisites moved to Section 1, single non-duplicated explanations of pause/reset semantics, and consolidated tables for entry-state and acceptance conditions. Left has a slightly cleaner closing 'Prohibited recovery actions' section that consolidates all restrictions in one place, giving marginally better final-section organization, but the substantive content and fidelity are materially equivalent between the two."
+        },
+        {
+          "order": "CB",
+          "winner": "tie",
+          "reason": "Both candidates fully resolve all three issues, pass all requirements with equivalent fidelity, and restructure into clear numbered sections with prerequisites moved upfront. Right adds a minor unsupported extrapolation about observe command failures triggering the failure procedure, which is reasonable but not strictly sourced. Left stays more strictly to source phrasing. Both have identical organization quality (5) and similar unnecessary-change levels (1) via reasonable restructuring justified by the prerequisite-reordering issue. The single minor regression in right is not decisive enough to declare a clear winner, but left's stricter adherence to source language gives it a slight edge—though given the difference is truly marginal and both are materially equivalent in substance, this is best called a tie."
+        }
+      ],
+      "order_agrees": true
+    }
+  ],
+  "full_suite_projection": {
+    "writers": {
+      "sessions": 324,
+      "serial_hours": 2.93725881584,
+      "tokens": {
+        "input": 660528.0,
+        "output": 297684.0,
+        "reasoning": 1656.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0
+      },
+      "reported_cost_projection_not_billing": 0.0
+    },
+    "judges": {
+      "sessions": 270,
+      "serial_hours": 1.3491196216187498,
+      "tokens": {
+        "input": 540.0,
+        "output": 465030.0,
+        "reasoning": 50737.5,
+        "cache_read": 0.0,
+        "cache_write": 2566530.0
+      },
+      "reported_cost_projection_not_billing": 11.57508
+    }
+  },
+  "interpretation": "Calibration only. No efficacy, significance, or universal improvement claim."
+}

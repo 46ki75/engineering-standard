@@ -1,0 +1,62 @@
+{
+  "method": "Secondary label-aware AI-assisted inspection; no additional benchmark trials, independent human labels, or replacement primary votes.",
+  "decisive_review": {
+    "primary_holdout_comparisons": 14,
+    "cases": 8,
+    "candidate_files": 26,
+    "atomic_assessments_reviewed": 444,
+    "presentation_or_restraint_preferences": 13,
+    "localized_imprecision_preferences": 1,
+    "new_major_or_critical_errors_found": 0
+  },
+  "tie_sample": {
+    "selection": "Lexicographically first primary held-out BC tie per category, selected before inspecting candidate quality.",
+    "jobs": [
+      "blind-clean-dispatch-backlog-runbook-d2b6-r1-BC-primary",
+      "blind-cons-contour-routing-decision-r1-BC-primary",
+      "blind-dup-badgewake-receipt-incident-r1-BC-primary",
+      "blind-rep-bellweather-loan-procedures-r1-BC-primary",
+      "blind-org-aster-staged-promotion-r3-BC-primary",
+      "blind-tech-anchorvault-restore-faq-rb26-r2-BC-primary"
+    ],
+    "candidate_documents": 12,
+    "atomic_assessments_reviewed": 196,
+    "known_issues_resolved_in_both_candidates": 7,
+    "new_substantive_meaning_loss_found": 0,
+    "qualifications": [
+      "Bellweather's reusable-crate attribute is absent from both the original and the revisions: preexisting source-detail gap.",
+      "Aster has a terminal-newline difference outside its editable section. The exact-preservation requirement was therefore not met byte-for-byte despite no lost words or meaning."
+    ]
+  },
+  "specific_findings": [
+    {
+      "case": "blind-tech-anchorvault-restore-faq-rb26",
+      "repetition": 1,
+      "arm": "B",
+      "finding": "Minor introductory imprecision: 'validates the source' rather than the request. Correct detailed description remains nearby.",
+      "evidence": "writers/blind-tech-anchorvault-restore-faq-rb26-r1-B/attempt-1/output.md:3,7"
+    },
+    {
+      "case": "blind-org-brindle-job-endpoints",
+      "repetition": 2,
+      "arm": "B",
+      "finding": "Alleged substantive cancellation regression not established. HTTP 409 and non-removal of produced results remain explicit.",
+      "evidence": "writers/blind-org-brindle-job-endpoints-r2-B/attempt-1/output.md:98-100"
+    },
+    {
+      "case": "blind-rep-northbank-relocation-notices",
+      "repetition": 2,
+      "arm": "C",
+      "finding": "A useful restraint example: removes the duplicated telephone booking sentence while preserving the rest of the independent notices.",
+      "evidence": "writers/blind-rep-northbank-relocation-notices-r2-C/attempt-1/output.md:27"
+    }
+  ],
+  "invalid_job": {
+    "id": "blind-dup-seatforge-hold-decision-r1-BC-primary",
+    "attempt_1": "Two R7 quotes splice a table header to a nonadjacent row, omitting an intervening row.",
+    "attempt_2": "Eight R5/R6/R7/R17 quotes splice nonadjacent table passages.",
+    "classification": "Evidence validation failure, not proof of missing candidate facts.",
+    "decision": "Both assessments stay excluded. No normalization or favorable vote substitution."
+  },
+  "conclusion": "No evidence from these checks warrants overriding the predeclared retain_B decision. Do not generalize limited secondary verification to every generated document."
+}

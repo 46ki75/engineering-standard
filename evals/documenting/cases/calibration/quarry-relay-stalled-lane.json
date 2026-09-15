@@ -1,0 +1,139 @@
+{
+  "id": "calibration-quarry-relay-stalled-lane",
+  "family": "incident-runbook",
+  "task": "Finalize this draft for production operators recovering the invoices-eu delivery lane during an incident.",
+  "source_facts": "Quarry Relay is a synthetic product. This specification is authoritative for version 3.4 and the installed qrelay client version 3.4.2. The supported recovery target is lane invoices-eu on host relay-07 in cluster fin-eu. The host's existing client configuration selects fin-eu and reads /etc/quarry/ops-token; no cluster-selection or token-export command is needed. receipts-eu is a distinct reporting lane on the same host and must not be paused, reset, resumed, or used as a recovery test. Before any lane mutation, the operator must have incident-owner approval, be logged in to relay-07 as relayops, verify client version 3.4.2 with qrelay version, verify that /etc/quarry/ops-token is readable and has mode 0600, and verify at least 8 GiB free on the filesystem containing /var/lib/quarry/invoices-eu. A failed prerequisite blocks recovery. qrelay inspect --lane invoices-eu --json returns lane, state, spool_health, pending, and lease_owner. All five fields must be captured in the incident record before mutation. The supported starting values are lane=invoices-eu, state=stalled, spool_health=ok, pending greater than zero, and lease_owner=none, where none is a string value, not JSON null. Any other combination requires escalation to Queue Reliability without mutation. The required mutation sequence is: qrelay pause --lane invoices-eu --wait 45s; qrelay checkpoint --lane invoices-eu --out /var/tmp/invoices-eu.before.json; qrelay reset-lease --lane invoices-eu --expect-owner none; qrelay resume --lane invoices-eu --rate 120. Pause must exit successfully and report state=paused before checkpoint or reset. If it times out or fails, stop and escalate without reset or resume. Pausing stops new lease grants and retains all queued payloads. Checkpoint exports the current committed offset to the named file; it does not copy payloads and is not a spool backup. A checkpoint failure blocks reset and resume. Record the checkpoint path and committed offset in the incident. Reset removes orphan scheduling metadata, does not change the committed offset, does not request replay, and fails without mutation if an active owner appears because --expect-owner none is a concurrency guard. A reset failure blocks resume and requires escalation. Resume's rate is exactly 120 events per second, not a count of events or a duration. After successful resume, run qrelay observe --lane invoices-eu --window 5m --json. Its aggregate result must have pending lower than the original captured pending, duplicate_acks=0, and p95_ack_ms at most 800; all three conditions are required. Record the observation and retain the checkpoint until the incident is closed. If resume fails or any acceptance condition fails, run qrelay pause --lane invoices-eu --wait 45s once and escalate to Queue Reliability, reporting whether that pause succeeded. Never delete spool files, edit offsets, restore the checkpoint, or retry reset as an improvised recovery. There is no documented restoration command in this procedure.",
+  "draft": "# Recover a stalled Quarry Relay invoice lane\n\nUse this runbook when invoices-eu has stopped delivering on relay-07 in the fin-eu cluster. It covers Quarry Relay 3.4 with qrelay 3.4.2. The goal is to restart delivery from the existing durable spool and leave enough incident evidence for the next operator to understand what happened. Keep the incident record open while working.\n\n## Starting checks\n\nOn relay-07, run `qrelay inspect --lane invoices-eu --json`. Copy lane, state, spool_health, pending, and lease_owner into the incident record, including the original pending count for the later comparison. Continue only when lane is invoices-eu, state is stalled, spool_health is ok, pending is greater than zero, and lease_owner is the string none. A null owner is not equivalent. If any value differs, escalate to Queue Reliability without changing the lane.\n\n## Why a pause is part of recovery\n\nPausing the lane stops new lease grants; it does not delete queued invoice payloads. This lets the operator export the committed offset before clearing the orphan scheduling metadata. The checkpoint is a record of that offset, not a copy of the invoice payloads. It cannot replace the durable spool if someone removes files from that directory.\n\n## Pause delivery\n\nRun:\n\n```sh\nqrelay pause --lane invoices-eu --wait 45s\n```\n\nThe command must exit successfully and report state=paused before you proceed. If the wait expires or the command fails, stop and escalate to Queue Reliability. Do not reset or resume after an unsuccessful pause. Capture the failed command result so the receiving operator can distinguish a timeout from a confirmed pause.\n\n## Save the offset\n\nAfter the successful pause, run:\n\n```sh\nqrelay checkpoint --lane invoices-eu --out /var/tmp/invoices-eu.before.json\n```\n\nRecord the file path and exported committed offset in the incident. If this command fails, stop before reset or resume and escalate. Preserve this file until the incident is closed. Do not treat the file as a restoration instruction; this procedure does not provide a command for restoring it.\n\n## Clear the scheduling record\n\nRun:\n\n```sh\nqrelay reset-lease --lane invoices-eu --expect-owner none\n```\n\nThe reset removes orphan scheduling metadata without changing the committed offset or requesting replay. The owner guard makes the command fail without mutation if an active owner has appeared. If reset fails, leave the lane paused, escalate, and do not resume. Never remove the guard to make a failed command succeed.\n\n## Access and capacity reminders\n\nBefore making any lane change, obtain incident-owner approval and log in as relayops. Run `qrelay version` and verify 3.4.2. The existing host configuration selects fin-eu and reads `/etc/quarry/ops-token`; verify that this file is readable and its mode is 0600. Also verify at least 8 GiB free on the filesystem containing `/var/lib/quarry/invoices-eu`. A failed prerequisite blocks recovery. The receipts-eu reporting lane shares this host but is a separate target. Never pause, reset, or resume it, including as a test of these commands.\n\n## Resume at the recovery rate\n\nAfter reset succeeds, run:\n\n```sh\nqrelay resume --lane invoices-eu --rate 120\n```\n\nThe rate is 120 events per second. It is neither a limit on the total number of delivered events nor a timeout. A failed resume goes directly to the failure procedure below.\n\n## Accept the recovery\n\nRun `qrelay observe --lane invoices-eu --window 5m --json` after resume succeeds. Use its aggregate five-minute result. Acceptance requires all three conditions: pending is lower than the original recorded count, duplicate_acks is zero, and p95_ack_ms is at most 800 milliseconds. A shrinking queue alone is insufficient. Attach the result to the incident, together with the checkpoint path and committed offset, so the handoff includes both the starting point and the recovery evidence.\n\n## Additional recovery notes\n\nPausing the lane stops new lease grants; it does not delete queued invoice payloads. The lease cleanup only discards stale scheduler bookkeeping: delivery still starts at the same committed position, and it does not ask the system to send old invoices again. These properties explain why this procedure uses a pause, an offset export, and a guarded reset rather than modifying the spool.\n\n## If recovery does not pass\n\nIf resume fails or any acceptance condition fails, run `qrelay pause --lane invoices-eu --wait 45s` once and escalate to Queue Reliability. Include whether that pause succeeded. Do not delete spool files, edit offsets, restore the checkpoint, or retry reset as an improvised recovery. Keep the checkpoint with the incident evidence until closure.\n",
+  "requirements": [
+    {
+      "id": "R-QR-TARGET",
+      "description": "Keep the recovery scoped to Quarry Relay 3.4, qrelay 3.4.2, fin-eu, relay-07, and invoices-eu. receipts-eu is a separate reporting lane that must never be mutated or used as a test.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-QR-PREFLIGHT",
+      "description": "Before any mutation, require incident-owner approval, relayops on relay-07, qrelay version reporting 3.4.2, a readable /etc/quarry/ops-token with mode 0600, and at least 8 GiB free on the filesystem containing /var/lib/quarry/invoices-eu. Preserve the existing host configuration behavior and stop on failed prerequisites.",
+      "severity": "major"
+    },
+    {
+      "id": "R-QR-ENTRY-STATE",
+      "description": "Capture all five inspect fields and the baseline pending count. Proceed only for invoices-eu, stalled, spool_health=ok, pending greater than zero, and the string lease_owner=none rather than null; otherwise escalate to Queue Reliability without mutation.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-QR-PAUSE-GATE",
+      "description": "Pause with --wait 45s and require successful exit plus state=paused before checkpoint or reset. Failure or timeout blocks reset and resume and requires escalation. Explain at least once that pause stops new lease grants while retaining queued payloads.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-QR-CHECKPOINT",
+      "description": "After pause, export the committed offset with qrelay checkpoint to /var/tmp/invoices-eu.before.json; record path and offset and retain the file until incident closure. A checkpoint failure blocks reset and resume. The file is not a payload backup or a restoration instruction.",
+      "severity": "major"
+    },
+    {
+      "id": "R-QR-GUARDED-RESET",
+      "description": "Reset only after checkpoint succeeds, using reset-lease with --expect-owner none. Preserve the guard's fail-without-mutation behavior if an active owner appears, the prohibition on removing the guard, and escalation without resume on reset failure. Explain at least once that reset removes scheduling metadata without moving the committed offset or requesting replay.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-QR-RESUME-RATE",
+      "description": "Resume invoices-eu only after successful reset, with --rate 120 meaning exactly 120 events per second, not an event count or timeout.",
+      "severity": "major"
+    },
+    {
+      "id": "R-QR-ACCEPTANCE",
+      "description": "Observe with --window 5m after successful resume. Require all aggregate conditions: pending below the original captured count, duplicate_acks=0, and p95_ack_ms at most 800. Record the result with checkpoint evidence.",
+      "severity": "major"
+    },
+    {
+      "id": "R-QR-FAILED-RECOVERY",
+      "description": "On resume failure or failed acceptance, attempt one pause with --wait 45s, report its outcome, and escalate to Queue Reliability. Retain prohibitions on spool deletion, offset editing, checkpoint restoration, and improvised reset retries.",
+      "severity": "critical"
+    }
+  ],
+  "issues": [
+    {
+      "id": "I-QR-EXACT-PAUSE-DUPLICATE",
+      "description": "The sentence beginning 'Pausing the lane stops new lease grants' appears verbatim in both 'Why a pause is part of recovery' and 'Additional recovery notes'. The latter occurrence repeats the same explanation for the same workflow without adding a local decision or warning.",
+      "severity": "minor",
+      "acceptable_resolution": "Consolidate the repeated explanation while retaining the distinction between stopping lease grants and retaining queued payloads. Its placement and wording may change. Retain actionable gates and failure instructions wherever needed."
+    },
+    {
+      "id": "I-QR-PARAPHRASED-RESET-DUPLICATE",
+      "description": "'Clear the scheduling record' explains that reset removes orphan metadata without changing the committed offset or requesting replay. 'Additional recovery notes' restates these same three effects as discarding stale bookkeeping, starting at the same position, and not sending old invoices again.",
+      "severity": "minor",
+      "acceptable_resolution": "Keep one complete, clear explanation of reset semantics, optionally integrated with the guarded reset step. Preserve all three effects and the distinct concurrency-guard behavior."
+    },
+    {
+      "id": "I-QR-LATE-PREREQUISITES",
+      "description": "'Access and capacity reminders' places approval, execution identity, client version, token access and mode, disk capacity, and the receipts-eu exclusion after the pause, checkpoint, and reset instructions even though they gate the first mutation. Entry-state checks are separated from these prerequisites.",
+      "severity": "major",
+      "acceptable_resolution": "Organize the execution prerequisites, target exclusion, and entry-state checks into a usable preflight before the first mutating command. Keep each distinct prerequisite, threshold, identity, and escalation condition; headings, lists, and tables are all acceptable."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C-QR-REPORTING-LANE",
+      "kind": "contains",
+      "value": "receipts-eu",
+      "requirement": "R-QR-TARGET",
+      "description": "The distinct reporting-lane identifier remains available for its exclusion warning; presence alone does not verify the warning."
+    },
+    {
+      "id": "C-QR-TOKEN-PATH",
+      "kind": "contains",
+      "value": "/etc/quarry/ops-token",
+      "requirement": "R-QR-PREFLIGHT",
+      "description": "The immutable credential-file path survives, regardless of prose or table layout."
+    },
+    {
+      "id": "C-QR-TOKEN-MODE",
+      "kind": "regex",
+      "value": "(?<![0-9])0600(?![0-9])",
+      "requirement": "R-QR-PREFLIGHT",
+      "description": "The required file-mode value survives as a distinct numeric token."
+    },
+    {
+      "id": "C-QR-OWNER-FIELD",
+      "kind": "contains",
+      "value": "lease_owner",
+      "requirement": "R-QR-ENTRY-STATE",
+      "description": "The owner field remains explicitly identifiable; its value and null distinction require semantic assessment."
+    },
+    {
+      "id": "C-QR-PAUSE-DURATION",
+      "kind": "regex",
+      "value": "(?<![0-9])45(?:s\\b|\\s+seconds?\\b)",
+      "requirement": "R-QR-PAUSE-GATE",
+      "description": "The 45-second pause bound is represented in command notation or ordinary units."
+    },
+    {
+      "id": "C-QR-CHECKPOINT-PATH",
+      "kind": "contains",
+      "value": "/var/tmp/invoices-eu.before.json",
+      "requirement": "R-QR-CHECKPOINT",
+      "description": "The exact checkpoint destination survives."
+    },
+    {
+      "id": "C-QR-OWNER-GUARD",
+      "kind": "contains",
+      "value": "--expect-owner",
+      "requirement": "R-QR-GUARDED-RESET",
+      "description": "The concurrency-guard option remains explicit; its argument and placement are semantic checks."
+    },
+    {
+      "id": "C-QR-RECOVERY-RATE",
+      "kind": "regex",
+      "value": "(?<![0-9])120(?![0-9])",
+      "requirement": "R-QR-RESUME-RATE",
+      "description": "The immutable rate value remains a distinct token; this proxy does not establish its units."
+    },
+    {
+      "id": "C-QR-LATENCY-METRIC",
+      "kind": "contains",
+      "value": "p95_ack_ms",
+      "requirement": "R-QR-ACCEPTANCE",
+      "description": "The latency acceptance field survives rather than being merged with queue depth or duplicate acknowledgments."
+    }
+  ]
+}

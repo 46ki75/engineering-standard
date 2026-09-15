@@ -1,0 +1,112 @@
+{
+  "scope": "Descriptive calibration analysis. Repeated judgments are dependent observations.",
+  "mechanical_checks": {
+    "passed": 77,
+    "total": 77
+  },
+  "valid_judge_annotations_not_unique_outputs": {
+    "requirements": {
+      "pass": 180
+    },
+    "issues": {
+      "resolved": 30
+    },
+    "regressions": {
+      "minor": 2
+    }
+  },
+  "judge_regression_flags_not_adjudicated": [
+    {
+      "trial": "calibration-quarry-relay-stalled-lane-AB",
+      "arm": "B",
+      "severity": "minor",
+      "description": "Failure-containment reporting list drops explicit mention of reporting captured starting fields (pending, checkpoint path/offset) compared to left, slightly thinner handoff detail though not required verbatim by requirement text.",
+      "evidence": "Right's escalation bullet list omits 'captured starting fields' and 'checkpoint path and committed offset' items that left retains, though R-QR-FAILED-RECOVERY doesn't explicitly mandate these."
+    },
+    {
+      "trial": "calibration-quarry-relay-stalled-lane-CB",
+      "arm": "B",
+      "severity": "minor",
+      "description": "Added unsupported claim about observe failure requiring same failure procedure, slightly extending original conditions without source support (though reasonable inference).",
+      "evidence": "'If observation fails or does not provide the required metrics, acceptance cannot be established; follow the same failure procedure.' Not explicitly stated in source facts, though logically consistent."
+    }
+  ],
+  "invalid_judgments_excluded_from_votes": [
+    {
+      "trial": "calibration-fallow-cache-independent-procedures-BA",
+      "failures": [
+        "Invalid judge JSON: Unexpected judge response fields"
+      ],
+      "root_keys": [
+        "candidates",
+        "reason"
+      ],
+      "candidate_keys": [
+        "left",
+        "right",
+        "winner"
+      ]
+    },
+    {
+      "trial": "calibration-mica-render-timeout-reference-AB",
+      "failures": [
+        "Invalid judge JSON: Expected left and right candidates"
+      ],
+      "root_keys": [
+        "candidates",
+        "reason",
+        "winner"
+      ],
+      "candidate_keys": [
+        "left",
+        "organization_note",
+        "right"
+      ]
+    }
+  ],
+  "order_comparisons": {
+    "complete": 4,
+    "agree": 3,
+    "disagree": 1,
+    "incomplete": [
+      "calibration-fallow-cache-independent-procedures:AB",
+      "calibration-mica-render-timeout-reference:AB"
+    ]
+  },
+  "clean_control": [
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "arm": "A",
+      "exactly_equal": false,
+      "equal_ignoring_final_newline": false
+    },
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "arm": "B",
+      "exactly_equal": false,
+      "equal_ignoring_final_newline": true
+    },
+    {
+      "case": "calibration-fallow-cache-independent-procedures",
+      "arm": "C",
+      "exactly_equal": false,
+      "equal_ignoring_final_newline": true
+    }
+  ],
+  "usage": {
+    "experimental_sessions": 21,
+    "reported_tokens_all_buckets": 163678,
+    "reported_writer_cost": 0.0,
+    "reported_judge_cost": 0.514448
+  },
+  "projection": {
+    "writer_sessions": 324,
+    "judge_sessions": 270,
+    "reported_tokens_all_buckets": 4042705.5,
+    "serial_hours": 4.286378437458749,
+    "ideal_hours_at_concurrency_3": 1.4287928124862497,
+    "reported_judge_cost": 11.57508,
+    "writer_billable_cost": "unknown; reported OAuth cost is zero",
+    "exclusions": "Authoring, dataset construction, analysis, retries, and provider-unreported usage"
+  }
+}

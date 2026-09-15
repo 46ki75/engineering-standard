@@ -1,0 +1,120 @@
+{
+  "id": "calibration-mica-render-timeout-reference",
+  "family": "api-configuration-reference",
+  "task": "Finalize this draft for application developers integrating PDF rendering and service operators configuring Mica Export Gateway 2.6.",
+  "source_facts": "Mica Export Gateway 2.6 is a synthetic service. This specification is authoritative. POST /v2/render synchronously renders one PDF using a JSON body with exactly two required string fields, template_id and record_id. The documented example values are invoice-v4 and inv_2048. Requests use Content-Type: application/json and Authorization: Bearer <token>; the token requires render:write scope. Success is HTTP 200 with Content-Type: application/pdf and the PDF bytes as the body. Documented validation and timeout errors are JSON objects with a single error string. The YAML file /etc/mica/gateway.yaml has optional integer settings render_timeout_ms and max_input_bytes. render_timeout_ms defaults to 15000 milliseconds, has an inclusive range of 1000 through 60000 milliseconds, and is both the default rendering deadline and the maximum request-level deadline. max_input_bytes defaults to 262144 bytes and has an inclusive range of 1024 through 1048576 bytes. Body size is measured as UTF-8 bytes before JSON parsing; an oversized body returns HTTP 413 with error=input_too_large. No relationship between the two settings changes these limits. An optional X-Mica-Timeout-Ms request header accepts a whole decimal integer in milliseconds. HTTP header names are case-insensitive. If absent, the effective timeout is the configured render_timeout_ms. A supplied header must be at least 1000 and no greater than the configured render_timeout_ms. A noninteger or a value outside the global 1000 through 60000 range returns HTTP 400 with error=invalid_timeout. A value inside that global range but above the configured ceiling returns HTTP 400 with error=timeout_exceeds_limit. Thus, with render_timeout_ms=15000, header 8000 selects an eight-second deadline, while header 45000 is rejected with timeout_exceeds_limit; it does not extend rendering to 45 seconds. The rendering clock starts only after authentication and body validation and ends when the PDF is ready. Network upload and response transfer time are excluded. Exceeding the effective deadline stops the renderer and returns HTTP 504 with error=render_timeout; the response does not contain a partial PDF. micactl reload --file /etc/mica/gateway.yaml validates the entire file. A successful reload exits zero and applies the new settings to requests admitted after reload completion. An invalid file produces a nonzero exit and retains the previous settings. It is explicitly undocumented whether requests already rendering retain their admission-time timeout or adopt a changed render_timeout_ms during hot reload. Neither behavior is established by this specification. When predictable timing matters, the documented operating practice is to drain active renders before reloading a changed timeout; this is a way to avoid the unresolved case, not evidence of how that case behaves. The reference must communicate this uncertainty because integrators and operators use it to plan deployments.",
+  "draft": "# Mica Export Gateway 2.6 rendering reference\n\nMica renders a PDF synchronously from a stored template and record. Application developers use the request settings below to bound rendering time. Operators control the service-wide ceiling through the gateway configuration file. A successful response contains the PDF itself, so callers should handle the binary success body separately from JSON error responses.\n\n## Endpoint and authentication\n\nSend `POST /v2/render` with `Content-Type: application/json` and `Authorization: Bearer <token>`. The token needs the `render:write` scope. The JSON body has exactly two required string fields:\n\n```json\n{\"template_id\":\"invoice-v4\",\"record_id\":\"inv_2048\"}\n```\n\nSuccess returns HTTP 200 with `Content-Type: application/pdf`. The documented validation and timeout errors contain one JSON `error` string rather than PDF bytes. The template identifier selects the stored layout; the record identifier selects the data rendered into that layout.\n\n## Service configuration and limits\n\nThe optional integer settings live in `/etc/mica/gateway.yaml`. This example explicitly selects their defaults:\n\n```yaml\nrender_timeout_ms: 15000\nmax_input_bytes: 262144\n```\n\n`render_timeout_ms` accepts 1000 through 60000 milliseconds, inclusive. It supplies the deadline when a request omits its timeout header and is also the maximum permitted request deadline. A request can shorten this configured value, but cannot raise it.\n\n`max_input_bytes` accepts 1024 through 1048576 bytes, inclusive. Its limit applies to the UTF-8 request body before JSON parsing, not to a character count or the generated PDF. An oversized body receives HTTP 413 with `error` set to `input_too_large`. Increasing the rendering timeout does not increase the body-size allowance.\n\n## Request overrides\n\nThe optional `X-Mica-Timeout-Ms` header is a whole decimal integer in milliseconds; its name is case-insensitive. Omit it to use the configured timeout. For example, a value of 8000 with the default configuration requests an eight-second rendering deadline.\n\nA caller may also raise the deadline above the configured value, provided the header remains within the global 1000 through 60000 range. With the default configuration, `X-Mica-Timeout-Ms: 45000` therefore permits up to 45 seconds of rendering and can return HTTP 200. This is useful for larger documents that need more time than the operator's default.\n\n## Deadline and error behavior\n\nThe rendering clock starts after authentication and body validation and stops when the PDF is ready. Upload time and response transfer time are outside this deadline. A client-side network timeout consequently measures a different interval from the rendering timeout documented here.\n\nNoninteger header values or values outside the global range return HTTP 400 with `invalid_timeout`. A valid global-range value above the configured ceiling returns HTTP 400 with `timeout_exceeds_limit`. Exceeding an accepted rendering deadline stops the renderer and returns HTTP 504:\n\n```json\n{\"error\":\"render_timeout\"}\n```\n\nThe timeout response does not contain a partial PDF. Handle the HTTP status before deciding whether to parse JSON or consume PDF bytes.\n\n## Reloading configuration\n\nRun `micactl reload --file /etc/mica/gateway.yaml` after editing the file. The command validates the entire configuration. A zero exit means the new settings apply to requests admitted after reload completion. An invalid file produces a nonzero exit and leaves the previous settings active.\n\nThe behavior of requests already rendering when `render_timeout_ms` changes is not specified. The available contract does not establish whether they keep their original timeout or adopt the new value. When predictable timing matters, drain active renders before reloading a changed timeout. This practice avoids the undocumented case; it does not resolve what an in-flight request would otherwise do.\n",
+  "requirements": [
+    {
+      "id": "R-MICA-REQUEST-CONTRACT",
+      "description": "Preserve Mica 2.6's POST /v2/render endpoint, JSON request content type, bearer authentication with render:write scope, and the required string fields template_id and record_id with their distinct meanings.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-RESPONSE-TYPES",
+      "description": "Success is HTTP 200 with application/pdf bytes. Documented validation and timeout errors are JSON with a single error string; a rendering timeout never returns a partial PDF.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-CONFIG-CEILING",
+      "description": "Keep /etc/mica/gateway.yaml, optional integer render_timeout_ms, its 15000-millisecond default and inclusive 1000-60000 range. The configured value is both the default and the hard request ceiling; larger request values never extend it.",
+      "severity": "critical"
+    },
+    {
+      "id": "R-MICA-HEADER-PRECEDENCE",
+      "description": "Keep X-Mica-Timeout-Ms optional, case-insensitive in name, and a whole decimal integer in milliseconds. Absence uses the configured deadline; accepted values run from 1000 through the configured ceiling. With a 15000 ceiling, 8000 selects eight seconds and 45000 is rejected with HTTP 400 and timeout_exceeds_limit. Preserve both contrasting examples in any equivalent format.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-INPUT-LIMIT",
+      "description": "Keep optional integer max_input_bytes, default 262144, inclusive range 1024-1048576, and its measurement of UTF-8 request-body bytes before JSON parsing. Oversize returns HTTP 413 and input_too_large. Timeout settings do not change this limit or make it a PDF-size limit.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-ERROR-DISTINCTIONS",
+      "description": "Distinguish HTTP 400 invalid_timeout for nonintegers or values outside the global range, HTTP 400 timeout_exceeds_limit for globally valid values above the configured ceiling, and HTTP 504 render_timeout when an accepted deadline expires and stops the renderer.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-CLOCK-SCOPE",
+      "description": "Rendering time begins after authentication and body validation and ends when the PDF is ready. It excludes upload and response transfer, so a client network timeout measures a different interval.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-RELOAD-CONTRACT",
+      "description": "Preserve micactl reload --file /etc/mica/gateway.yaml, entire-file validation, zero exit with new settings for requests admitted after completion, and nonzero exit retaining prior settings for an invalid file.",
+      "severity": "major"
+    },
+    {
+      "id": "R-MICA-INFLIGHT-UNKNOWN",
+      "description": "Explicitly preserve that timeout behavior for renders already in flight during hot reload is undocumented. Do not assert either admission-time retention or adoption of the changed value. Preserve draining active renders before a timeout reload when predictable timing matters, without presenting that practice as proof of either behavior.",
+      "severity": "major"
+    }
+  ],
+  "issues": [
+    {
+      "id": "I-MICA-CONTRADICTORY-OVERRIDE",
+      "description": "The second paragraph of 'Request overrides' claims a request may exceed the configured timeout and says header 45000 can render for 45 seconds under the default 15000 configuration. This contradicts both 'Service configuration and limits' and 'Deadline and error behavior', as well as the authoritative hard-ceiling rule.",
+      "severity": "major",
+      "acceptable_resolution": "Make all sections consistently treat render_timeout_ms as the ceiling. Retain 8000 as an accepted shorter deadline and change the 45000 example to HTTP 400 with timeout_exceeds_limit under the 15000 configuration. Remove the unsupported larger-document rationale or replace it with supported explanation. Preserve the separate, explicitly unresolved in-flight reload behavior."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C-MICA-ENDPOINT",
+      "kind": "contains",
+      "value": "/v2/render",
+      "requirement": "R-MICA-REQUEST-CONTRACT",
+      "description": "The exact API route survives; method and request semantics need separate assessment."
+    },
+    {
+      "id": "C-MICA-AUTH-SCOPE",
+      "kind": "contains",
+      "value": "render:write",
+      "requirement": "R-MICA-REQUEST-CONTRACT",
+      "description": "The required authorization scope remains explicitly named."
+    },
+    {
+      "id": "C-MICA-TIMEOUT-SETTING",
+      "kind": "contains",
+      "value": "render_timeout_ms",
+      "requirement": "R-MICA-CONFIG-CEILING",
+      "description": "The public configuration key survives in any reference layout."
+    },
+    {
+      "id": "C-MICA-REQUEST-HEADER",
+      "kind": "regex",
+      "value": "(?i)\\bX-Mica-Timeout-Ms\\b",
+      "requirement": "R-MICA-HEADER-PRECEDENCE",
+      "description": "The request header remains identifiable, allowing equivalent HTTP header casing."
+    },
+    {
+      "id": "C-MICA-CEILING-ERROR",
+      "kind": "contains",
+      "value": "timeout_exceeds_limit",
+      "requirement": "R-MICA-ERROR-DISTINCTIONS",
+      "description": "The ceiling-specific error identifier survives; its HTTP status and applicability remain semantic requirements."
+    },
+    {
+      "id": "C-MICA-INPUT-DEFAULT",
+      "kind": "regex",
+      "value": "(?<![0-9])(?:262144|262,144)(?![0-9])",
+      "requirement": "R-MICA-INPUT-LIMIT",
+      "description": "The body-size default remains numerically explicit, allowing a thousands separator."
+    },
+    {
+      "id": "C-MICA-TIMEOUT-STATUS",
+      "kind": "regex",
+      "value": "\\b504\\b",
+      "requirement": "R-MICA-ERROR-DISTINCTIONS",
+      "description": "The rendering-timeout HTTP status survives as a distinct token."
+    },
+    {
+      "id": "C-MICA-RELOAD-PATH",
+      "kind": "contains",
+      "value": "/etc/mica/gateway.yaml",
+      "requirement": "R-MICA-RELOAD-CONTRACT",
+      "description": "The exact reload configuration path survives; no wording-based proxy is used to score the unresolved in-flight behavior."
+    }
+  ]
+}
