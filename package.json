@@ -1,0 +1,21 @@
+{
+  "name": "engineering-standard",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "hooks:install": "lefthook install commit-msg",
+    "validate:commit": "tsx scripts/validate-commit-message.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/commit-message.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.2",
+    "lefthook": "2.1.14",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  }
+}

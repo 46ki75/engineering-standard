@@ -1,0 +1,6 @@
+lefthook: pnpm exec lefthook
+
+commit-msg:
+  jobs:
+    - name: commit-message
+      run: pnpm --silent validate:commit "{1}"

@@ -7,3 +7,4 @@
 - Add comments when they preserve information that would be costly to rediscover, such as rationale, constraints, invariants, or externally verified behavior; do not restate the code.
 - After creating or updating documentation, review the affected document as a whole before finalizing it. Identify and fix unnecessary repetition, duplicate explanations, and inconsistencies. Address organization before sentence-level wording, and preserve necessary context and technical meaning.
 - When a repository uses dprint, format affected, covered files with `dprint fmt` and verify the same scope with `dprint check`. Report failures and unexpected empty selections. Follow the [formatting reference](references/formatting/README.md) when configuring integrations.
+- Follow project- or repository-specific rules; otherwise, use the [Git](references/git/README.md) and [GitHub](references/github/README.md) defaults.
