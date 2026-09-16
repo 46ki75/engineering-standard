@@ -1,95 +1,42 @@
-# dprint formatting
+# Project-specific formatting
 
-Use dprint as a repository-defined formatting entry point. Keep style in the selected formatters' existing configuration, and let the repository define covered files and tool versions.
+Configure the project's chosen formatters directly in `lefthook.yml`. Keep formatting rules in their native configuration files and provision pinned tools through the repository's existing package managers and toolchains. The [Lefthook reference](../lefthook/README.md) defines `lint`, `fmt`, `fmt-check`, and `check`.
 
-The [evaluation](../../../../evals/formatting/results/2026-09-16/report.md) supports a small, declarative, stdin-only exec configuration. It also found process-lifecycle failures in exec 0.7.3 and interference from existing save actions. The operational rule applies to configured repositories; unconditional adoption of that plugin version has not passed the evaluation gates.
+## Formatter contract
 
-## Configuration contract
+- Give `fmt` and `fmt-check` identical roots, file patterns, exclusions, tool versions, and configuration discovery. Only their write/check modes should differ.
+- Format the affected, covered files and verify the same selection with `fmt-check`. Save buffers first; a successful disk check does not verify unsaved changes.
+- Confirm that deliberately unformatted input changes, a second format is stable, and `fmt-check` fails before formatting and passes afterward without changing source files.
+- Preserve generated files, ignored paths, unrelated edits, and partial staging. Treat an unexpected empty selection as a routing problem, even if Lefthook exits successfully.
+- Resolve project-local executables from the appropriate package root. Provision dependencies before running hooks; formatting a file should not update lockfiles or install tools.
 
-1. **Pin and provision tools.** Pin dprint, its plugins, and the delegated formatters through the project's existing dependency/toolchain mechanism. Resolve project-local executables explicitly. Install dependencies before formatting; save operations should not install tools.
-2. **Keep commands declarative and source files read-only.** Use stdin for input and stdout exclusively for formatted content. Set `exec.cwd` to `${configDir}` and pass the original absolute filename when the formatter supports it. A file-writing delegate can mutate files even during `dprint check`.
-3. **Keep scope explicit.** Configure the intended source trees and exclusions, including generated files. Check both positive and excluded examples. A successful stdin invocation can be a pass-through for an excluded file.
-4. **Start with `incremental: false`.** Exec cannot automatically discover every external configuration and executable dependency. Enable incremental formatting only after testing invalidation with the relevant `cacheKeyFiles` and version changes; use `cacheKey` to invalidate changes those files do not capture.
-5. **Add scoped configuration only where required.** Rust's stdin interface does not infer a file's Cargo edition or nested rustfmt configuration. A uniform workspace can specify its edition once; a differently configured subtree needs an appropriate scoped dprint configuration.
+Typical native command pairs, with file selection supplied by Lefthook:
 
-The [tested example](dprint.example.json) uses `internal`'s directory layout: one configuration, five command mappings, and no formatter adapters. It uses the locked Prettier package, Rust's toolchain file, a previously synchronized uv environment, and Terraform on PATH. Pin the Terraform CLI separately: its provider lockfile does not pin the CLI.
+| Tool          | `fmt`                                           | `fmt-check`                                             |
+| ------------- | ----------------------------------------------- | ------------------------------------------------------- |
+| Prettier      | `pnpm exec prettier --write {files}`            | `pnpm exec prettier --check {files}`                    |
+| Ruff          | `uv run --locked --no-sync ruff format {files}` | `uv run --locked --no-sync ruff format --check {files}` |
+| Cargo/rustfmt | `cargo fmt --all`                               | `cargo fmt --all -- --check`                            |
+| Terraform     | `terraform fmt {files}`                         | `terraform fmt -check {files}`                          |
 
-The example's Markdown engine is Prettier, matching the evaluated editor workflow. That is a project policy choice: `internal`'s commit hook instead uses markdownlint fixes. If preserving those fixes is the requirement, the tested alternative command is:
+These are command patterns, not a universal tool list. Use the repository's package manager and supported CLI versions. Terraform's provider lockfile does not pin the Terraform CLI.
 
-```text
-node node_modules/markdownlint-cli2/markdownlint-cli2-bin.mjs --format "{{{file_path}}}"
-```
+### Scope and project context
 
-This formats stdin but does not establish that Markdown lint checks pass. Keep the existing lint checks.
+`cargo fmt --all` uses Cargo metadata, including each crate's edition, but formats the whole workspace even when one Rust file triggered the job. Document that wider scope and verify it is acceptable before running it in a dirty worktree. Do not replace it with a hardcoded edition unless that is the project's explicit policy.
 
-### Details that affect correctness
+Working directories affect executable resolution and ignore-file discovery. For example, run web-package Prettier jobs from that package's root. Mirror necessary exclusions in Lefthook when a tool's explicit-file interface bypasses its normal discovery or ignore rules.
 
-- **Exec 0.7.3 requires triple braces for literal paths:** `"{{{file_path}}}"`. Double braces HTML-escape characters such as `&`. The plugin substitutes arguments after tokenization; the tested triple-brace form preserves spaces, Unicode, and quotes.
-- **Match ignore-file context.** Applying the web workspace's `.prettierignore` to Markdown outside that workspace caused a successful no-op. The example therefore has separate web and Markdown mappings.
-- **Test actual edits.** Include deliberately unformatted inputs and check that they change. Matching outputs from two no-op invocations does not prove formatting works.
-- **Bound automation at the execution layer.** Exec 0.7.3 hung after a child exited by signal, and its timeout/cancellation did not reliably stop that child. Its `timeout` setting is not a process-cleanup guarantee. These failures block an unconditional default recommendation.
+If a project deliberately uses a linter's fixer as its formatting policy, document the overlap. For example, `markdownlint-cli2 --fix` can leave unfixable lint errors, and the read-only `markdownlint-cli2` command can serve both `lint` and `fmt-check`. Do not silently substitute a different Markdown formatter.
 
-## CLI, hooks, and CI
+## Editors and agent hooks
 
-Run from the project context using its documented scripts or pinned executable. For example:
+Use the same native formatter, version, configuration, and ignore context in the editor. Select one formatting owner per language and verify actual saves using unsaved buffer content. A CLI-only result does not establish editor parity.
 
-```sh
-dprint fmt -- "src/changed.ts" "docs/Release Notes.md"
-dprint check -- "src/changed.ts" "docs/Release Notes.md"
-```
+Lefthook operates on filesystem paths; it is not an LSP server or a stdin-to-stdout editor formatter. Use the editor's native formatter integration for buffer formatting. An agent's after-write hook can run `fmt --file <repo-relative-path>`, followed by `fmt-check` and `lint` on the same scope. Normalize absolute paths before passing them to repository-relative globs.
 
-Use the same covered scope for both commands. In the evaluated CLI, exit `0` indicates success, `20` indicates formatting differences, and `14` indicates no matching files. Investigate an unexpected empty selection. Preserve exclusions and unrelated edits.
+A nonblocking save hook that suppresses formatting failures still requires explicit validation before completion. Batch changed files into one call per hook. Use the full `check` gate for changes to shared configuration or manifests that can affect otherwise untouched files.
 
-If no affected files are covered, report that fact and skip the scoped invocation. An empty argument list would select the whole configured scope.
+## Earlier evaluation
 
-CI can run `dprint check` over the configured scope. Hooks should propagate failures. Existing hooks that suppress errors still require an explicit final check. With Lefthook, scoped `dprint fmt {staged_files}` and `stage_fixed: true` preserved the tested partially staged file's unstaged edits. `dprint fmt --staged` alone is not evidence of index-preservation behavior.
-
-## Editors
-
-Select dprint as the formatting owner for covered languages and verify saves against the CLI using **unsaved buffer content**. Retain other save actions only after checking their output, order, failures, and repeated-save behavior.
-
-### Neovim / LazyVim
-
-Use Conform's built-in `dprint` formatter, which supplies the absolute filename to `dprint fmt --stdin` and locates the repository configuration. Override the relevant `formatters_by_ft` entries and use `lsp_format = "never"` for the dprint-owned path to avoid an unverified fallback. The tested filetypes included `rust`, `markdown`, `typescript`, `typescriptreact`, `css`, `python`, and **`tf`**.
-
-LazyVim already owns the save callback; configure its Conform options through the existing plugin specification. Adding a second `format_on_save` handler is unnecessary. The existing `markdown-toc` step generated additional content beyond dprint's output, so exact CLI/editor parity requires an explicit decision about that step.
-
-For example, inside the existing Conform plugin specification:
-
-```lua
-opts = function(_, opts)
-  opts.formatters_by_ft.markdown = { "dprint", lsp_format = "never" }
-end
-```
-
-### VS Code
-
-Use `dprint.dprint` as `editor.defaultFormatter` for the covered languages, with `editor.formatOnSave` enabled. Override existing language-specific Prettier settings where necessary; check folder and multi-root workspace settings. Resolve the same pinned dprint executable through PATH or the user/profile-level `dprint.path` setting.
-
-The dprint-only profile passed actual saves and external Prettier configuration refresh. The profile with `source.fixAll` restored canceled the first Markdown and CSS saves in the controlled test; a second save succeeded with the buffer intact. A successful formatter call therefore does not substitute for confirming a successful save.
-
-A formatting-only language override can start with:
-
-```json
-{
-  "[markdown]": {
-    "editor.defaultFormatter": "dprint.dprint",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": { "source.fixAll": "never" }
-  }
-}
-```
-
-Apply corresponding overrides to the other covered languages and validate any additional save-time transformations separately.
-
-## Evidence and maintenance
-
-The evaluated configuration matched direct formatters on 283 files. Representative Rust, TSX, and Markdown saves had p95 below 122 ms on the recorded macOS host. Recheck output, scope, failures, and configuration invalidation when upgrading the CLI, plugin, formatter, or editor integration.
-
-Primary references:
-
-- [dprint configuration](https://dprint.dev/config/) and [CLI](https://dprint.dev/cli/)
-- [Exec 0.7.3 configuration and implementation](https://github.com/dprint/dprint-plugin-exec/tree/0.7.3)
-- [Conform's dprint integration](https://github.com/stevearc/conform.nvim/blob/016802de402556da54c36bd7359b441266b01cdd/lua/conform/formatters/dprint.lua)
-- [LazyVim's formatting integration](https://github.com/LazyVim/LazyVim/blob/999700997f72227187d49d8b92667183dc7fc809/lua/lazyvim/plugins/formatting.lua)
-- [dprint's VS Code extension](https://github.com/dprint/dprint-vscode)
+The [historical dprint reference](dprint.md), [example](dprint.example.json), and [evaluation](../../../../evals/formatting/README.md) retain the evidence for the earlier dprint-based workflow. They are not prerequisites for this direct-tool configuration.

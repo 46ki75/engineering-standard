@@ -9,15 +9,19 @@ function validate(message: string): string | null {
   const lines = message.split(/\r?\n/u);
   const match = HEADER.exec(lines[0] ?? "");
   if (!match) {
-    return "expected 'type[!]: summary' with no scope and a nonempty summary; "
-      + "allowed types: feat, fix, chore, test, refactor, docs.";
+    return (
+      "expected 'type[!]: summary' with no scope and a nonempty summary; " +
+      "allowed types: feat, fix, chore, test, refactor, docs."
+    );
   }
   if (lines[1]?.trim()) {
     return "separate the header and body with a blank line.";
   }
-  if (match[1] && !lines.slice(2).some(line => line.trim())) {
-    return "breaking changes (!) require a body explaining the impact and "
-      + "migration steps; blank lines and Git comments do not count.";
+  if (match[1] && !lines.slice(2).some((line) => line.trim())) {
+    return (
+      "breaking changes (!) require a body explaining the impact and " +
+      "migration steps; blank lines and Git comments do not count."
+    );
   }
   return null;
 }
@@ -38,7 +42,9 @@ function main(args: string[]): number {
     const lines = message.split("\n");
     // Verbose editors append a diff below Git's scissors marker. Git removes
     // that suffix after this hook, so it cannot count as an explanation.
-    const cut = lines.findIndex((line, index) => index > 0 && line.trimEnd().endsWith(SCISSORS));
+    const cut = lines.findIndex(
+      (line, index) => index > 0 && line.trimEnd().endsWith(SCISSORS),
+    );
     if (cut !== -1) message = lines.slice(0, cut).join("\n");
 
     // Git passes editor comments to commit-msg before removing them. Use Git's

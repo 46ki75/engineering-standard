@@ -6,7 +6,7 @@
 
 **Unconditional rollout of exec 0.7.3 does not pass the gates.** A signal-terminated formatter hung, and timed-out/canceled children continued running. The existing combined VS Code save pipeline also canceled some first saves. These results limit the recommendation despite successful ordinary formatting and dprint-only editor integration.
 
-The [standard reference](../../../../skills/engineering-standard/references/formatting/README.md) contains the operational guidance and [tested configuration](../../../../skills/engineering-standard/references/formatting/dprint.example.json).
+The [historical reference](../../../../skills/engineering-standard/references/formatting/dprint.md) contains the evaluated operational guidance and [tested configuration](../../../../skills/engineering-standard/references/formatting/dprint.example.json).
 
 ## Environment and coverage
 

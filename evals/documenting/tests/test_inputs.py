@@ -207,7 +207,9 @@ class PromptIsolationTests(ArtifactTestCase):
             line for line in skill.splitlines() if line.startswith(run.RULE_PREFIX)
         )
         self.assertNotIn(rule, a)
-        self.assertEqual(b, a + rule + "\n")
+        self.assertEqual(b, common + "\n" + skill)
+        # The rule need not be last; filtering it must preserve surrounding order.
+        self.assertEqual(a, b.replace(rule + "\n", "", 1))
         self.assertEqual(b.count(rule), 1)
         self.assertTrue(c.startswith(b))
         self.assertEqual(c.count(rule), 1)

@@ -151,6 +151,7 @@ def verify(result_dir):
     documents = [
         root / "skills/engineering-standard/SKILL.md",
         root / "skills/engineering-standard/references/formatting/README.md",
+        root / "skills/engineering-standard/references/formatting/dprint.md",
         Path(__file__).resolve().parent / "README.md",
         result_dir / "report.md",
     ]
@@ -162,10 +163,11 @@ def verify(result_dir):
                     target,
                 )
     rule = (Path(__file__).resolve().parent / "rule.md").read_text().strip()
-    skill = documents[0].read_text()
-    normalized = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", skill)
+    # The standard now uses Lefthook; retain the evaluated rule in its historical reference.
+    reference = documents[2].read_text()
+    normalized = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", reference)
     assert rule in normalized, (
-        "Published operational rule differs from the evaluated candidate"
+        "Historical operational rule differs from the evaluated candidate"
     )
     print(
         "Verified: artifact hashes, 283-file equivalence, published example, recorded failed gates, integration results, and 5,100 timing samples."

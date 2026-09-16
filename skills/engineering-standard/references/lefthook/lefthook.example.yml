@@ -1,0 +1,145 @@
+# Native project tools, dispatched by Lefthook. Dependencies must be installed first.
+# Leaf hooks default to tracked files; override with --file <repo-relative-path>.
+# `check` is always project-wide. `fmt`/`fmt-check` select identical formatter scopes.
+output:
+  - summary
+  - success
+  - failure
+  - skips
+
+fmt:
+  files: git ls-files
+  parallel: true
+  jobs:
+    # Cargo supplies crate editions/configuration. A selected Rust file triggers
+    # workspace-wide formatting, including files outside the selected paths.
+    - &rust-format
+      name: rust
+      glob: "crates/**/*.rs"
+      run: cargo fmt --all
+
+    - &python-format
+      name: python
+      glob: "python/**/*.py"
+      run: uv run --locked --no-sync ruff format {files}
+
+    # Globs/exclusions are repository-relative; arguments are relative to root.
+    - &web-format
+      name: prettier
+      root: "packages/web-solid/"
+      glob:
+        - "packages/web-solid/src/*.{ts,tsx,css}"
+        - "packages/web-solid/src/**/*.{ts,tsx,css}"
+      exclude:
+        - "packages/web-solid/src/openapi/schema.ts"
+        - "**/*.spec.ts"
+        - "**/*.spec.tsx"
+      run: pnpm exec prettier --write {files}
+
+    - &terraform-format
+      name: terraform
+      glob:
+        - "terraform/*.tf"
+        - "terraform/**/*.tf"
+      run: terraform fmt {files}
+
+    # Preserve this project's markdownlint fixer policy. Its read-only command
+    # checks both formatting and rules that cannot be automatically fixed.
+    - &markdown-format
+      name: markdown
+      glob:
+        - "*.md"
+        - "**/*.md"
+      exclude:
+        - "CLAUDE.md"
+        - ".claude/**"
+        - ".agents/**"
+        - "notes/**"
+        - "**/node_modules/**"
+      run: pnpm exec markdownlint-cli2 --fix {files}
+
+fmt-check:
+  files: git ls-files
+  parallel: true
+  jobs:
+    - <<: *rust-format
+      run: cargo fmt --all -- --check
+    - <<: *python-format
+      run: uv run --locked --no-sync ruff format --check {files}
+    - <<: *web-format
+      run: pnpm exec prettier --check {files}
+    - <<: *terraform-format
+      run: terraform fmt -check {files}
+    - &markdown-check
+      <<: *markdown-format
+      run: pnpm exec markdownlint-cli2 {files}
+
+lint:
+  files: git ls-files
+  parallel: true
+  jobs:
+    # The files provider gates this project-scoped command even without {files}.
+    - name: rust
+      glob:
+        - "crates/**/*.rs"
+        - "crates/**/Cargo.toml"
+        - "Cargo.toml"
+        - "Cargo.lock"
+        - "rust-toolchain.toml"
+      run: cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+
+    - name: python
+      glob: "python/**/*.py"
+      run: uv run --locked --no-sync ruff check {files}
+
+    - name: eslint
+      root: "packages/web-solid/"
+      glob:
+        - "packages/web-solid/src/*.{ts,tsx}"
+        - "packages/web-solid/src/**/*.{ts,tsx}"
+        - "packages/web-solid/.storybook/*.{ts,tsx}"
+        - "packages/web-solid/.storybook/**/*.{ts,tsx}"
+      exclude: "packages/web-solid/src/openapi/schema.ts"
+      run: pnpm exec eslint {files}
+
+    - name: stylelint
+      root: "packages/web-solid/"
+      glob:
+        - "packages/web-solid/src/*.css"
+        - "packages/web-solid/src/**/*.css"
+        - "packages/web-solid/.storybook/*.css"
+        - "packages/web-solid/.storybook/**/*.css"
+      run: pnpm exec stylelint {files}
+
+    - *markdown-check
+
+check:
+  parallel: true
+  jobs:
+    # Child processes have their own file selection; these are full-repo gates.
+    - name: lint
+      run: pnpm exec lefthook run lint --all-files
+    - name: fmt-check
+      run: pnpm exec lefthook run fmt-check --all-files
+    - name: web-types
+      root: "packages/web-solid/"
+      run: pnpm exec tsc --noEmit --incremental false
+    - name: python-types
+      run: uv run --locked --no-sync pyright python
+
+# Installed by the root prepare script. Expensive gates are available through
+# `check`; tests remain in the existing project/CI test commands.
+pre-commit:
+  parallel: true
+  skip:
+    - merge
+    - rebase
+  jobs:
+    - <<: *rust-format
+      stage_fixed: true
+    - <<: *web-format
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+    - <<: *markdown-format
+      run: pnpm exec markdownlint-cli2 --fix {staged_files}
+      stage_fixed: true

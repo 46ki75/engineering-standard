@@ -16,11 +16,11 @@ This is a controlled text-only comparison of guidance for finalizing fixed draft
 
 [writer.md](prompts/writer.md) is the **common system prompt for all conditions**. The runner appends a newline and the arm's guidelines, preserving the common prompt without an extra review instruction:
 
-| Arm | Guidance |
-| --- | --- |
-| A | `skills/engineering-standard/SKILL.md` with its unique documentation-rule bullet filtered out; every other guidance line remains in order. |
-| B | The complete current `SKILL.md`, including the short documentation rule. |
-| C | B plus `\n## Documentation review\n`, followed by the body of `## Review and revise` and the complete `## Short examples` section. |
+| Arm | Guidance                                                                                                                                   |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| A   | `skills/engineering-standard/SKILL.md` with its unique documentation-rule bullet filtered out; every other guidance line remains in order. |
+| B   | The complete current `SKILL.md`, including the short documentation rule.                                                                   |
+| C   | B plus `\n## Documentation review\n`, followed by the body of `## Review and revise` and the complete `## Short examples` section.         |
 
 The documentation rule is:
 
@@ -49,21 +49,21 @@ Preflight also pins OpenCode to **1.18.31** and checks model metadata for both m
 
 Relevant controls were checked against source tag `v1.18.31`:
 
-| Source | Controls used |
-| --- | --- |
-| [CLI](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/cli/cmd/run.ts) | `run --agent --model --variant --format json`, stdin prompt transport, fresh sessions. |
-| [Configuration](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/config/config.ts) and [instructions](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/session/instruction.ts) | `OPENCODE_CONFIG_CONTENT`, `OPENCODE_CONFIG_DIR`, `OPENCODE_DISABLE_PROJECT_CONFIG=1`. |
-| [Runtime flags](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/effect/runtime-flags.ts) and [plugins](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/plugin/index.ts) | `OPENCODE_DISABLE_CLAUDE_CODE=1`, `OPENCODE_DISABLE_EXTERNAL_SKILLS=1`, `OPENCODE_PURE=1`, and `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=16000`; default auth plugins remain enabled. |
-| [Global paths](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/core/src/global.ts) and [auth storage](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/auth/index.ts) | Isolated home/config/state with shared original data and cache paths. |
+| Source                                                                                                                                                                                                                           | Controls used                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [CLI](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/cli/cmd/run.ts)                                                                                                                                  | `run --agent --model --variant --format json`, stdin prompt transport, fresh sessions.                                                                                              |
+| [Configuration](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/config/config.ts) and [instructions](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/session/instruction.ts) | `OPENCODE_CONFIG_CONTENT`, `OPENCODE_CONFIG_DIR`, `OPENCODE_DISABLE_PROJECT_CONFIG=1`.                                                                                              |
+| [Runtime flags](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/effect/runtime-flags.ts) and [plugins](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/plugin/index.ts)      | `OPENCODE_DISABLE_CLAUDE_CODE=1`, `OPENCODE_DISABLE_EXTERNAL_SKILLS=1`, `OPENCODE_PURE=1`, and `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=16000`; default auth plugins remain enabled. |
+| [Global paths](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/core/src/global.ts) and [auth storage](https://github.com/anomalyco/opencode/blob/v1.18.31/packages/opencode/src/auth/index.ts)                      | Isolated home/config/state with shared original data and cache paths.                                                                                                               |
 
 ## Calibration and planned evaluation
 
 Calibration checks the harness, prompt isolation, output/schema handling, positional consistency, throughput, and cost accounting. Do not tailor the frozen candidate to calibration fixtures. Three documents support descriptive findings, not efficacy, confidence-interval, significance, or adoption claims.
 
-| Phase | Writers | Fresh judge sessions | Total sessions |
-| --- | ---: | ---: | ---: |
-| Implemented calibration | 3 fixtures × 3 arms × 1 repetition = **9** | 3 fixtures × 2 comparisons × 2 orders = **12** | **21** |
-| Planned full evaluation | 36 cases × 3 arms × 3 repetitions = **324** | 216 primary comparisons + 54 order swaps = **270** | **594** |
+| Phase                   |                                     Writers |                               Fresh judge sessions | Total sessions |
+| ----------------------- | ------------------------------------------: | -------------------------------------------------: | -------------: |
+| Implemented calibration |  3 fixtures × 3 arms × 1 repetition = **9** |     3 fixtures × 2 comparisons × 2 orders = **12** |         **21** |
+| Planned full evaluation | 36 cases × 3 arms × 3 repetitions = **324** | 216 primary comparisons + 54 order swaps = **270** |        **594** |
 
 Calibration compares A/B and B/C on every case in both left/right orders. Writer jobs are shuffled with seed `46075`; judge jobs use `46076`. Each judgment gets a fresh session and reuses the same completed writer outputs.
 

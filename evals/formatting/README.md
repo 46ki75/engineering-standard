@@ -1,5 +1,7 @@
 # dprint formatting evaluation
 
+This is the historical evaluation of the dprint workflow. The current [standard](../../skills/engineering-standard/references/lefthook/README.md) uses project-specific tools directly through Lefthook; the [evaluated dprint guidance](../../skills/engineering-standard/references/formatting/dprint.md) is retained with its original evidence.
+
 **Evaluation complete, with qualified adoption:** the [report](results/2026-09-16/report.md) supports a concise rule for repositories using dprint and a minimal stdin-only configuration. Exec 0.7.3 failed process-lifecycle gates; the combined editor save pipelines also require explicit integration decisions.
 
 ## Objective and protocol
@@ -53,15 +55,15 @@ Neovim uses copied LazyVim state and its registered `BufWritePre` callback, with
 
 The [result directory](results/2026-09-16/) contains:
 
-| Artifact | Contents |
-| --- | --- |
-| `report.md` | Decision, tradeoffs, failed gates, and coverage limits |
-| `manifest.json` | Source commit, tool versions, configurations, checksums, host, and harness hashes |
-| `summary.json` | Consolidated outcomes |
-| `evidence.json` | Exit statuses, hashes, diagnostics from controlled probes, and editor observations |
-| `corpus.json` | Per-file input/output hashes and equivalence/stability results |
-| `timings.csv` | Individual measured samples |
-| `usability.json` | Paired text-only agent usability observations and task provenance |
+| Artifact         | Contents                                                                           |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| `report.md`      | Decision, tradeoffs, failed gates, and coverage limits                             |
+| `manifest.json`  | Source commit, tool versions, configurations, checksums, host, and harness hashes  |
+| `summary.json`   | Consolidated outcomes                                                              |
+| `evidence.json`  | Exit statuses, hashes, diagnostics from controlled probes, and editor observations |
+| `corpus.json`    | Per-file input/output hashes and equivalence/stability results                     |
+| `timings.csv`    | Individual measured samples                                                        |
+| `usability.json` | Paired text-only agent usability observations and task provenance                  |
 
 Complete command stdout/stderr and editor profiles remain under the temporary run. Portable exports replace local paths and hash editor output instead of embedding project source. The original run used `dprint-eval-2026-09-16-v2` beneath the approved OpenCode temporary directory.
 

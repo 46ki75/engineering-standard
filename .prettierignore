@@ -1,0 +1,13 @@
+node_modules/
+.venv/
+pnpm-lock.yaml
+
+# Evaluation inputs and outputs are frozen or hash-verified. Keep these exclusions
+# in sync with the Prettier job in lefthook.yml, including explicit-file runs.
+evals/**/results/**
+evals/documenting/cases/**
+evals/documenting/prompts/**
+evals/formatting/rule.md
+evals/formatting/usability-cases.json
+skills/engineering-standard/references/documenting/README.md
+skills/engineering-standard/references/formatting/dprint.example.json
