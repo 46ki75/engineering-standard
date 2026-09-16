@@ -6,14 +6,14 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "lint": "lefthook run lint",
-    "fmt": "lefthook run fmt",
-    "fmt-check": "lefthook run fmt-check",
-    "check": "lefthook run check",
-    "hooks:install": "lefthook install commit-msg",
-    "validate:commit": "tsx scripts/validate-commit-message.ts",
-    "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/commit-message.test.ts"
+    "lint": "mise run lint",
+    "fmt": "mise run fmt",
+    "fmt-check": "mise run fmt-check",
+    "check": "mise run check",
+    "hooks:install": "mise run hooks:install",
+    "validate:commit": "mise run validate:commit",
+    "typecheck": "mise run typecheck",
+    "test": "mise run test"
   },
   "devDependencies": {
     "@types/node": "22.20.2",

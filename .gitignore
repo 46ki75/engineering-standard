@@ -3,3 +3,5 @@ node_modules/
 .ruff_cache/
 __pycache__/
 *.py[cod]
+mise.local.toml
+mise.local.lock

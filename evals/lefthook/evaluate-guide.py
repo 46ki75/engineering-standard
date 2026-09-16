@@ -14,6 +14,7 @@ import shutil
 import subprocess
 import tempfile
 import time
+import tomllib
 import traceback
 
 
@@ -81,6 +82,7 @@ class Evaluation:
             PYTHONDONTWRITEBYTECODE="1",
         )
         self.config = (HERE / "guide-case.yml").read_text()
+        self.tools = tomllib.loads((source / "mise.toml").read_text())["tools"]
         self.manifest = {
             "started_at": datetime.now(timezone.utc).isoformat(),
             "platform": platform.platform(),
@@ -204,7 +206,15 @@ class Evaluation:
             cwd=repo,
             ok=True,
         )
-        self.run(["uv", "sync", "--locked"], cwd=repo, ok=True)
+        if (repo / "mise.lock").exists():
+            self.run(
+                ["mise", "exec", "--", "uv", "sync", "--locked"],
+                cwd=repo,
+                env={"MISE_TRUSTED_CONFIG_PATHS": str(repo)},
+                ok=True,
+            )
+        else:
+            self.run(["uv", "sync", "--locked"], cwd=repo, ok=True)
 
     def freeze(self):
         self.before_source = self.state(self.source)
@@ -214,6 +224,8 @@ class Evaluation:
             "skills/engineering-standard/references/lefthook/lefthook.example.yml",
             "skills/engineering-standard/references/formatting/README.md",
             "lefthook.yml",
+            "mise.toml",
+            "mise.lock",
             "package.json",
             "pnpm-lock.yaml",
             "pyproject.toml",
@@ -230,6 +242,7 @@ class Evaluation:
             ("node", ["node", "--version"], "v24.20.0"),
             ("pnpm", ["pnpm", "--version"], "12.4.1"),
             ("uv", ["uv", "--version"], "uv 0.12.9"),
+            ("python", ["python", "--version"], f"Python {self.tools['python']}"),
             ("cargo", ["cargo", "--version"], "cargo 1.98.0"),
             ("rustc", ["rustc", "--version"], "rustc 1.98.0"),
         ):
@@ -245,9 +258,11 @@ class Evaluation:
             "pnpm-workspace.yaml",
             "pyproject.toml",
             "uv.lock",
-            ".python-version",
         ):
             shutil.copy2(self.source / name, self.repo / name)
+        # This standalone Lefthook fixture selects the source project's Python
+        # without inheriting its task graph or duplicating its version pin.
+        write(self.repo, ".python-version", self.tools["python"] + "\n")
         package = json.loads((self.repo / "package.json").read_text())
         package["scripts"] = {
             name: f"lefthook run {name}"
@@ -724,7 +739,18 @@ class Evaluation:
         before = self.state(repo)
         self.run(["pnpm", "exec", "lefthook", "validate"], cwd=repo, ok=True)
         try:
-            self.run(["pnpm", "--silent", "check"], cwd=repo, ok=True, timeout=600)
+            command = (
+                ["mise", "run", "check"]
+                if (repo / "mise.lock").exists()
+                else ["pnpm", "--silent", "check"]
+            )
+            self.run(
+                command,
+                cwd=repo,
+                env={"MISE_TRUSTED_CONFIG_PATHS": str(repo)},
+                ok=True,
+                timeout=600,
+            )
         finally:
             self.preserved(
                 before,
