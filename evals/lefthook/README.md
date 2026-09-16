@@ -2,14 +2,14 @@
 
 ## Disposable guide evaluation
 
-The [September 17, 2026 report](results/2026-09-17/report.md) evaluates the current configuration guide with Lefthook 2.1.14 in a fresh synthetic repository and a disposable clone of `engineering-standard`. It covers both glob matchers, native-tool parity, selection, failure propagation, real Git commits with partial staging, output controls, and deliberately broken configurations.
+The [September 17, 2026 report](results/2026-09-17/report.md) evaluates the standalone Lefthook workflow before mise task adoption, using Lefthook 2.1.14 in a fresh synthetic repository and a disposable clone of `engineering-standard`. Its frozen inputs record the guide version used. It covers both glob matchers, native-tool parity, selection, failure propagation, real Git commits with partial staging, output controls, and deliberately broken configurations.
 
 [`evaluate-guide.py`](evaluate-guide.py) builds the [guide-derived fixture](guide-case.yml), provisions locked dependencies, and retains command logs and before/after evidence outside the source repository. Its regression uses the source repository's committed HEAD; its fixture uses the working-tree guide, tool manifests, and evaluation files, whose exact contents and hashes are frozen in the export.
 
-Prerequisites: the versions in `mise.toml`, Python 3.12, and Cargo/rustc 1.98.0 with rustfmt and Clippy. The runner verifies tool versions. Dependency provisioning can use the network; Python uses a run-local download cache and pnpm reuses its package store. Each repository has its own installed dependencies. Use an existing, approved temporary directory with a short path: macOS limits the Unix socket path used by tsx.
+Prerequisites: complete the repository's [mise setup](../../README.md#setup), and provide Cargo/rustc 1.98.0 with rustfmt and Clippy. The runner verifies tool versions and derives the standalone fixture's Python version from `mise.toml`. Dependency provisioning can use the network; Python uses a run-local download cache and pnpm reuses its package store. Each repository has its own installed dependencies. Use an existing, approved temporary directory with a short path: macOS limits the Unix socket path used by tsx.
 
 ```sh
-uv run --locked --no-sync python evals/lefthook/evaluate-guide.py \
+mise exec -- uv run --locked --no-sync python evals/lefthook/evaluate-guide.py \
   --scratch "$TMPDIR" \
   --output evals/lefthook/results/new-run
 ```
@@ -19,7 +19,7 @@ uv run --locked --no-sync python evals/lefthook/evaluate-guide.py \
 Verify the retained evidence offline:
 
 ```sh
-uv run --locked --no-sync python evals/lefthook/verify-guide-results.py \
+mise exec -- uv run --locked --no-sync python evals/lefthook/verify-guide-results.py \
   evals/lefthook/results/2026-09-17
 ```
 

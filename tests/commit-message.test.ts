@@ -54,6 +54,7 @@ class Fixture {
       GIT_CONFIG_NOSYSTEM: "1",
       GIT_CONFIG_GLOBAL: process.platform === "win32" ? "NUL" : "/dev/null",
       GIT_TERMINAL_PROMPT: "0",
+      MISE_TRUSTED_CONFIG_PATHS: this.repo,
       NO_COLOR: "1",
     });
     this.git(["clone", "--quiet", "--no-hardlinks", ROOT, this.repo], {
@@ -67,6 +68,8 @@ class Fixture {
       "pnpm-workspace.yaml",
       "tsconfig.json",
       "lefthook.yml",
+      "mise.toml",
+      "mise.lock",
       "scripts/validate-commit-message.ts",
     ]) {
       copyFileSync(join(ROOT, relative), join(this.repo, relative));
@@ -115,7 +118,7 @@ class Fixture {
   }
 
   installHook(): void {
-    this.run("pnpm", ["hooks:install"]);
+    this.run("mise", ["run", "hooks:install"]);
     accessSync(join(this.repo, ".git/hooks/commit-msg"), constants.X_OK);
   }
 

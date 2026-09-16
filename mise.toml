@@ -1,5 +1,88 @@
+min_version = "2026.9.9"
+
 [tools]
 node = "24.20.0"
 pnpm = "12.4.1"
+python = "3.12.14"
 uv = "0.12.9"
 
+[tool_config]
+locked = true
+
+[env]
+UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
+
+[settings]
+# Provision explicitly so checks and editor/Git hooks never install tools.
+auto_install = false
+
+[tasks.setup]
+description = "Install locked project dependencies and Git hooks"
+run = [
+  "pnpm install --frozen-lockfile",
+  "uv sync --locked",
+  { task = "hooks:install" },
+]
+
+[tasks.lint]
+description = "Lint tracked files, or select files with repeated --file arguments"
+raw_args = true
+run = "pnpm exec lefthook run lint --no-auto-install"
+
+[tasks.fmt]
+description = "Format tracked files, or select files with repeated --file arguments"
+raw_args = true
+run = "pnpm exec lefthook run fmt --no-auto-install"
+
+[tasks.fmt-check]
+description = "Check formatting over the same selection as fmt"
+raw_args = true
+run = "pnpm exec lefthook run fmt-check --no-auto-install"
+
+[tasks.check]
+description = "Run every project-wide validation gate"
+depends = [
+  "lint --all-files",
+  "fmt-check --all-files",
+  "typecheck",
+  "test",
+  "check:formatting-evidence",
+  "check:python-lock",
+]
+
+[tasks.typecheck]
+description = "Check TypeScript types"
+run = "pnpm exec tsc --noEmit"
+
+[tasks.test]
+description = "Run the offline Node and Python test suites"
+depends = ["test:node", "test:python", "test:calibration"]
+
+[tasks."test:node"]
+description = "Test commit-message validation and real Git hooks"
+run = "pnpm exec tsx --test tests/commit-message.test.ts"
+
+[tasks."test:python"]
+description = "Run the Python evaluation-runner tests"
+run = "uv run --locked --no-sync python -m unittest discover -s tests -p 'test_*.py'"
+
+[tasks."test:calibration"]
+description = "Run the documentation calibration tests"
+run = "uv run --locked --no-sync python -m unittest discover -s evals/documenting/tests -p 'test_*.py'"
+
+[tasks."check:formatting-evidence"]
+description = "Verify retained formatting evidence"
+run = "uv run --locked --no-sync python evals/formatting/verify.py"
+
+[tasks."check:python-lock"]
+description = "Check Python lockfile consistency offline"
+run = "uv lock --check --offline"
+
+[tasks."hooks:install"]
+description = "Install the commit-message Git hook"
+run = "pnpm exec lefthook install commit-msg"
+
+[tasks."validate:commit"]
+description = "Validate a commit-message file"
+raw_args = true
+run = "pnpm exec tsx scripts/validate-commit-message.ts"

@@ -17,5 +17,6 @@ Project- and directory-specific rules take precedence over this skill's defaults
 
 ## Tooling and workflow
 
-- Use the repository's existing validation commands. When configuring Lefthook, define `lint`, `fmt`, `fmt-check`, and a project-wide `check` with project-specific tools directly in its configuration. Format affected, covered files and verify the same scope; report failures and unexpected empty selections. Follow the [Lefthook reference](references/lefthook/README.md) for execution contracts and the [formatting reference](references/formatting/README.md) for formatter and editor integration.
+- Prefer [mise](references/mise/README.md) for development-tool management and task execution. Pin exact tool releases, including patch versions; keep Rust native in `rust-toolchain.toml`. Declare shared tasks in root `mise.toml`, document commands as `mise run <task>`, and use ecosystem package managers for project dependencies. Keep each tool version and workflow definition authoritative in one place.
+- Use the repository's existing validation commands. When adopting mise, expose `lint`, `fmt`, `fmt-check`, and a project-wide `check`; use [Lefthook](references/lefthook/README.md) for Git hooks and file-scoped validation. Format affected, covered files and verify the same scope; report failures and unexpected empty selections. Follow the [formatting reference](references/formatting/README.md) for formatter and editor integration.
 - Use the [Git](references/git/README.md) and [GitHub](references/github/README.md) defaults.

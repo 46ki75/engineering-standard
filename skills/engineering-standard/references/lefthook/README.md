@@ -1,32 +1,23 @@
 # Lefthook
 
-Use Lefthook's [custom hooks](https://lefthook.dev/configuration/Hook/) as the repository's unified execution interface. Define project-specific formatters and linters directly in `lefthook.yml`; use existing package managers and toolchains to provision them.
+Use Lefthook for Git hooks and file-scoped validation, with [mise](../mise/README.md) as the default public task interface. Define project-specific formatters, linters, and file selection directly in `lefthook.yml`; provision their tools before running hooks.
 
 The [consolidated upstream documentation](upstream/README.md) provides the full Lefthook v2.1.14 reference in four topic files: [installation](upstream/getting-started.md), [configuration](upstream/configuration.md), [CLI and runtime behavior](upstream/usage.md), and [examples](upstream/examples.md).
 
-## Command contracts
-
-| Hook        | Responsibility                                                    | Changes source files? |
-| ----------- | ----------------------------------------------------------------- | --------------------- |
-| `lint`      | Run the configured linters without automatic fixes                | No                    |
-| `fmt`       | Apply the configured formatting or explicitly chosen fixer policy | Yes                   |
-| `fmt-check` | Verify the same formatting policy and file scope as `fmt`         | No                    |
-| `check`     | Run `lint`, `fmt-check`, and configured project-level gates       | No                    |
-
-Type checking and any additional validation belong in `check`. Tests may be included according to project policy. Optional means selected in the configuration: every configured gate must propagate failures. Build caches are compatible with the source-read-only contract.
+The [mise task contracts](../mise/README.md#task-contracts) define `lint`, `fmt`, `fmt-check`, and project-wide `check`. The first three delegate to Lefthook custom hooks and forward their file-selection arguments.
 
 ## File selection
 
 Give each leaf hook an explicit default, normally `files: git ls-files`. A bare invocation then selects tracked files. Support repeated `--file` arguments for a targeted selection, including existing untracked files, and `--all-files` for tracked repository files:
 
 ```sh
-pnpm exec lefthook run fmt --file "src/changed.ts" --file "docs/Release Notes.md"
-pnpm exec lefthook run fmt-check --file "src/changed.ts" --file "docs/Release Notes.md"
-pnpm exec lefthook run lint --file "src/changed.ts" --file "docs/Release Notes.md"
-pnpm exec lefthook run check
+mise run fmt --file "src/changed.ts" --file "docs/Release Notes.md"
+mise run fmt-check --file "src/changed.ts" --file "docs/Release Notes.md"
+mise run lint --file "src/changed.ts" --file "docs/Release Notes.md"
+mise run check
 ```
 
-Use the repository's documented Lefthook executable. Paths should be relative to the Git root. Do not issue an empty targeted invocation: that selects the default scope. Excluded and nonmatching paths can produce successful skips; verify that expected jobs actually ran. Check that targeted paths exist: a missing path that matches a job can reach the native tool and fail instead of skipping.
+Use the repository's documented entry points; existing projects may invoke Lefthook directly. Paths should be relative to the Git root. Do not issue an empty targeted invocation: that selects the default scope. Excluded and nonmatching paths can produce successful skips; verify that expected jobs actually ran. Check that targeted paths exist: a missing path that matches a job can reach the native tool and fail instead of skipping.
 
 - Set `root:` for project-specific working directories. Globs remain repository-root-relative; file arguments are made relative to the job's root.
 - Define defaults for custom hooks explicitly, including project-scoped commands without `{files}`. The automatic staged/push-file selection of Git hooks is not a general custom-hook contract.
@@ -35,20 +26,16 @@ Use the repository's documented Lefthook executable. Paths should be relative to
 
 ## Aggregate checks
 
-Make `check` a project-wide entry point. Child Lefthook processes do not inherit the outer process's file selection, so call the leaf hooks explicitly with `--all-files`:
+Make `check` a project-wide mise task. Each Lefthook process has its own file selection, so pass `--all-files` explicitly to its leaf tasks:
 
-```yaml
-check:
-  parallel: true
-  jobs:
-    - name: lint
-      run: pnpm exec lefthook run lint --all-files
-    - name: fmt-check
-      run: pnpm exec lefthook run fmt-check --all-files
-    # Add this project's type checks and other read-only gates here.
+```toml
+[tasks.check]
+depends = ["lint --all-files", "fmt-check --all-files", "typecheck"]
 ```
 
-Use the leaf hooks for targeted runs; do not advertise `check --file` as a scoped aggregate. Changes to shared configuration, manifests, or dependencies warrant the full gate, because checking only the changed configuration file can skip affected source files.
+Configure `typecheck` and any other project-level gates in mise. The evaluated standalone Lefthook example keeps its aggregate in `lefthook.yml`; a mise task can delegate to that aggregate during adoption. Keep one authoritative aggregate definition.
+
+Use the leaf tasks for targeted runs; do not advertise `check --file` as a scoped aggregate. Changes to shared configuration, manifests, or dependencies warrant the full gate, because checking only the changed configuration file can skip affected source files.
 
 Run independent read-only jobs in parallel. Avoid concurrent formatters writing the same files. Share roots, patterns, exclusions, and tool options with YAML anchors where useful; keep the write/check command difference explicit. See the [formatting reference](../formatting/README.md) for native tool pairs and editor behavior.
 
@@ -68,10 +55,10 @@ output:
 
 Failed commands print their output and return a nonzero exit status. Successful commands' detailed output is suppressed; add `execution_out` when their stdout/stderr, including non-failing warnings, is needed. Git's and the package manager's own output are controlled separately.
 
-Use `LEFTHOOK_OUTPUT=false` for an explicitly quiet invocation, such as an agent integration that needs only failures. With pnpm scripts, `--silent` also suppresses the script header:
+Use `LEFTHOOK_OUTPUT=false` to suppress successful Lefthook summaries. Mise's `--quiet` suppresses its command announcements while retaining child diagnostics:
 
 ```sh
-LEFTHOOK_OUTPUT=false pnpm --silent check
+LEFTHOOK_OUTPUT=false mise run --quiet --output interleave fmt-check --file README.md
 ```
 
 Configuration changes can produce a one-time `sync hooks` message; run the repository's hook-install command before verifying output, or use `--no-auto-install` for isolated verification. Check skipped-job explanations when files were expected to match.

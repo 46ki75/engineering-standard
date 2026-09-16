@@ -1,6 +1,6 @@
 # Project-specific formatting
 
-Configure the project's chosen formatters directly in `lefthook.yml`. Keep formatting rules in their native configuration files and provision pinned tools through the repository's existing package managers and toolchains. The [Lefthook reference](../lefthook/README.md) defines `lint`, `fmt`, `fmt-check`, and `check`.
+Expose formatting through [mise tasks](../mise/README.md), with file selection and native formatter commands in `lefthook.yml`. Keep formatting rules in their native configuration files and provision pinned tools through the project's toolchain and package managers. The [Lefthook reference](../lefthook/README.md) defines selection and hook behavior.
 
 ## Formatter contract
 
@@ -33,7 +33,7 @@ If a project deliberately uses a linter's fixer as its formatting policy, docume
 
 Use the same native formatter, version, configuration, and ignore context in the editor. Select one formatting owner per language and verify actual saves using unsaved buffer content. A CLI-only result does not establish editor parity.
 
-Lefthook operates on filesystem paths; it is not an LSP server or a stdin-to-stdout editor formatter. Use the editor's native formatter integration for buffer formatting. An agent's after-write hook can run `fmt --file <repo-relative-path>`, followed by `fmt-check` and `lint` on the same scope. Normalize absolute paths before passing them to repository-relative globs.
+Lefthook operates on filesystem paths; it is not an LSP server or a stdin-to-stdout editor formatter. Use the editor's native formatter integration for buffer formatting. An agent's after-write hook can run `mise run fmt --file <repo-relative-path>`, followed by `fmt-check` and `lint` tasks on the same scope. Normalize absolute paths before passing them to repository-relative globs.
 
 A nonblocking save hook that suppresses formatting failures still requires explicit validation before completion. Batch changed files into one call per hook. Use the full `check` gate for changes to shared configuration or manifests that can affect otherwise untouched files.
 
