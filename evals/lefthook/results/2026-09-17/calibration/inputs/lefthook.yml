@@ -1,0 +1,76 @@
+lefthook: pnpm exec lefthook
+min_version: 2.1.14
+glob_matcher: doublestar
+output:
+  - summary
+  - success
+  - failure
+  - skips
+
+lint:
+  files: git ls-files
+  jobs:
+    - name: python
+      glob: "**/*.py"
+      exclude: "evals/**/results/**"
+      run: uv run --locked --no-sync ruff check {files}
+
+fmt:
+  files: git ls-files
+  parallel: true
+  jobs:
+    - &python-format
+      name: python
+      glob: "**/*.py"
+      exclude: "evals/**/results/**"
+      run: uv run --locked --no-sync ruff format {files}
+    - &prettier-format
+      name: prettier
+      glob: "**/*.{ts,js,cjs,mjs,json,jsonc,md,yml,yaml}"
+      # Native Prettier invocations use the same exclusions in .prettierignore.
+      exclude:
+        - "**/node_modules/**"
+        - "**/.venv/**"
+        - "pnpm-lock.yaml"
+        - "evals/**/results/**"
+        - "evals/documenting/cases/**"
+        - "evals/documenting/prompts/**"
+        - "evals/formatting/rule.md"
+        - "evals/formatting/usability-cases.json"
+        - "skills/engineering-standard/references/documenting/README.md"
+        - "skills/engineering-standard/references/formatting/dprint.example.json"
+      run: pnpm exec prettier --write {files}
+
+fmt-check:
+  files: git ls-files
+  parallel: true
+  jobs:
+    - <<: *python-format
+      run: uv run --locked --no-sync ruff format --check {files}
+    - <<: *prettier-format
+      run: pnpm exec prettier --check {files}
+
+check:
+  parallel: true
+  jobs:
+    - name: lint
+      run: pnpm exec lefthook run lint --all-files
+    - name: fmt-check
+      run: pnpm exec lefthook run fmt-check --all-files
+    - name: typecheck
+      run: pnpm --silent typecheck
+    - name: node-tests
+      run: pnpm --silent test
+    - name: python-tests
+      run: uv run --locked --no-sync python -m unittest discover -s tests -p 'test_*.py'
+    - name: calibration-tests
+      run: uv run --locked --no-sync python -m unittest discover -s evals/documenting/tests -p 'test_*.py'
+    - name: formatting-evidence
+      run: uv run --locked --no-sync python evals/formatting/verify.py
+    - name: python-lock
+      run: uv lock --check --offline
+
+commit-msg:
+  jobs:
+    - name: commit-message
+      run: pnpm --silent validate:commit "{1}"

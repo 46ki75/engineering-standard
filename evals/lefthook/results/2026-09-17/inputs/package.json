@@ -1,0 +1,25 @@
+{
+  "name": "engineering-standard",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "lint": "lefthook run lint",
+    "fmt": "lefthook run fmt",
+    "fmt-check": "lefthook run fmt-check",
+    "check": "lefthook run check",
+    "hooks:install": "lefthook install commit-msg",
+    "validate:commit": "tsx scripts/validate-commit-message.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/commit-message.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.2",
+    "lefthook": "2.1.14",
+    "prettier": "3.6.2",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,86 @@
+# Synthetic adoption fixture. Tool policy is local; routing follows the guide.
+lefthook: pnpm exec lefthook
+min_version: 2.1.14
+glob_matcher: gobwas
+output:
+  - summary
+  - success
+  - failure
+  - skips
+
+fmt:
+  files: git ls-files
+  parallel: true
+  jobs:
+    - &python
+      name: python
+      glob: ["*.py", "**/*.py"]
+      exclude: ["generated/**", "ignored/**"]
+      run: uv run --locked --no-sync ruff format {files}
+    - &web
+      name: web
+      root: packages/web/
+      glob: ["packages/web/src/*.ts", "packages/web/src/**/*.ts"]
+      exclude: ["packages/web/src/generated/**"]
+      run: pnpm exec prettier --write {files}
+    - &markdown
+      name: markdown
+      glob: ["*.md", "**/*.md"]
+      exclude: ["docs/frozen/**", "**/node_modules/**"]
+      run: pnpm exec prettier --write {files}
+    - &rust
+      name: rust
+      glob: "crates/**/*.rs"
+      run: cargo fmt --all
+
+fmt-check:
+  files: git ls-files
+  parallel: true
+  jobs:
+    - <<: *python
+      run: uv run --locked --no-sync ruff format --check {files}
+    - <<: *web
+      run: pnpm exec prettier --check {files}
+    - <<: *markdown
+      run: pnpm exec prettier --check {files}
+    - <<: *rust
+      run: cargo fmt --all -- --check
+
+lint:
+  files: git ls-files
+  parallel: true
+  jobs:
+    - <<: *python
+      run: uv run --locked --no-sync ruff check {files}
+    - name: rust
+      glob:
+        ["crates/**/*.rs", "crates/**/Cargo.toml", "Cargo.toml", "Cargo.lock"]
+      run: cargo clippy --locked --offline --workspace --all-targets -- -D warnings
+
+check:
+  parallel: true
+  jobs:
+    - name: lint
+      run: pnpm exec lefthook run lint --all-files
+    - name: fmt-check
+      run: pnpm exec lefthook run fmt-check --all-files
+    - name: typecheck
+      run: pnpm exec tsc --project packages/web --noEmit --incremental false
+    - name: tests
+      run: node --test behavior.test.mjs
+
+pre-commit:
+  parallel: true
+  jobs:
+    - <<: *web
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+    - <<: *rust
+      stage_fixed: true
+
+# Controlled output probe, separate from real-tool correctness assertions.
+output-probe:
+  files: git ls-files
+  jobs:
+    - name: output-probe
+      run: node -e "console.log('PROBE_STDOUT'); console.error('PROBE_WARNING'); process.exit(Number(process.env.PROBE_EXIT || 0))"

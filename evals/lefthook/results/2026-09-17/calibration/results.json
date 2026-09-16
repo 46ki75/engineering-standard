@@ -1,0 +1,6576 @@
+{
+  "passed": false,
+  "cases": 30,
+  "failed_cases": [
+    "skip-missing.py",
+    "committed-repository-regression"
+  ],
+  "commands": 580,
+  "assertions": 749,
+  "results": [
+    {
+      "name": "setup",
+      "assertions": [
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 0
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 1
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 2
+          }
+        },
+        {
+          "description": "Expected success: node --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 3
+          }
+        },
+        {
+          "description": "Pinned node: v24.20.0",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 4
+          }
+        },
+        {
+          "description": "Pinned pnpm: 12.4.1",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 5
+          }
+        },
+        {
+          "description": "Pinned uv: uv 0.12.9",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: cargo --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 6
+          }
+        },
+        {
+          "description": "Pinned cargo: cargo 1.98.0",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: rustc --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 7
+          }
+        },
+        {
+          "description": "Pinned rustc: rustc 1.98.0",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git init --quiet",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 8
+          }
+        },
+        {
+          "description": "Expected success: pnpm install --frozen-lockfile --ignore-scripts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 9
+          }
+        },
+        {
+          "description": "Expected success: uv sync --locked",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 10
+          }
+        },
+        {
+          "description": "Expected success: cargo generate-lockfile --offline",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 11
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 12
+          }
+        },
+        {
+          "description": "Pinned lefthook: 2.1.14",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 13
+          }
+        },
+        {
+          "description": "Pinned prettier: 3.6.2",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv run --locked --no-sync ruff --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 14
+          }
+        },
+        {
+          "description": "Pinned ruff: ruff 0.15.19",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec tsc --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 15
+          }
+        },
+        {
+          "description": "Pinned typescript: Version 7.0.2",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv run --locked --no-sync python --version",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 16
+          }
+        },
+        {
+          "description": "Pinned python: Python 3.12.",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git add .",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 17
+          }
+        },
+        {
+          "description": "Expected success: git commit --quiet -m test: initialize evaluation fixture",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 18
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 19
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "validate-and-clean-baseline",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 20
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 21
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook validate",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 22
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook dump --format json",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 23
+          }
+        },
+        {
+          "description": "Resolved configuration contains custom hooks",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 24
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 25
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 26
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run check --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 27
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 28
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 29
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 30
+          }
+        },
+        {
+          "description": "check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "name": "selection-and-native-parity-gobwas",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 31
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 32
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 33
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 34
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 35
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 36
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 37
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 38
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 39
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "bd249a1c65581452b671ea2f9e0a191700370c6fb5030ade1c991adbba737930",
+            "after": "bd249a1c65581452b671ea2f9e0a191700370c6fb5030ade1c991adbba737930",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 40
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 41
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 42
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 43
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 44
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 45
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 46
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 47
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 48
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv run --locked --no-sync ruff format root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 49
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886",
+            "delegated": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 50
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 51
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 52
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 53
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 54
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 55
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 56
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "57a48930f7a1eec1267c7797927e477b241186d439c5f47a594562af686f445b",
+            "after": "57a48930f7a1eec1267c7797927e477b241186d439c5f47a594562af686f445b",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 57
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 58
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 59
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 60
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 61
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 62
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 63
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 64
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "a83d743b2b0455d796d7e41cee5fe3ac11c6b7b808bb54671c329cdee7d669e2",
+            "after": "a83d743b2b0455d796d7e41cee5fe3ac11c6b7b808bb54671c329cdee7d669e2",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 65
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv run --locked --no-sync ruff format python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 66
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886",
+            "delegated": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 67
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 68
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 69
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 70
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 71
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 72
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 73
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "0bda9d750f9db4c5d32bcde7e1bbbad676595a68bc4eedcac9e1447fd38a8d6e",
+            "after": "0bda9d750f9db4c5d32bcde7e1bbbad676595a68bc4eedcac9e1447fd38a8d6e",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 74
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 75
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 76
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 77
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 78
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 79
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 80
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 81
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "a83d743b2b0455d796d7e41cee5fe3ac11c6b7b808bb54671c329cdee7d669e2",
+            "after": "a83d743b2b0455d796d7e41cee5fe3ac11c6b7b808bb54671c329cdee7d669e2",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 82
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 83
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5",
+            "delegated": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 84
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 85
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 86
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 87
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 88
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 89
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 90
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "29784705d0fcdedd8471251cedc0c2226b826097d36bf5938b109e70517514a9",
+            "after": "29784705d0fcdedd8471251cedc0c2226b826097d36bf5938b109e70517514a9",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 91
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 92
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 93
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 94
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 95
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 96
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 97
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 98
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "f0a02eeaeb557cb4b393373d9f7236f68896757583019747ffa4b14110e97b4a",
+            "after": "f0a02eeaeb557cb4b393373d9f7236f68896757583019747ffa4b14110e97b4a",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 99
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 100
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5",
+            "delegated": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 101
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 102
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 103
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 104
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 105
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 106
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 107
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "90c69acd66f5d9e51ac63f5d634da766af8d4b69ae94bb875c5e1f91e77a8328",
+            "after": "90c69acd66f5d9e51ac63f5d634da766af8d4b69ae94bb875c5e1f91e77a8328",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 108
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 109
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 110
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 111
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 112
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 113
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 114
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 115
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "36e57e84ccb17377c5a879bcabb22f5f8f43d7e053ef9c415fdd5acae4408b7a",
+            "after": "36e57e84ccb17377c5a879bcabb22f5f8f43d7e053ef9c415fdd5acae4408b7a",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 116
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 117
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26",
+            "delegated": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 118
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 119
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 120
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 121
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 122
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 123
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 124
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "e18aa221efd83aed0634a80471d3129dab44e31032e68b482b574f550ceb8d2b",
+            "after": "e18aa221efd83aed0634a80471d3129dab44e31032e68b482b574f550ceb8d2b",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 125
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 126
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 127
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 128
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 129
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 130
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 131
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 132
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "9144d2b343a33d529dff54f80a80442d359be75b7e05bca8e2f654b2c6ee8a47",
+            "after": "9144d2b343a33d529dff54f80a80442d359be75b7e05bca8e2f654b2c6ee8a47",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 133
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 134
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26",
+            "delegated": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26"
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ]
+    },
+    {
+      "name": "selection-and-native-parity-doublestar",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 135
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 136
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 137
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 138
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 139
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 140
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 141
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 142
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 143
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "ec6c17039e63933d7d3ac2eebe170951649a0dcb27f101bd9ee2e295051fe6f1",
+            "after": "ec6c17039e63933d7d3ac2eebe170951649a0dcb27f101bd9ee2e295051fe6f1",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 144
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 145
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 146
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 147
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 148
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 149
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 150
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 151
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "5f6f32a56e4927bfc114c1b9a2b8ff9d193ee8c307612370d3b344530f4ff3b0",
+            "after": "5f6f32a56e4927bfc114c1b9a2b8ff9d193ee8c307612370d3b344530f4ff3b0",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 152
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv run --locked --no-sync ruff format root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 153
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886",
+            "delegated": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 154
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 155
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 156
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 157
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 158
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 159
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 160
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "17ab265a32b902c99e84365c53a0577810766e003d9fb5323986e56af99c2968",
+            "after": "17ab265a32b902c99e84365c53a0577810766e003d9fb5323986e56af99c2968",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 161
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 162
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 163
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 164
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 165
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 166
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 167
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 168
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "9749590de99bfa9d3dc3be26c642c3dbb2cd3c9287c25d1ec98696f5595a675f",
+            "after": "9749590de99bfa9d3dc3be26c642c3dbb2cd3c9287c25d1ec98696f5595a675f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 169
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: uv run --locked --no-sync ruff format python/nested.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 170
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886",
+            "delegated": "585c93666fcb046b7b264d3fa73202aa2a38254ae82a4b3ba19e873c2d5a9886"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 171
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 172
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 173
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 174
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 175
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 176
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 177
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "81f66224c8c05707a9a9735ec121c587448e027bf25665bf7e648fd5f523432d",
+            "after": "81f66224c8c05707a9a9735ec121c587448e027bf25665bf7e648fd5f523432d",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 178
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 179
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 180
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 181
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 182
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 183
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 184
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 185
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "9749590de99bfa9d3dc3be26c642c3dbb2cd3c9287c25d1ec98696f5595a675f",
+            "after": "9749590de99bfa9d3dc3be26c642c3dbb2cd3c9287c25d1ec98696f5595a675f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 186
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 187
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5",
+            "delegated": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 188
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 189
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 190
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 191
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 192
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 193
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 194
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "3dfdce1bc3f171c1c10ccf40d4272fa9ca711f401085fbd28048c995eaf3ea46",
+            "after": "3dfdce1bc3f171c1c10ccf40d4272fa9ca711f401085fbd28048c995eaf3ea46",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 195
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 196
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 197
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 198
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 199
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 200
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 201
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 202
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "44277b17facda24b249388eb2d1e8e8d772b65af105b48759444420cab7a1202",
+            "after": "44277b17facda24b249388eb2d1e8e8d772b65af105b48759444420cab7a1202",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 203
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write src/nested/deep.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 204
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5",
+            "delegated": "1177b1cbdefe32e39525aac3c05b33a24a8392222cbb0eb3cd4ed3949594ddd5"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 205
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 206
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 207
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 208
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 209
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 210
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 211
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "da51bb168fda03057e75b20f644044b4f4a0333e3e5e415362065418ef8d177f",
+            "after": "da51bb168fda03057e75b20f644044b4f4a0333e3e5e415362065418ef8d177f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 212
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 213
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 214
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 215
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 216
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 217
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 218
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 219
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "3daa8ad38fbc784c1f0bdcea7ef88c8f6b73250038465ad8a3998501077447b4",
+            "after": "3daa8ad38fbc784c1f0bdcea7ef88c8f6b73250038465ad8a3998501077447b4",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 220
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 221
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26",
+            "delegated": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26"
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 222
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 223
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 224
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 225
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 226
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 227
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 228
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "79c84b014f40cd671f4c47f9827d6f99033d8d52c2cba0e302e2ae8ec06ce7b4",
+            "after": "79c84b014f40cd671f4c47f9827d6f99033d8d52c2cba0e302e2ae8ec06ce7b4",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 229
+          }
+        },
+        {
+          "description": "Formatter changes deliberately dirty input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 230
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 231
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 232
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 233
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 234
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 235
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 236
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "95a71af2d031c78854f6487d16f54f784e8a53fcb631476c30a2fa4e8c076436",
+            "after": "95a71af2d031c78854f6487d16f54f784e8a53fcb631476c30a2fa4e8c076436",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 237
+          }
+        },
+        {
+          "description": "Second format is byte-stable",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: pnpm exec prettier --write docs/nested.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 238
+          }
+        },
+        {
+          "description": "Direct native output equals delegated output",
+          "passed": true,
+          "evidence": {
+            "direct": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26",
+            "delegated": "ea1fda252dd23277d4352a6647b48246e10378e4ce5740c99da17cc5c2b59c26"
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238
+      ]
+    },
+    {
+      "name": "bare-default",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 239
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 240
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 241
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 242
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 243
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 244
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 245
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 246
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 247
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "69fb7a18bff77b228b777a681f42a7cde4575c177607b98ca01ac248b21ca645",
+            "after": "69fb7a18bff77b228b777a681f42a7cde4575c177607b98ca01ac248b21ca645",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 248
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 249
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 250
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 251
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 252
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 253
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 254
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "aebd0ed068f8baa7db21e54f5fc52effcb18f9f8295d8cf4ce61601e27f86002",
+            "after": "aebd0ed068f8baa7db21e54f5fc52effcb18f9f8295d8cf4ce61601e27f86002",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 255
+          }
+        },
+        {
+          "description": "Tracked dirty file is formatted",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Default scope excludes untracked file",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255
+      ]
+    },
+    {
+      "name": "all-files",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 256
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 257
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 258
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 259
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 260
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --all-files",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 261
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 262
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 263
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 264
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "69fb7a18bff77b228b777a681f42a7cde4575c177607b98ca01ac248b21ca645",
+            "after": "69fb7a18bff77b228b777a681f42a7cde4575c177607b98ca01ac248b21ca645",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 265
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 266
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 267
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --all-files",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 268
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 269
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 270
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 271
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "aebd0ed068f8baa7db21e54f5fc52effcb18f9f8295d8cf4ce61601e27f86002",
+            "after": "aebd0ed068f8baa7db21e54f5fc52effcb18f9f8295d8cf4ce61601e27f86002",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --all-files",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 272
+          }
+        },
+        {
+          "description": "Tracked dirty file is formatted",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Default scope excludes untracked file",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272
+      ]
+    },
+    {
+      "name": "repeated-untracked-and-unusual-paths",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 273
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 274
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 275
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 276
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 277
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file python/new ü & ' file.py --file packages/web/src/new ü & ' file.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 278
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 279
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 280
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 281
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "def3d5d613460ab87b5d4ea3bc92a6057fce3d03b6abc8f0850121ae46341d2e",
+            "after": "def3d5d613460ab87b5d4ea3bc92a6057fce3d03b6abc8f0850121ae46341d2e",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file python/new ü & ' file.py --file packages/web/src/new ü & ' file.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 282
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 283
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 284
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 285
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file python/new ü & ' file.py --file packages/web/src/new ü & ' file.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 286
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 287
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 288
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 289
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "d61ac0df5acb2cd53b094c253335388226ac1b16b73a68ab4ee3d810c213cf8b",
+            "after": "d61ac0df5acb2cd53b094c253335388226ac1b16b73a68ab4ee3d810c213cf8b",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Unusual Python path is selected",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Package-local configuration applies to unusual TypeScript path",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Repeated --file excludes unrelated tracked input",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git add -- python/new ü & ' file.py packages/web/src/new ü & ' file.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 290
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --all-files",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 291
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 292
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 293
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 294
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --all-files",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 295
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 296
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 297
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 298
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "af53ed14363345c57d5c5c5541038c0116e984c134fc869a9ab69080f9ba0845",
+            "after": "af53ed14363345c57d5c5c5541038c0116e984c134fc869a9ab69080f9ba0845",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298
+      ]
+    },
+    {
+      "name": "skip-generated/bad.py",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 299
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 300
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 301
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 302
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 303
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file generated/bad.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 304
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 305
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 306
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 307
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file generated/bad.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 308
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 309
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 310
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 311
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 312
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 313
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 314
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file generated/bad.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 315
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 316
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 317
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 318
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 319
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 320
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 321
+          }
+        },
+        {
+          "description": "Skipped invocations preserve all inputs",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321
+      ]
+    },
+    {
+      "name": "skip-ignored/bad.py",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 322
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 323
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 324
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 325
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 326
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file ignored/bad.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 327
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 328
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 329
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 330
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file ignored/bad.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 331
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 332
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 333
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 334
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 335
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 336
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 337
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file ignored/bad.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 338
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 339
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 340
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 341
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 342
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 343
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 344
+          }
+        },
+        {
+          "description": "Skipped invocations preserve all inputs",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344
+      ]
+    },
+    {
+      "name": "skip-packages/web/src/generated/bad.ts",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 345
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 346
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 347
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 348
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 349
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/generated/bad.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 350
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 351
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 352
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 353
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file packages/web/src/generated/bad.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 354
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 355
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 356
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 357
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 358
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 359
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 360
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file packages/web/src/generated/bad.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 361
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 362
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 363
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 364
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 365
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 366
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 367
+          }
+        },
+        {
+          "description": "Skipped invocations preserve all inputs",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        357,
+        358,
+        359,
+        360,
+        361,
+        362,
+        363,
+        364,
+        365,
+        366,
+        367
+      ]
+    },
+    {
+      "name": "skip-docs/frozen/bad.md",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 368
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 369
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 370
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 371
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 372
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file docs/frozen/bad.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 373
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 374
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 375
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 376
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file docs/frozen/bad.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 377
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 378
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 379
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 380
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 381
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 382
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 383
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file docs/frozen/bad.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 384
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 385
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 386
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 387
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 388
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 389
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 390
+          }
+        },
+        {
+          "description": "Skipped invocations preserve all inputs",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        368,
+        369,
+        370,
+        371,
+        372,
+        373,
+        374,
+        375,
+        376,
+        377,
+        378,
+        379,
+        380,
+        381,
+        382,
+        383,
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390
+      ]
+    },
+    {
+      "name": "skip-missing.py",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 391
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 392
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 393
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 394
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 395
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file missing.py",
+          "passed": false,
+          "evidence": {
+            "exit": 1,
+            "command": 396
+          }
+        }
+      ],
+      "passed": false,
+      "error": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file missing.py",
+      "commands": [
+        391,
+        392,
+        393,
+        394,
+        395,
+        396
+      ]
+    },
+    {
+      "name": "skip-package.json",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 397
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 398
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 399
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 400
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 401
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file package.json",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 402
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 403
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 404
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 405
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file package.json",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 406
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 407
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 408
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 409
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 410
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 411
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 412
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file package.json",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 413
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 414
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 415
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 416
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected skip is visible",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 417
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 418
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 419
+          }
+        },
+        {
+          "description": "Skipped invocations preserve all inputs",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        397,
+        398,
+        399,
+        400,
+        401,
+        402,
+        403,
+        404,
+        405,
+        406,
+        407,
+        408,
+        409,
+        410,
+        411,
+        412,
+        413,
+        414,
+        415,
+        416,
+        417,
+        418,
+        419
+      ]
+    },
+    {
+      "name": "package-context-and-manifest-trigger",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 420
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 421
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 422
+          }
+        },
+        {
+          "description": "Invocation below Git root retains repository-relative selection and local policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 423
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 424
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 425
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file Cargo.toml",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 426
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 427
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 428
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 429
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Manifest triggers project-scoped job without {files}",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 430
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 431
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 432
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run lint --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 433
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 434
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 435
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 436
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Nonmatching path does not run project-scoped job",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        420,
+        421,
+        422,
+        423,
+        424,
+        425,
+        426,
+        427,
+        428,
+        429,
+        430,
+        431,
+        432,
+        433,
+        434,
+        435,
+        436
+      ]
+    },
+    {
+      "name": "aggregate-failure-lint",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 437
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 438
+          }
+        },
+        {
+          "description": "Expected failure: uv run --locked --no-sync ruff check root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 439
+          }
+        },
+        {
+          "description": "Native command diagnoses injected defect",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 440
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 441
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 442
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 443
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 444
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 445
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 446
+          }
+        },
+        {
+          "description": "check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "d612ac865746249b1f91dc52257af2f1ec0387432303e7356cd660318b85a8c7",
+            "after": "d612ac865746249b1f91dc52257af2f1ec0387432303e7356cd660318b85a8c7",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Aggregate propagates the same failure outside outer --file selection",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        437,
+        438,
+        439,
+        440,
+        441,
+        442,
+        443,
+        444,
+        445,
+        446
+      ]
+    },
+    {
+      "name": "aggregate-failure-fmt-check",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 447
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 448
+          }
+        },
+        {
+          "description": "Expected failure: uv run --locked --no-sync ruff format --check root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 449
+          }
+        },
+        {
+          "description": "Native command diagnoses injected defect",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 450
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 451
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 452
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 453
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 454
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 455
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 456
+          }
+        },
+        {
+          "description": "check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "bd249a1c65581452b671ea2f9e0a191700370c6fb5030ade1c991adbba737930",
+            "after": "bd249a1c65581452b671ea2f9e0a191700370c6fb5030ade1c991adbba737930",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Aggregate propagates the same failure outside outer --file selection",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        447,
+        448,
+        449,
+        450,
+        451,
+        452,
+        453,
+        454,
+        455,
+        456
+      ]
+    },
+    {
+      "name": "aggregate-failure-typecheck",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 457
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 458
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec tsc --project packages/web --noEmit",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 459
+          }
+        },
+        {
+          "description": "Native command diagnoses injected defect",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 460
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 461
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 462
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 463
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 464
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 465
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 466
+          }
+        },
+        {
+          "description": "check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1fa40965d8efc1d0b44beeb2e45c780cad8ecc789ada0e5290962b953f8e785b",
+            "after": "1fa40965d8efc1d0b44beeb2e45c780cad8ecc789ada0e5290962b953f8e785b",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Aggregate propagates the same failure outside outer --file selection",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        457,
+        458,
+        459,
+        460,
+        461,
+        462,
+        463,
+        464,
+        465,
+        466
+      ]
+    },
+    {
+      "name": "aggregate-failure-tests",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 467
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 468
+          }
+        },
+        {
+          "description": "Expected failure: node --test behavior.test.mjs",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 469
+          }
+        },
+        {
+          "description": "Native command diagnoses injected defect",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 470
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 471
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 472
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run check --no-auto-install --file README.md",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 473
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 474
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 475
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 476
+          }
+        },
+        {
+          "description": "check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "2f536e6ce8113136592db4766aaa8b0dcdf282c92ffd5451cd0344198a86983b",
+            "after": "2f536e6ce8113136592db4766aaa8b0dcdf282c92ffd5451cd0344198a86983b",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Aggregate propagates the same failure outside outer --file selection",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        467,
+        468,
+        469,
+        470,
+        471,
+        472,
+        473,
+        474,
+        475,
+        476
+      ]
+    },
+    {
+      "name": "workspace-wide-formatting",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 477
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 478
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 479
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 480
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 481
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run fmt-check --no-auto-install --file crates/a/src/lib.rs",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 482
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 483
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 484
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 485
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "ff8648ffc91d186aa4778e4c589b5aa82d267b7b0974476b6b4ee5cfdb14ba6a",
+            "after": "ff8648ffc91d186aa4778e4c589b5aa82d267b7b0974476b6b4ee5cfdb14ba6a",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file crates/a/src/lib.rs",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 486
+          }
+        },
+        {
+          "description": "Cargo formatter intentionally covers unselected workspace crate",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 487
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 488
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 489
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file crates/a/src/lib.rs",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 490
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 491
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 492
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 493
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "after": "1056b91b8526615d9857d5439c23993d2fadbcd3cdabbc6619ac9794c9076b5f",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        477,
+        478,
+        479,
+        480,
+        481,
+        482,
+        483,
+        484,
+        485,
+        486,
+        487,
+        488,
+        489,
+        490,
+        491,
+        492,
+        493
+      ]
+    },
+    {
+      "name": "installed-partial-staging-success",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 494
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 495
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook install pre-commit",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 496
+          }
+        },
+        {
+          "description": "Expected success: git add -- packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 497
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 498
+          }
+        },
+        {
+          "description": "Expected success: git commit -m test: exercise installed pre-commit",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 499
+          }
+        },
+        {
+          "description": "Installed pre-commit actually executes formatter",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git show :packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 500
+          }
+        },
+        {
+          "description": "Unstaged content stays outside index",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Unstaged content survives hook exactly",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Unstaged-only file is not formatted",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 501
+          }
+        },
+        {
+          "description": "Commit succeeds or is blocked as expected",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Formatted staged content enters commit",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        494,
+        495,
+        496,
+        497,
+        498,
+        499,
+        500,
+        501
+      ]
+    },
+    {
+      "name": "installed-partial-staging-failure",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 502
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 503
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook install pre-commit",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 504
+          }
+        },
+        {
+          "description": "Expected success: git add -- packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 505
+          }
+        },
+        {
+          "description": "Expected success: git add -- packages/web/src/broken.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 506
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 507
+          }
+        },
+        {
+          "description": "Expected failure: git commit -m test: exercise installed pre-commit",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 508
+          }
+        },
+        {
+          "description": "Installed pre-commit actually executes formatter",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git show :packages/web/src/top.ts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 509
+          }
+        },
+        {
+          "description": "Unstaged content stays outside index",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Unstaged content survives hook exactly",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Unstaged-only file is not formatted",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 510
+          }
+        },
+        {
+          "description": "Commit succeeds or is blocked as expected",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Failed commit preserves parser diagnostic",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        502,
+        503,
+        504,
+        505,
+        506,
+        507,
+        508,
+        509,
+        510
+      ]
+    },
+    {
+      "name": "output-default",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 511
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 512
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run output-probe --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 513
+          }
+        },
+        {
+          "description": "Successful stdout follows verbosity policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Successful stderr follows verbosity policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Quiet mode or success summary behaves as documented",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run output-probe --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 514
+          }
+        },
+        {
+          "description": "Failure diagnostics survive verbosity override",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        511,
+        512,
+        513,
+        514
+      ]
+    },
+    {
+      "name": "output-quiet",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 515
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 516
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run output-probe --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 517
+          }
+        },
+        {
+          "description": "Successful stdout follows verbosity policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Successful stderr follows verbosity policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Quiet mode or success summary behaves as documented",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run output-probe --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 518
+          }
+        },
+        {
+          "description": "Failure diagnostics survive verbosity override",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        515,
+        516,
+        517,
+        518
+      ]
+    },
+    {
+      "name": "output-verbose",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 519
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 520
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run output-probe --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 521
+          }
+        },
+        {
+          "description": "Successful stdout follows verbosity policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Successful stderr follows verbosity policy",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Quiet mode or success summary behaves as documented",
+          "passed": true,
+          "evidence": null
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run output-probe --no-auto-install",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 522
+          }
+        },
+        {
+          "description": "Failure diagnostics survive verbosity override",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        519,
+        520,
+        521,
+        522
+      ]
+    },
+    {
+      "name": "mutation-wrong-glob",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 523
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 524
+          }
+        },
+        {
+          "description": "Expected failure: uv run --locked --no-sync ruff format --check root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 525
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 526
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 527
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 528
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 529
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 530
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 531
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 532
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "a769de51f4f16f1af1052684d34a19ce7eb58141a5902c270e502fe1de5ff6b5",
+            "after": "a769de51f4f16f1af1052684d34a19ce7eb58141a5902c270e502fe1de5ff6b5",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Selection oracle detects false success caused by bad glob",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        523,
+        524,
+        525,
+        526,
+        527,
+        528,
+        529,
+        530,
+        531,
+        532
+      ]
+    },
+    {
+      "name": "mutation-scope-mismatch",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 533
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 534
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 535
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 536
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 537
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 538
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 539
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 540
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 541
+          }
+        },
+        {
+          "description": "fmt-check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "2244a688670a65adbd72832aebc0f56cc72782fae324450a686558270ed9df95",
+            "after": "2244a688670a65adbd72832aebc0f56cc72782fae324450a686558270ed9df95",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 542
+          }
+        },
+        {
+          "description": "Write/check parity oracle detects skipped dirty input",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        533,
+        534,
+        535,
+        536,
+        537,
+        538,
+        539,
+        540,
+        541,
+        542
+      ]
+    },
+    {
+      "name": "mutation-suppressed-failure",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 543
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 544
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 545
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 546
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 547
+          }
+        },
+        {
+          "description": "Expected failure: pnpm exec lefthook run lint --no-auto-install --all-files",
+          "passed": true,
+          "evidence": {
+            "exit": 1,
+            "command": 548
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 549
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 550
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 551
+          }
+        },
+        {
+          "description": "lint preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "69e91107853f14c26ad5b074bd9e2e13b12f5504fb8e98a222d32133b394677c",
+            "after": "69e91107853f14c26ad5b074bd9e2e13b12f5504fb8e98a222d32133b394677c",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 552
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 553
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 554
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run check --no-auto-install --job lint",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 555
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 556
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 557
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 558
+          }
+        },
+        {
+          "description": "check preserves source and index",
+          "passed": true,
+          "evidence": {
+            "before": "69e91107853f14c26ad5b074bd9e2e13b12f5504fb8e98a222d32133b394677c",
+            "after": "69e91107853f14c26ad5b074bd9e2e13b12f5504fb8e98a222d32133b394677c",
+            "changed_files": []
+          }
+        },
+        {
+          "description": "Leaf/aggregate exit comparison detects suppressed failure",
+          "passed": true,
+          "evidence": null
+        }
+      ],
+      "passed": true,
+      "commands": [
+        543,
+        544,
+        545,
+        546,
+        547,
+        548,
+        549,
+        550,
+        551,
+        552,
+        553,
+        554,
+        555,
+        556,
+        557,
+        558
+      ]
+    },
+    {
+      "name": "mutation-mutating-check",
+      "assertions": [
+        {
+          "description": "Expected success: git reset --hard de21f79b3cde4fe67e8672d4415bacc4fc78207d",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 559
+          }
+        },
+        {
+          "description": "Expected success: git clean -fd",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 560
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 561
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 562
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 563
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook run fmt-check --no-auto-install --file root.py",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 564
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 565
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 566
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 567
+          }
+        },
+        {
+          "description": "Source hash oracle detects a mutating check",
+          "passed": true,
+          "evidence": {
+            "before": "aa69603b1cf7e6339fb0ef52f845844612653f4fb533d29a2eb4b9f54f2cf62a",
+            "after": "17f0684b57204aa018bddbced0a9d66f594c58c61f3245ea872a000e5fd3ee27"
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        559,
+        560,
+        561,
+        562,
+        563,
+        564,
+        565,
+        566,
+        567
+      ]
+    },
+    {
+      "name": "committed-repository-regression",
+      "assertions": [
+        {
+          "description": "Expected success: git clone --quiet --no-hardlinks $SOURCE $RUN/engineering-standard-regression",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 568
+          }
+        },
+        {
+          "description": "Expected success: git checkout --detach 1d6394f9f0af067ea558fa7116bf82ca386894df",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 569
+          }
+        },
+        {
+          "description": "Expected success: pnpm install --frozen-lockfile --ignore-scripts",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 570
+          }
+        },
+        {
+          "description": "Expected success: uv sync --locked",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 571
+          }
+        },
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 572
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 573
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 574
+          }
+        },
+        {
+          "description": "Expected success: pnpm exec lefthook validate",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 575
+          }
+        },
+        {
+          "description": "Expected success: pnpm --silent check",
+          "passed": false,
+          "evidence": {
+            "exit": 1,
+            "command": 576
+          }
+        }
+      ],
+      "passed": false,
+      "error": "Expected success: pnpm --silent check",
+      "commands": [
+        568,
+        569,
+        570,
+        571,
+        572,
+        573,
+        574,
+        575,
+        576
+      ]
+    },
+    {
+      "name": "original-source-preservation",
+      "assertions": [
+        {
+          "description": "Expected success: git diff --cached --binary",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 577
+          }
+        },
+        {
+          "description": "Expected success: git status --porcelain=v1 -z",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 578
+          }
+        },
+        {
+          "description": "Expected success: git rev-parse HEAD",
+          "passed": true,
+          "evidence": {
+            "exit": 0,
+            "command": 579
+          }
+        },
+        {
+          "description": "Original repository content, HEAD, status, and index preserved",
+          "passed": true,
+          "evidence": {
+            "before": "e04040fa2953dd46546ee0def84ef3e595bfe6e5e80de7209bf09fb3e46533a6",
+            "after": "e04040fa2953dd46546ee0def84ef3e595bfe6e5e80de7209bf09fb3e46533a6",
+            "changed_files": []
+          }
+        }
+      ],
+      "passed": true,
+      "commands": [
+        577,
+        578,
+        579
+      ]
+    }
+  ]
+}

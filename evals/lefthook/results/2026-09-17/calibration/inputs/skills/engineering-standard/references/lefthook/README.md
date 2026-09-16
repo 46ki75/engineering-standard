@@ -26,7 +26,7 @@ pnpm exec lefthook run lint --file "src/changed.ts" --file "docs/Release Notes.m
 pnpm exec lefthook run check
 ```
 
-Use the repository's documented Lefthook executable. Paths should be relative to the Git root. Do not issue an empty targeted invocation: that selects the default scope. Excluded and nonmatching paths can produce successful skips; verify that expected jobs actually ran. Check that targeted paths exist: a missing path that matches a job can reach the native tool and fail instead of skipping.
+Use the repository's documented Lefthook executable. Paths should be relative to the Git root. Do not issue an empty targeted invocation: that selects the default scope. Missing, excluded, and nonmatching paths can produce successful skips; verify that expected jobs actually ran.
 
 - Set `root:` for project-specific working directories. Globs remain repository-root-relative; file arguments are made relative to the job's root.
 - Define defaults for custom hooks explicitly, including project-scoped commands without `{files}`. The automatic staged/push-file selection of Git hooks is not a general custom-hook contract.
@@ -80,6 +80,6 @@ Configuration changes can produce a one-time `sync hooks` message; run the repos
 
 Validate and inspect the resolved configuration with `lefthook validate` and `lefthook dump`. Exercise actual commands on representative files, including root-level/nested paths, spaces, explicit untracked files, exclusions, and empty selections. Check formatter idempotence, read-only check behavior, failure propagation through `check`, and correct project context. Report existing repository failures separately from hook-routing failures.
 
-The [verified example](lefthook.example.yml) uses `46ki75/internal`'s layout and tool choices. Adapt its paths, exclusions, and gates to the target project. The [evaluations](../../../../evals/lefthook/README.md) cover a disposable guide-derived fixture on Lefthook 2.1.14 and the earlier `internal` integration, including its existing source-quality failures.
+The [verified example](lefthook.example.yml) uses `46ki75/internal`'s layout and tool choices. Adapt its paths, exclusions, and gates to the target project. The [evaluation](../../../../evals/lefthook/README.md) records successful routing checks and the existing source-quality failures reported by the full gate.
 
 Primary references: [file selection and CLI overrides](https://lefthook.dev/usage/commands/run/), [files](https://lefthook.dev/configuration/files-global/), [globs](https://lefthook.dev/configuration/glob/), [root](https://lefthook.dev/configuration/root/), and [stage_fixed](https://lefthook.dev/configuration/stage_fixed/).
