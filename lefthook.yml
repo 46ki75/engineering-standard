@@ -1,4 +1,5 @@
 lefthook: pnpm exec lefthook
+output: false
 
 commit-msg:
   jobs:
