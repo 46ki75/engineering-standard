@@ -2,6 +2,8 @@
 
 Use Lefthook's [custom hooks](https://lefthook.dev/configuration/Hook/) as the repository's unified execution interface. Define project-specific formatters and linters directly in `lefthook.yml`; use existing package managers and toolchains to provision them.
 
+The [consolidated upstream documentation](upstream/README.md) provides the full Lefthook v2.1.14 reference in four topic files: [installation](upstream/getting-started.md), [configuration](upstream/configuration.md), [CLI and runtime behavior](upstream/usage.md), and [examples](upstream/examples.md).
+
 ## Command contracts
 
 | Hook        | Responsibility                                                    | Changes source files? |
