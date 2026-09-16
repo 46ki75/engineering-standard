@@ -1,0 +1,76 @@
+{
+  "design": "One paired, text-only command-planning probe over eight independently generated scenarios. The rule was frozen before scenario generation. Both participants read only the scenario file and returned plans; they did not execute commands.",
+  "cases": "../../usability-cases.json",
+  "candidate": "../../rule.md",
+  "generator_task": "ses_f580d230fffevhhyTVxNzZHd7E",
+  "baseline_task": "ses_f5807e9c1ffee4Bfni2XY0ZnoF",
+  "candidate_task": "ses_f5807e9b8ffe8RMBZ2pENC6HhQ",
+  "model_control": "Host-managed general-agent sessions. The task interface did not expose independently pinned model/provider parameters or generation usage.",
+  "record_type": "Host-extracted command observations from the retained task responses; complete responses remain in those sessions.",
+  "observations": [
+    {
+      "id": "scoped-formatting-dirty-files",
+      "workdir": "/work/checkout",
+      "baseline_commands": ["dprint fmt \"src/cart.ts\" \"docs/cart.md\""],
+      "candidate_commands": ["dprint fmt src/cart.ts docs/cart.md", "dprint check src/cart.ts docs/cart.md"],
+      "both_preserve_unrelated_edits": true
+    },
+    {
+      "id": "quoted-file-paths",
+      "workdir": "/work/storefront",
+      "baseline_commands": ["dprint fmt \"src/order & payment.ts\" \"docs/Release Notes.md\""],
+      "candidate_commands": ["dprint fmt \"src/order & payment.ts\" \"docs/Release Notes.md\"", "dprint check \"src/order & payment.ts\" \"docs/Release Notes.md\""],
+      "both_quote_paths_correctly": true
+    },
+    {
+      "id": "excluded-generated-output",
+      "workdir": "/work/schema-kit",
+      "baseline_commands": ["dprint fmt \"tools/schema.ts\""],
+      "candidate_commands": ["dprint fmt tools/schema.ts", "dprint check tools/schema.ts"],
+      "both_preserve_generated_output": true
+    },
+    {
+      "id": "formatter-failure-after-partial-progress",
+      "workdir": "/work/billing",
+      "baseline_commands": ["dprint fmt \"src/invoice.ts\" \"src/totals.ts\""],
+      "candidate_commands": ["dprint fmt src/invoice.ts src/totals.ts", "dprint check src/invoice.ts src/totals.ts"],
+      "both_require_fix_and_successful_rerun": true
+    },
+    {
+      "id": "unexpected-exit-14-no-files",
+      "workdir": "/work/payments",
+      "baseline_commands": ["dprint fmt \"src/payments/settlement.ts\""],
+      "candidate_commands": ["dprint fmt src/payments/settlement.ts", "dprint check src/payments/settlement.ts"],
+      "both_reject_empty_selection_as_success": true
+    },
+    {
+      "id": "formatting-and-independent-lint-failure",
+      "workdir": "/work/dashboard",
+      "baseline_commands": [],
+      "candidate_commands": ["dprint check src/widgets/Counter.ts"],
+      "both_report_preexisting_lint_failure": true
+    },
+    {
+      "id": "project-directory-and-wrapper",
+      "workdir": "/work/atlas",
+      "baseline_commands": ["./scripts/format-files \"src/invoices.ts\""],
+      "candidate_commands": ["./scripts/format-files src/invoices.ts"],
+      "both_use_required_wrapper": true,
+      "candidate_check_plan": "Inspect the documented pinned check interface before selecting an exact command; do not substitute the global executable or invent wrapper flags."
+    },
+    {
+      "id": "failed-save-unsaved-edits",
+      "workdir": "/work/accounts",
+      "baseline_commands": ["dprint fmt \"src/profile.ts\""],
+      "candidate_commands": ["dprint fmt src/profile.ts", "dprint check src/profile.ts"],
+      "both_require_confirmed_save_before_formatting": true
+    }
+  ],
+  "summary": {
+    "baseline_explicit_check_commands": 0,
+    "candidate_explicit_check_commands": 7,
+    "candidate_requires_resolving_pinned_check_interface": 1,
+    "scope_or_reporting_violations_observed": 0,
+    "interpretation": "The short rule elicited the intended same-scope check step in this probe. One paired session and eight dependent textual responses do not establish general tool-use reliability or statistical superiority."
+  }
+}

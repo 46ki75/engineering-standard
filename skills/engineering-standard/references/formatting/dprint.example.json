@@ -1,0 +1,51 @@
+{
+  "incremental": false,
+  "includes": [
+    "**/*.md",
+    "crates/**/*.rs",
+    "packages/web-solid/src/**/*.{ts,tsx,css}",
+    "python/**/*.py",
+    "terraform/**/*.tf"
+  ],
+  "excludes": [
+    "**/node_modules/**",
+    "**/target/**",
+    "**/.venv/**",
+    "**/.git/**",
+    ".agents/**",
+    ".claude/**",
+    "notes/**",
+    "CLAUDE.md",
+    "packages/web-solid/src/openapi/schema.ts",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
+  ],
+  "exec": {
+    "cwd": "${configDir}",
+    "commands": [
+      {
+        "command": "rustfmt --edition 2024",
+        "exts": ["rs"]
+      },
+      {
+        "command": "node packages/web-solid/node_modules/prettier/bin/prettier.cjs --stdin-filepath \"{{{file_path}}}\" --ignore-path packages/web-solid/.prettierignore",
+        "exts": ["ts", "tsx", "css"]
+      },
+      {
+        "command": "node packages/web-solid/node_modules/prettier/bin/prettier.cjs --stdin-filepath \"{{{file_path}}}\"",
+        "exts": ["md"]
+      },
+      {
+        "command": "uv run --locked --no-sync ruff format --stdin-filename \"{{{file_path}}}\" -",
+        "exts": ["py"]
+      },
+      {
+        "command": "terraform fmt -",
+        "exts": ["tf"]
+      }
+    ]
+  },
+  "plugins": [
+    "https://plugins.dprint.dev/exec-0.7.3.json@a7898d5f1897e77bff474cec3d948c3ec3a7f455e32de2cc60c8adb9a5dd24aa"
+  ]
+}

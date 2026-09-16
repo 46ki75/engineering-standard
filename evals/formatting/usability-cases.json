@@ -1,0 +1,34 @@
+[
+  {
+    "id": "scoped-formatting-dirty-files",
+    "scenario": "In /work/checkout, the agent has edited src/cart.ts and docs/cart.md to implement the requested cart behavior. Before the task, src/search.ts and docs/roadmap.md already contained unrelated user edits. All four files now appear modified. The repository’s dprint configuration uses the exec plugin to invoke its installed formatter for TypeScript and Markdown. Running dprint fmt without paths formats every eligible repository file; supplying paths limits formatting to those files. The formatter is available, and neither task file is excluded. The agent is ready to perform final formatting."
+  },
+  {
+    "id": "quoted-file-paths",
+    "scenario": "The agent is working in /work/storefront and has edited exactly two files: src/order & payment.ts and docs/Release Notes.md. The execution interface accepts a shell command string and a working-directory field. The repository configures dprint’s exec plugin to format both extensions, and both files are included. The command dprint fmt accepts multiple file paths as separate positional arguments. No unrelated files need formatting. The requested changes have been saved successfully, and the next step is to invoke the formatter on these two files."
+  },
+  {
+    "id": "excluded-generated-output",
+    "scenario": "In /work/schema-kit, the agent changed tools/schema.ts and regenerated src/generated/api.ts as requested. Both saved files are intentional task changes. The dprint configuration uses the exec plugin for TypeScript but explicitly excludes src/generated/**. The repository documentation says generated API files must retain the generator’s output exactly; their formatting belongs to the generator, and no separate formatting step is required. The generator completed successfully. tools/schema.ts is included in dprint’s scope. The agent is now checking formatting before reporting completion."
+  },
+  {
+    "id": "formatter-failure-after-partial-progress",
+    "scenario": "In /work/billing, the agent edited and saved src/invoice.ts and src/totals.ts. dprint uses its exec plugin to run the installed TypeScript formatter. A scoped formatting invocation changes src/invoice.ts, then exits 1 because src/totals.ts has an unterminated string at line 42. Inspection confirms that the agent introduced this typo while changing an error message; the intended message is specified in the task. Both files are included by the configuration. There are no dependency or environment errors, and the agent can correct the typo."
+  },
+  {
+    "id": "unexpected-exit-14-no-files",
+    "scenario": "In /work/payments, the task renamed src/payments/legacy.ts to src/payments/settlement.ts and updated its contents. The new file is saved, and the old path no longer exists. The repository’s dprint configuration uses the exec plugin for src/**/*.ts, including the new path. The agent mistakenly runs dprint fmt src/payments/legacy.ts from the repository root. It exits 14 with a message that no files were found. In this repository, exit 14 indicates an empty selection, not successful formatting. No other files were edited, and the rename is intentional."
+  },
+  {
+    "id": "formatting-and-independent-lint-failure",
+    "scenario": "In /work/dashboard, the agent changed only src/widgets/Counter.ts. The configured dprint exec formatter successfully formats that saved file and exits 0. The repository also requires npm run lint, which exits 1 for an unused variable in src/legacy/importer.ts. A recorded lint run from immediately before the task shows the identical diagnostic at the identical location. The legacy file has no task changes, and the user requested only the counter fix. Both command results are available when the agent prepares its completion report."
+  },
+  {
+    "id": "project-directory-and-wrapper",
+    "scenario": "The repository is /work/atlas, but the execution interface defaults to /work. The agent edited and saved /work/atlas/src/invoices.ts. Repository documentation requires ./scripts/format-files, which forwards supplied paths to a pinned dprint executable and prepares the environment for its exec plugin. Arguments are relative to the repository root, and the wrapper must run there. A globally installed dprint is a different version. An attempted dprint fmt atlas/src/invoices.ts from /work exits 1 because no configuration is found. The execution interface provides a working-directory field, and the wrapper is executable."
+  },
+  {
+    "id": "failed-save-unsaved-edits",
+    "scenario": "In /work/accounts, the agent changed src/profile.ts in an editor buffer. Saving failed because another process temporarily held a write lock, so the disk still contains the original file. The agent then ran dprint fmt src/profile.ts; it exited 0 using the repository’s configured exec formatter. The editor still marks the intended changes as unsaved. The lock has now been released, writes are permitted, and the buffer remains intact. No other files were edited. The user’s requested behavior exists only in the buffer when the agent notices the failed save."
+  }
+]

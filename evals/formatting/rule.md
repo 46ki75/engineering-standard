@@ -1,0 +1,1 @@
+When a repository uses dprint, format affected, covered files with `dprint fmt` and verify the same scope with `dprint check`. Report failures and unexpected empty selections. Follow the formatting reference when configuring integrations.

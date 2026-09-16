@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "source_repository": "https://github.com/46ki75/internal",
+  "source_commit": "8af4521c5ff8ab4d254e0d956c0097274a0f37ae",
+  "versions": {
+    "dprint": "dprint 0.57.4",
+    "node": "v24.20.0",
+    "pnpm": "9.12.3",
+    "rustfmt": "rustfmt 1.8.0-stable (254b59607d 2026-01-19)",
+    "cargo": "cargo 1.93.0 (083ac5135 2025-12-15)",
+    "ruff": "ruff 0.15.19",
+    "terraform": "Terraform v1.16.2\non darwin_arm64",
+    "prettier": "3.6.2"
+  },
+  "editor_versions": {
+    "nvim": "NVIM v0.12.5",
+    "vscode": [
+      "1.137.0",
+      "645f29cc3176500b4b5762ba887cf2a7f0ffdf2c",
+      "arm64"
+    ]
+  },
+  "nvim_plugin_commits": {
+    "LazyVim": "999700997f72227187d49d8b92667183dc7fc809",
+    "lazy.nvim": "85c7ff3711b730b4030d03144f6db6375044ae82",
+    "conform.nvim": "016802de402556da54c36bd7359b441266b01cdd"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "hardware": [
+    "Mac17,9",
+    "Apple M5 Pro",
+    "51539607552"
+  ],
+  "plugin": "https://plugins.dprint.dev/exec-0.7.3.json@a7898d5f1897e77bff474cec3d948c3ec3a7f455e32de2cc60c8adb9a5dd24aa",
+  "downloads": {
+    "https://registry.npmjs.org/pnpm/-/pnpm-9.12.3.tgz": "24235772cc4ac82a62627cd47f834c72667a2ce87799a846ec4e8e555e2d4b8b",
+    "https://plugins.dprint.dev/exec-0.7.3.json": "a7898d5f1897e77bff474cec3d948c3ec3a7f455e32de2cc60c8adb9a5dd24aa",
+    "https://releases.hashicorp.com/terraform/1.16.2/terraform_1.16.2_darwin_arm64.zip": "7c0a0b31c8aa541351369bcf7b62a7289fbc21de7e577669aeba6d42f4e6cc41",
+    "https://releases.hashicorp.com/terraform/1.16.2/terraform_1.16.2_SHA256SUMS": "94f43087c239ab6958e37cf063f1326733e553a90cd326d0a1ade5d6ce853fa0"
+  },
+  "configuration": {
+    "incremental": false,
+    "includes": [
+      "**/*.md",
+      "crates/**/*.rs",
+      "packages/web-solid/src/**/*.{ts,tsx,css}",
+      "python/**/*.py",
+      "terraform/**/*.tf",
+      ".format-eval/**/*"
+    ],
+    "excludes": [
+      "**/node_modules/**",
+      "**/target/**",
+      "**/.git/**",
+      ".agents/**",
+      ".claude/**",
+      "notes/**",
+      "CLAUDE.md",
+      "packages/web-solid/src/openapi/schema.ts",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+      ".format-eval/ignored/**"
+    ],
+    "exec": {
+      "cwd": "${configDir}",
+      "commands": [
+        {
+          "command": "rustfmt --edition 2024",
+          "exts": [
+            "rs"
+          ]
+        },
+        {
+          "command": "node packages/web-solid/node_modules/prettier/bin/prettier.cjs --stdin-filepath \"{{{file_path}}}\" --ignore-path packages/web-solid/.prettierignore",
+          "exts": [
+            "ts",
+            "tsx",
+            "css"
+          ]
+        },
+        {
+          "command": "node packages/web-solid/node_modules/prettier/bin/prettier.cjs --stdin-filepath \"{{{file_path}}}\"",
+          "exts": [
+            "md",
+            "mdx"
+          ]
+        },
+        {
+          "command": "ruff format --stdin-filename \"{{{file_path}}}\" -",
+          "exts": [
+            "py"
+          ]
+        },
+        {
+          "command": "terraform fmt -",
+          "exts": [
+            "tf"
+          ]
+        }
+      ]
+    },
+    "plugins": [
+      "https://plugins.dprint.dev/exec-0.7.3.json@a7898d5f1897e77bff474cec3d948c3ec3a7f455e32de2cc60c8adb9a5dd24aa"
+    ]
+  },
+  "source_configuration_sha256": {
+    "package.json": "e2771065e49cd19f130ae44901bf52e7562a8d768114cc6585d9c3ba09ac9ca7",
+    "pnpm-lock.yaml": "e114864bbec9faa1b3b9edc95d4cac8b3c11061cbe7a95367fd627f62b36217f",
+    "Cargo.toml": "582ef7179f0d17e6b0b4bdd5a9e11c43d3335101a3449bf3e1b611186aeb3b09",
+    "Cargo.lock": "b5495605855b31e134f3c3e93fb4c3fdde87ca87a8c7b5b291700fdd8c7d5557",
+    "rust-toolchain.toml": "13c7a04b22cab7c3c64b0a5843243da1ef6e9f1c526eb7f69b405a27541a2a3e",
+    "pyproject.toml": "e290c2e03f0e520d7d0f8401924c7fe3ae8d6ca722d97f8dfbacf5bd9078b193",
+    "uv.lock": "bffbf1ec57cd55099ca3906f959464cf5da1cbd0ece75a6536af9dc907d2e568",
+    "packages/web-solid/package.json": "d5807fd396f0899e21bbf41a3f529931fb1ce3a0442aa3f793b0970451d47806",
+    "packages/web-solid/.prettierignore": "aac87f6f8759828986ca940f21e502de990c4206bccd54aeda966d947e6ad9fe",
+    ".markdownlint-cli2.yaml": "f8e3bb63ad5a2d64bc6e5ca380ba5bdf5d709d50685f05fec8329e07f7042321",
+    "lefthook.yml": "a96cc56fa5373850c7d8ddc619202f54a91a1f5af525ef376519c58837a34674"
+  },
+  "harness_sha256": {
+    "run.py": "79752a7c7895c69d7db928f5888bc3a61364c4a714309285972b3d72cc8df003",
+    "harness.py": "9d18a42d3851cf8c4a57a076c9004faded341d9231b2f9e87b53d29fd39ecc8b",
+    "rule.md": "5bf5ac49ce04563bbafe5ecc9d5809787b26ef3afa21db58d06d78f304673175",
+    "usability-cases.json": "6b39e031e29c704a0b7c8e93fa7aa839810682202c8404daa4dea643f37ff78a",
+    "export.py": "72328e259c83300f730e28d94680d307b7b6d92e0507984627500ec7b007deaa",
+    "vscode_save.cjs": "9689a8446a0801247998505f3e5f1ef416fea1bd019b8d27a5b03abc8048b6e1",
+    "extensions.py": "194361ffb3203022c687f6f3c1b7707692c87f02b1bee0e122291040da4efbab",
+    "experiments.py": "f212c258fe4bcc751dfb4801d3557fa3245a8c34013bdfc3089c3623defc23fd",
+    "nvim_save.lua": "cace3c37eb4028d7ae9a6460ed8814ecdb32dc3dd20f5dc81801e6c613744620",
+    "verify.py": "8c846378798f5a07b035be9c849acd75b5ca3f3fe0dcd087ef24273027c6caa1",
+    "integrations.py": "cc613fdff7455c24f422c44556750881190bab14bd8e3a671129d80dfcf4374d"
+  },
+  "artifact_sha256": {
+    "evidence.json": "a94872f943c5d6ae6e7cc1b84b3d7efe8fba2b56a2acfedf02711c178b7d025d",
+    "summary.json": "ee2f54c367e45e149ec089312306055823330439a20c08ebcbc8e1d2a9584780",
+    "corpus.json": "1cae513172648681571ea18737d7d6f39cdea174e1cbad8430e93b8a0f90d8cf",
+    "timings.csv": "cf5af846d9a86726595db184c4e18a6e6f775eda20cf4c27ca8c1d3fd6d6e02e",
+    "usability.json": "b0fef84382915eb505b2aee4af7e2689c17b32761e00479c0ccbd65adda2511b"
+  },
+  "calibration_artifact_sha256": {
+    "editors-attempt-2.json": "7eeebc8470e90f2015de62d838e138de60391b6f13957454cbb32387ce57da2e",
+    "editors-pilot-1.json": "af7bce50bf03a322fea6e79a55cade0e9993f9ee0e75b6c59e75229852265ffe",
+    "editors-pilot-2.json": "b5c1d44dc4a9c7c4805cbda9fe7601b937fb0c7183fd28cd0577c6aedf515e95",
+    "pilot-attempt-1.json": "ab82aab325edc040bbc209cce70df17ef9d30d9f634b8c7a9d719a3e08596248",
+    "editors-attempt-1.json": "3b95b3f14938156282bd29e5d4bd90748ad61760a567f5db1b651b77906b277e"
+  },
+  "limitations": [
+    "One macOS arm64 host; no Windows/Linux execution.",
+    "CLI/Neovim/VScode save trials use real formatters; Neovim runs headless with the UIEnter startup event explicitly fired.",
+    "VS Code uses formatting-focused isolated profiles; its full personal extension set was not copied.",
+    "Combined-save cancellation is a reproduced observation; the responsible extension was not isolated.",
+    "Agent usability trials are text-only command planning, not autonomous tool-use or a statistical efficacy study."
+  ]
+}

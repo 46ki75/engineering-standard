@@ -1,0 +1,677 @@
+{
+  "decision": "Adopt conditional workflow guidance and a minimal stdin-only configuration pattern; unconditional exec rollout fails process-lifecycle and combined-save gates.",
+  "corpus": {
+    "counts": {
+      ".rs": 111,
+      ".md": 14,
+      ".py": 15,
+      ".tf": 18,
+      ".tsx": 68,
+      ".css": 35,
+      ".ts": 22
+    },
+    "files": 283,
+    "changed": 22,
+    "mismatches": [],
+    "errors": [],
+    "non_idempotent": [],
+    "check_preserved": true,
+    "bulk_matches_stdin": true,
+    "bulk_idempotent": true
+  },
+  "project_files": 263,
+  "synthetic_files": 20,
+  "check_before_exit": 20,
+  "check_after_exit": 0,
+  "behavior": {
+    "probes": 22,
+    "unexpected_results": [
+      "signal-visible"
+    ],
+    "cache_agreement": {
+      "no-keys": false,
+      "keys": true,
+      "disabled": true
+    },
+    "timeout_child_alive": true,
+    "timeout_child_completed": true
+  },
+  "hooks": {
+    "cases": [
+      {
+        "arm": "original",
+        "case": "per-file",
+        "formatted": true
+      },
+      {
+        "arm": "original",
+        "case": "partially-staged",
+        "index_formatted": true,
+        "unstaged_not_in_index": true,
+        "unstaged_preserved_in_worktree": true
+      },
+      {
+        "arm": "original",
+        "case": "agent-hook-invalid-input",
+        "failure_hidden_by_hook": true
+      },
+      {
+        "arm": "dprint",
+        "case": "per-file",
+        "formatted": true
+      },
+      {
+        "arm": "dprint",
+        "case": "partially-staged",
+        "index_formatted": true,
+        "unstaged_not_in_index": true,
+        "unstaged_preserved_in_worktree": true
+      },
+      {
+        "arm": "dprint",
+        "case": "agent-hook-invalid-input",
+        "failure_hidden_by_hook": true
+      }
+    ]
+  },
+  "compatibility": {
+    "checks": {
+      "rust-format": {
+        "original": 0,
+        "formatted": 0
+      },
+      "rust-clippy": {
+        "original": 0,
+        "formatted": 0
+      },
+      "rust-tests": {
+        "original": 0,
+        "formatted": 0
+      },
+      "web-format": {
+        "original": 0,
+        "formatted": 0
+      },
+      "web-eslint": {
+        "original": 0,
+        "formatted": 0
+      },
+      "web-stylelint": {
+        "original": 2,
+        "formatted": 2
+      },
+      "web-types": {
+        "original": 0,
+        "formatted": 0
+      },
+      "web-tests": {
+        "original": 0,
+        "formatted": 0
+      },
+      "python-format": {
+        "original": 1,
+        "formatted": 0
+      },
+      "python-lint": {
+        "original": 0,
+        "formatted": 0
+      },
+      "terraform-format": {
+        "original": 0,
+        "formatted": 0
+      },
+      "markdown-lint": {
+        "original": 1,
+        "formatted": 1
+      }
+    },
+    "rust_file_mode_equal": true,
+    "changed_project_files": 4
+  },
+  "changed_project_files": [
+    "crates/feed/README.md",
+    "crates/logs-reporter/README.md",
+    "python/ag-ui-server/README.md",
+    "python/ag-ui-server/src/ag_ui_server/session_store.py"
+  ],
+  "small_fixture_latency": {
+    "warm": {
+      "basic.rs": {
+        "direct": {
+          "n": 100,
+          "p50_ms": 19.919520499999955,
+          "p95_ms": 20.97004200000002,
+          "max_ms": 25.574624999999962
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 26.85497899999989,
+          "p95_ms": 28.447749999999772,
+          "max_ms": 33.36837500000023
+        }
+      },
+      "basic.tsx": {
+        "direct": {
+          "n": 100,
+          "p50_ms": 59.61062499999947,
+          "p95_ms": 61.43375000000262,
+          "max_ms": 66.32820799999983
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 66.2905209999991,
+          "p95_ms": 68.73374999999982,
+          "max_ms": 74.45912500000063
+        }
+      },
+      "basic.md": {
+        "direct": {
+          "n": 100,
+          "p50_ms": 52.32304200000115,
+          "p95_ms": 55.16229199999856,
+          "max_ms": 58.6012920000023
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 58.84118750000056,
+          "p95_ms": 61.40816599999965,
+          "max_ms": 67.19525000000104
+        }
+      },
+      "basic.py": {
+        "direct": {
+          "n": 100,
+          "p50_ms": 5.751999499999272,
+          "p95_ms": 6.229791999999179,
+          "max_ms": 9.379875000000482
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 11.666687499998218,
+          "p95_ms": 12.53895900000046,
+          "max_ms": 13.74395800000272
+        }
+      },
+      "basic.tf": {
+        "direct": {
+          "n": 100,
+          "p50_ms": 19.76383350000077,
+          "p95_ms": 20.809708999998122,
+          "max_ms": 25.227458000003367
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 26.124311999996763,
+          "p95_ms": 27.35704099999481,
+          "max_ms": 30.837875000003123
+        }
+      }
+    },
+    "unchanged_check": {
+      "minimal": {
+        "n": 100,
+        "p50_ms": 65.67385399999637,
+        "p95_ms": 68.25975000000284,
+        "max_ms": 71.96683400000126
+      },
+      "incremental": {
+        "n": 100,
+        "p50_ms": 10.632167000000692,
+        "p95_ms": 11.575790999998503,
+        "max_ms": 15.479959000003873
+      }
+    },
+    "cold_start_ms": [
+      1125.969750000003,
+      857.8382090000005,
+      990.1012500000022
+    ]
+  },
+  "representative_latency": {
+    "cli": {
+      "median.rs": {
+        "bytes": 1057,
+        "direct": {
+          "n": 100,
+          "p50_ms": 19.8732079999997,
+          "p95_ms": 20.773750000000035,
+          "max_ms": 22.782624999999832
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 26.946499499999945,
+          "p95_ms": 28.74741599999986,
+          "max_ms": 31.804082999999927
+        }
+      },
+      "largest.rs": {
+        "bytes": 21773,
+        "direct": {
+          "n": 100,
+          "p50_ms": 22.537603999999156,
+          "p95_ms": 23.511041999999982,
+          "max_ms": 29.121082999999715
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 29.75552100000023,
+          "p95_ms": 31.093792000000064,
+          "max_ms": 36.94441599999987
+        }
+      },
+      "median.tsx": {
+        "bytes": 1651,
+        "direct": {
+          "n": 100,
+          "p50_ms": 65.1424374999987,
+          "p95_ms": 67.84974999999882,
+          "max_ms": 71.91816600000323
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 71.54485449999903,
+          "p95_ms": 77.12766699999918,
+          "max_ms": 80.88550000000083
+        }
+      },
+      "largest.tsx": {
+        "bytes": 13691,
+        "direct": {
+          "n": 100,
+          "p50_ms": 93.64706250000054,
+          "p95_ms": 97.72129100000271,
+          "max_ms": 102.39066700000166
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 100.24899999999803,
+          "p95_ms": 105.72733299999726,
+          "max_ms": 108.77495900000156
+        }
+      },
+      "median.md": {
+        "bytes": 2359,
+        "direct": {
+          "n": 100,
+          "p50_ms": 65.47827100000347,
+          "p95_ms": 67.4852080000008,
+          "max_ms": 73.33633399999684
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 72.01172850000148,
+          "p95_ms": 74.55841600000213,
+          "max_ms": 78.95287499999881
+        }
+      },
+      "largest.md": {
+        "bytes": 9840,
+        "direct": {
+          "n": 100,
+          "p50_ms": 72.24091699999491,
+          "p95_ms": 76.87616599999103,
+          "max_ms": 81.74304199999938
+        },
+        "dprint": {
+          "n": 100,
+          "p50_ms": 78.87685400000066,
+          "p95_ms": 83.05362499999802,
+          "max_ms": 86.50616700001024
+        }
+      }
+    },
+    "editor_profiles": [
+      {
+        "editor": "nvim",
+        "ok": true,
+        "external_config_refresh": null,
+        "cases": [
+          {
+            "name": "median.rs",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 37.972479,
+              "p95_ms": 40.011708,
+              "max_ms": 47.587542
+            }
+          },
+          {
+            "name": "largest.rs",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 43.6324795,
+              "p95_ms": 46.98075,
+              "max_ms": 51.173416
+            }
+          },
+          {
+            "name": "median.tsx",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 84.177375,
+              "p95_ms": 86.823375,
+              "max_ms": 91.496084
+            }
+          },
+          {
+            "name": "largest.tsx",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 114.4838125,
+              "p95_ms": 121.767292,
+              "max_ms": 124.679958
+            }
+          },
+          {
+            "name": "median.md",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 85.0230415,
+              "p95_ms": 89.83825,
+              "max_ms": 92.761416
+            }
+          },
+          {
+            "name": "largest.md",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 92.51083299999999,
+              "p95_ms": 99.590875,
+              "max_ms": 108.757292
+            }
+          }
+        ]
+      },
+      {
+        "editor": "vscode",
+        "ok": true,
+        "external_config_refresh": {
+          "outputs": [
+            {
+              "saved": true,
+              "text_sha256": "7d845a5b29239b599773263978555074e421603faf78f50ecfbd81a18260cbe1",
+              "text_bytes": 25
+            },
+            {
+              "saved": true,
+              "text_sha256": "6a89f84df82d0f12b26108b5527feededb794327e15749963a756886425e0f70",
+              "text_bytes": 25
+            }
+          ],
+          "pass": true
+        },
+        "cases": [
+          {
+            "name": "median.rs",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 31.638354500000787,
+              "p95_ms": 35.71733300000051,
+              "max_ms": 40.03541600000062
+            }
+          },
+          {
+            "name": "largest.rs",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 35.22054200000002,
+              "p95_ms": 40.30491699999948,
+              "max_ms": 44.5792079999992
+            }
+          },
+          {
+            "name": "median.tsx",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 78.5525000000016,
+              "p95_ms": 86.87408299999879,
+              "max_ms": 94.92995900000096
+            }
+          },
+          {
+            "name": "largest.tsx",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 107.13052099999732,
+              "p95_ms": 113.81166699999812,
+              "max_ms": 119.2624169999981
+            }
+          },
+          {
+            "name": "median.md",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 75.59072949999972,
+              "p95_ms": 79.06650000000081,
+              "max_ms": 83.24445800000103
+            }
+          },
+          {
+            "name": "largest.md",
+            "equals_direct": true,
+            "stable": true,
+            "timing": {
+              "n": 100,
+              "p50_ms": 82.31554200000392,
+              "p95_ms": 89.28104200000234,
+              "max_ms": 91.16287499999453
+            }
+          }
+        ]
+      }
+    ],
+    "integrated_followup": {
+      "ok": true,
+      "cases": [
+        {
+          "name": "basic.rs",
+          "saved": true,
+          "equals_direct": true,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": true
+        },
+        {
+          "name": "basic.md",
+          "saved": false,
+          "equals_direct": false,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": false
+        },
+        {
+          "name": "basic.tsx",
+          "saved": true,
+          "equals_direct": true,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": true
+        },
+        {
+          "name": "basic.css",
+          "saved": false,
+          "equals_direct": false,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": false
+        },
+        {
+          "name": "basic.py",
+          "saved": true,
+          "equals_direct": true,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": true
+        },
+        {
+          "name": "basic.tf",
+          "saved": true,
+          "equals_direct": true,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": true
+        },
+        {
+          "name": "toc.md",
+          "saved": true,
+          "equals_direct": true,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": true
+        },
+        {
+          "name": "invalid.ts",
+          "saved": true,
+          "equals_direct": true,
+          "second_saved": true,
+          "second_equals_direct": true,
+          "stable": true
+        }
+      ]
+    }
+  },
+  "extensions": {
+    "markdownlint_cases": 14,
+    "markdownlint_mismatches": [],
+    "markdown_engine_differences": 5,
+    "selection_failures": [],
+    "uv_equal": true,
+    "unsafe_file_writer_mutates_check": true,
+    "cancellation_child_completed": true
+  },
+  "example": {
+    "example_sha256": "b2cef47aa2310b86c034ad242ddbe96f722fb68095630f709902fadc802f9fac",
+    "files": 263,
+    "check_preserved": true,
+    "matches_evaluated_output": true,
+    "idempotent": true
+  },
+  "save_actions_followup": {
+    "baseline": [
+      {
+        "name": "basic.md",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "basic.tsx",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "basic.css",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "toc.md",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      }
+    ],
+    "candidate": [
+      {
+        "name": "basic.rs",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "basic.md",
+        "saved": false,
+        "equals_direct": false,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": false
+      },
+      {
+        "name": "basic.tsx",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "basic.css",
+        "saved": false,
+        "equals_direct": false,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": false
+      },
+      {
+        "name": "basic.py",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "basic.tf",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "toc.md",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      },
+      {
+        "name": "invalid.ts",
+        "saved": true,
+        "equals_direct": true,
+        "second_saved": true,
+        "second_equals_direct": true,
+        "stable": true
+      }
+    ]
+  },
+  "source_guard": {
+    "status_unchanged": true,
+    "head_unchanged": true
+  }
+}
