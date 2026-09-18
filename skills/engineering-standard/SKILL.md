@@ -1,3 +1,8 @@
+---
+name: engineering-standard
+description: Apply shared engineering standards when implementing, reviewing, or documenting software. Covers evidence-based verification, project contribution rules, development tooling, formatting, and Git/GitHub workflows.
+---
+
 ## Engineering principles
 
 - Keep answers concise and use American English.
