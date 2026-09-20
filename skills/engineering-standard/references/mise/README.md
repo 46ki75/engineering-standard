@@ -112,6 +112,24 @@ scripts. Keep one definition of each gate; split jobs may invoke its leaf tasks.
 Verify task behavior, failure propagation, and hooks without shell activation.
 Use disposable repositories and command stubs for deployment checks.
 
+### GitHub Actions
+
+Prefer [jdx/mise-action](https://github.com/jdx/mise-action) to install and cache
+mise-managed tools, then run the repository's setup and validation tasks:
+
+```yaml
+- uses: actions/checkout@v7
+- uses: jdx/mise-action@v4
+  with:
+    version: "2026.9.9"
+- run: mise run setup
+- run: mise run check
+```
+
+`setup` installs locked project dependencies through their package managers.
+Configure package-download caches separately when needed. Use `install_args` to
+select job-specific tools while keeping versions in the repository configuration.
+
 See [migration results and reproducible probes](../../../../evals/mise/README.md)
 and the [working repository configuration](../../../../mise.toml).
 Primary references: [task configuration](https://mise.jdx.dev/tasks/task-configuration.html),
