@@ -6,7 +6,12 @@ Project-specific rules take precedence.
 
 ## Tool ownership and versions
 
-- Declare shared runtimes and standalone CLIs in root `mise.toml`, using **exact
+### Project toolchains
+
+Project toolchains prioritize reproducible development and CI. Declare required
+tools explicitly so builds are independent of personal global defaults.
+
+- Declare shared runtimes and standalone CLIs in the project's root `mise.toml`, using **exact
   releases**, including patch versions: `node = "24.21.0"`, `uv = "0.12.15"`.
   Avoid major/minor-only selectors, ranges, `latest`, and `lts`.
   Use explicit backends or `[tool_alias]` for tools absent from the registry.
@@ -28,7 +33,7 @@ Project-specific rules take precedence.
 - Use ecosystem managers and lockfiles for project dependencies and local CLIs:
   `pnpm install --frozen-lockfile`, `uv sync --locked`, and Cargo's `--locked`.
 
-### Native Rust
+#### Native Rust
 
 Rustup owns Rust. Commit an exact channel, required components, and compilation
 targets in **`rust-toolchain.toml`**. Provision with
@@ -42,7 +47,7 @@ as `cargo-lambda` and `cargo-llvm-cov`. A mise-managed Rust toolchain exports
 `mise exec -- rustup show active-toolchain`, including inherited environment or
 directory overrides.
 
-### Python with uv
+#### Python with uv
 
 Mise supplies the exact interpreter; uv owns `.venv` and its dependencies:
 
@@ -56,6 +61,24 @@ Remove competing development interpreter pins and resync after changing Python.
 For a uv workspace, provision all required packages/groups explicitly. Validation
 uses prepared dependencies, for example `uv run --locked --no-sync ...`.
 Runtime-image requirements are a separate deployment contract.
+
+### Global defaults
+
+Personal global configuration at `~/.config/mise/config.toml` prioritizes convenience.
+Prefer flexible selectors such as `latest`, supported aliases such as Node's `lts`,
+or major/minor versions. Exact pins remain appropriate when a tool needs a known
+compatible release; global lockfiles and strict locking are optional.
+
+```toml
+[tools]
+node = "lts"
+pnpm = "latest"
+uv = "latest"
+```
+
+Scope follows the configuration's purpose: a global config tracked in a dotfiles
+repository is still global configuration. Project declarations override matching
+global tool declarations; tools omitted by a project retain their global defaults.
 
 ## Task contracts
 
@@ -133,6 +156,7 @@ select job-specific tools while keeping versions in the repository configuration
 See [migration results and reproducible probes](../../../../evals/mise/README.md)
 and the [working repository configuration](../../../../mise.toml).
 Primary references: [task configuration](https://mise.jdx.dev/tasks/task-configuration.html),
+[configuration scopes](https://mise.jdx.dev/configuration.html),
 [lockfiles](https://mise.jdx.dev/dev-tools/mise-lock.html),
 [package-manager discovery](https://mise.jdx.dev/mise-cookbook/nodejs.html#replacing-corepack),
 [pnpm execution settings](https://pnpm.io/settings/build#verifydepsbeforerun),
