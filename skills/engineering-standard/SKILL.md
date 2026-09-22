@@ -1,6 +1,6 @@
 ---
 name: engineering-standard
-description: Apply shared engineering standards when implementing, reviewing, or documenting software. Covers evidence-based verification, project contribution rules, development tooling, formatting, and Git/GitHub workflows.
+description: Apply shared engineering standards when implementing, reviewing, or documenting software. Covers evidence-based verification, project contribution rules, development tooling, formatting, Rust conventions, and Git/GitHub workflows.
 ---
 
 ## Engineering principles
@@ -25,3 +25,7 @@ Project- and directory-specific rules take precedence over this skill's defaults
 - Prefer [mise](references/mise/README.md) for development-tool management and task execution. Pin exact tool releases, including patch versions; keep Rust native in `rust-toolchain.toml`. Declare shared tasks in root `mise.toml`, document commands as `mise run <task>`, and use ecosystem package managers for project dependencies. Keep each tool version and workflow definition authoritative in one place.
 - Use the repository's existing validation commands. When adopting mise, expose `lint`, `fmt`, `fmt-check`, and a project-wide `check`; use [Lefthook](references/lefthook/README.md) for Git hooks and file-scoped validation. Format affected, covered files and verify the same scope; report failures and unexpected empty selections. Follow the [formatting reference](references/formatting/README.md) for formatter and editor integration.
 - Use the [Git](references/git/README.md) and [GitHub](references/github/README.md) defaults.
+
+## Language standards
+
+- For Rust code and project configuration, follow the [Rust reference](references/rust/README.md): workspace inheritance and a shared edition, verified MSRV, baseline lints, locked validation, nextest with doctests, hermetic tests, and typed errors.
