@@ -26,7 +26,7 @@ The evaluated documentation rule was:
 
 > After creating or updating documentation, review the affected document as a whole before finalizing it. Identify and fix unnecessary repetition, duplicate explanations, and inconsistencies. Address organization before sentence-level wording, and preserve necessary context and technical meaning.
 
-The current `SKILL.md` rule also covers instructions and prompts and conflicts with documents the edited document links to or depends on. That extension has not been evaluated, and rerunning with the current `SKILL.md` changes the prompts of all three arms.
+The current `SKILL.md` groups writing guidance under `Natural-language content`. It extends whole-document review to instructions, prompts, and other prose, checks conflicts with linked or dependent documents, and explicitly checks that retained repetition serves a purpose. It also requires file-based drafting before publishing long-form content. These extensions have not been evaluated. Rerunning with the current `SKILL.md` changes the prompts of all three arms; the file-based drafting rule remains in every arm, although this text-only evaluation gives writers no file tools.
 
 C excludes the reference's title, candidate-status paragraph, original `## Review and revise` heading, and `## Sources` section. The manifest freezes the assembled prompts and source hashes; subsequent commands reject changed inputs or runner code for that output directory.
 
