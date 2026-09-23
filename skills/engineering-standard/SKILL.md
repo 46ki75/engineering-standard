@@ -1,16 +1,18 @@
 ---
 name: engineering-standard
-description: Apply shared engineering standards when implementing, reviewing, or documenting software. Covers evidence-based verification, project contribution rules, development tooling, formatting, Rust conventions, and Git/GitHub workflows.
+description: Apply shared engineering standards when implementing, reviewing, or documenting software. Covers evidence-based verification, iterative delivery of large changes, project contribution rules, development tooling, formatting, Rust conventions, and Git/GitHub workflows.
 ---
 
 ## Engineering principles
 
 - Keep answers concise and use American English.
 - Add comments when they preserve information that would be costly to rediscover, such as rationale, constraints, invariants, or externally verified behavior; do not restate the code.
-- After creating or updating documentation, review the affected document as a whole before finalizing it. Identify and fix unnecessary repetition, duplicate explanations, and inconsistencies. Address organization before sentence-level wording, and preserve necessary context and technical meaning.
+- After creating or updating documentation, including instructions and prompts, review the affected document as a whole before finalizing it. Identify and fix unnecessary repetition, duplicate explanations, and inconsistencies, including conflicts with documents it links to or depends on. Address organization before sentence-level wording, and preserve necessary context and technical meaning.
 - Prefer direct, deterministic computation, execution, and verification over inference. Use calculators, tests, diagnostics, type checkers, linters, LSP diagnostics, direct execution, measurements, or other reproducible checks when applicable.
 - Verify a problem before attempting to fix it, and verify the fix afterward using the same or an equivalent check whenever possible.
 - When direct verification is not possible, rely on authoritative primary sources such as official documentation, specifications, and RFCs. Use secondary sources only for discovery or context, and verify their claims against primary sources whenever available.
+- Scale upfront planning to reversibility. For large or uncertain changes, settle decisions that are costly to reverse, such as public interfaces, data formats, migration and rollback paths, and invariants, and keep the rest of the plan high-level.
+- For such changes, first extend the repository's existing validation to cover behavior that must be preserved and the intended invariants, record a baseline, including any pre-existing failures, and state what the checks do not cover. Proceed in small steps that each end without new failures, updating checks in the same step only for intended behavior changes. Revise the plan at checkpoints based on what you learn.
 
 ## Project rules
 
