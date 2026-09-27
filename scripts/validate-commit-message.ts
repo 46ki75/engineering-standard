@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 
 const HEADER = /^(?:feat|fix|chore|test|refactor|docs)(!)?: \S.*$/u;
 const SCISSORS = " ------------------------ >8 ------------------------";
-const USAGE = "Usage: pnpm validate:commit <message-file>";
+const USAGE = "Usage: mise run validate:commit <message-file>";
 
 function validate(message: string): string | null {
   const lines = message.split(/\r?\n/u);
