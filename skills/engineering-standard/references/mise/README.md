@@ -63,18 +63,23 @@ Run routine local tasks as `mise run --silent <task>`. If a task fails, rerun it
 without `--silent` to expose the complete diagnostics. CI uses `mise run <task>`
 so its logs retain normal task output.
 
-| Task        | Responsibility                                                     |
-| ----------- | ------------------------------------------------------------------ |
-| `setup`     | Install locked project dependencies and register hooks             |
-| `fmt`       | Apply the project's formatting/fixer policy                        |
-| `fmt-check` | Check the same formatting policy and file scope                    |
-| `lint`      | Run configured linters without fixes                               |
-| `test`      | Run the ordinary test suites                                       |
-| `check`     | Project-wide formatting, lint, type checking, and documented gates |
+| Task          | Responsibility                                             |
+| ------------- | ---------------------------------------------------------- |
+| `setup`       | Install locked project dependencies and register hooks     |
+| `fmt`         | Apply the project's formatting/fixer policy                |
+| `fmt-check`   | Check the same formatting policy and file scope            |
+| `lint`        | Run configured linters without fixes                       |
+| `test`        | Run the ordinary test suites                               |
+| `check:quick` | Provide fast local feedback from a useful subset of checks |
+| `check`       | Run the complete project-wide quality gate required by CI  |
 
-Tests may be included in `check` according to project policy. Checks must propagate
-failures and preserve source files; generated build artifacts and caches are allowed.
-Keep credential-dependent/live tests and deployment operations explicitly named.
+Use `check:quick` when a separate fast feedback loop is useful. Target roughly 10
+seconds on a normal development environment where practical; this is a guideline,
+not a timeout or guarantee. `check` remains authoritative and may depend on
+`check:quick` before running slower gates. Tests may be included in `check`
+according to project policy. Checks must propagate failures and preserve source
+files; generated build artifacts and caches are allowed. Keep credential-dependent
+or live tests and deployment operations explicitly named.
 
 In a single-project repository, keep shared tasks in the root catalog. In a
 monorepo, let mise own cross-package orchestration instead of relying on recursion
