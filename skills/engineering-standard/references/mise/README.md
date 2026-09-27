@@ -59,6 +59,10 @@ Runtime-image requirements are a separate deployment contract.
 
 ## Task contracts
 
+Run routine local tasks as `mise run --silent <task>`. If a task fails, rerun it
+without `--silent` to expose the complete diagnostics. CI uses `mise run <task>`
+so its logs retain normal task output.
+
 | Task        | Responsibility                                                     |
 | ----------- | ------------------------------------------------------------------ |
 | `setup`     | Install locked project dependencies and register hooks             |
@@ -74,7 +78,10 @@ Keep credential-dependent/live tests and deployment operations explicitly named.
 
 Use one root task catalog with `<component>:<action>` names and explicit `dir`
 values. Prefer short TOML tasks; put substantial scripts in file tasks. Describe
-public tasks, including side effects such as an image build that also pushes.
+public tasks, including side effects such as an image build that also pushes. Keep
+task delegation one-way: mise tasks may invoke package-owned scripts, but package
+scripts must not call mise. Omit package-script aliases whose only purpose is to
+call mise.
 
 - `depends` schedules independent prerequisites in parallel. Use a `run` array
   for ordered steps; build before deploying and instrument before reporting.
@@ -101,8 +108,7 @@ Keep `check` project-wide; pass `--all-files` to its file-scoped leaves.
 An existing Lefthook aggregate may remain authoritative during adoption.
 
 Set `lefthook: mise exec -- pnpm exec lefthook` in `lefthook.yml` for hooks launched
-outside an activated shell. Make mise available on editor/Git PATH. Avoid cycles
-between mise tasks, package-script aliases, and hooks. Follow the
+outside an activated shell. Make mise available on editor/Git PATH. Follow the
 [Lefthook reference](../lefthook/README.md) for partial staging.
 
 CI installs the exact mise release, locked tools, and dependencies, then invokes

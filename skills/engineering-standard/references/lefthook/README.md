@@ -11,10 +11,10 @@ The [mise task contracts](../mise/README.md#task-contracts) define `lint`, `fmt`
 Give each leaf hook an explicit default, normally `files: git ls-files`. A bare invocation then selects tracked files. Support repeated `--file` arguments for a targeted selection, including existing untracked files, and `--all-files` for tracked repository files:
 
 ```sh
-mise run fmt --file "src/changed.ts" --file "docs/Release Notes.md"
-mise run fmt-check --file "src/changed.ts" --file "docs/Release Notes.md"
-mise run lint --file "src/changed.ts" --file "docs/Release Notes.md"
-mise run check
+mise run --silent fmt --file "src/changed.ts" --file "docs/Release Notes.md"
+mise run --silent fmt-check --file "src/changed.ts" --file "docs/Release Notes.md"
+mise run --silent lint --file "src/changed.ts" --file "docs/Release Notes.md"
+mise run --silent check
 ```
 
 Use the repository's documented entry points; existing projects may invoke Lefthook directly. Paths should be relative to the Git root. Do not issue an empty targeted invocation: that selects the default scope. Excluded and nonmatching paths can produce successful skips; verify that expected jobs actually ran. Check that targeted paths exist: a missing path that matches a job can reach the native tool and fail instead of skipping.
@@ -55,9 +55,10 @@ output:
 
 Failed commands print their output and return a nonzero exit status. Successful commands' detailed output is suppressed; add `execution_out` when their stdout/stderr, including non-failing warnings, is needed. Git's and the package manager's own output are controlled separately.
 
-Use `LEFTHOOK_OUTPUT=false` to suppress successful Lefthook summaries. Mise's `--quiet` suppresses its command announcements while retaining child diagnostics:
+Routine local calls use mise's `--silent`; rerun without it after a failure to expose child diagnostics. When diagnostics must remain visible from the first run, `--quiet` suppresses mise's command announcements and `LEFTHOOK_OUTPUT=false` suppresses successful Lefthook summaries:
 
 ```sh
+mise run --silent fmt-check --file README.md
 LEFTHOOK_OUTPUT=false mise run --quiet --output interleave fmt-check --file README.md
 ```
 
