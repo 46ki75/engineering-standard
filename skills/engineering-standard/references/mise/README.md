@@ -76,12 +76,51 @@ Tests may be included in `check` according to project policy. Checks must propag
 failures and preserve source files; generated build artifacts and caches are allowed.
 Keep credential-dependent/live tests and deployment operations explicitly named.
 
-Use one root task catalog with `<component>:<action>` names and explicit `dir`
-values. Prefer short TOML tasks; put substantial scripts in file tasks. Describe
-public tasks, including side effects such as an image build that also pushes. Keep
-task delegation one-way: mise tasks may invoke package-owned scripts, but package
-scripts must not call mise. Omit package-script aliases whose only purpose is to
-call mise.
+In a single-project repository, keep shared tasks in the root catalog. In a
+monorepo, let mise own cross-package orchestration instead of relying on recursion
+features specific to a package manager or build tool. Mark the root, explicitly list
+package configuration roots, and make the root task depend on matching descendant
+tasks:
+
+```toml
+monorepo_root = true
+
+[monorepo]
+config_roots = ["packages/*", "services/*"]
+
+[tasks.check]
+depends = ["//...:check"]
+```
+
+Each configured package owns the applicable task contract. References beginning
+with `:` resolve within that package's configuration root:
+
+```toml
+# packages/web/mise.toml
+[tasks.check]
+depends = [":lint", ":test"]
+
+[tasks.lint]
+run = "pnpm exec eslint ."
+
+[tasks.test]
+run = "pnpm exec vitest run"
+```
+
+The root `mise run check` resolves all matching package tasks in one dependency
+graph; it does not spawn nested mise processes. Mise runs each task from its own
+configuration root with its layered tools and environment. Use `depends` for these
+aggregates so `mise tasks deps check` exposes the graph. Keep required aggregate
+patterns nonoptional, and use `mise tasks ls --all` to verify that every intended
+package exposes the task. List nested configuration roots explicitly because
+`config_roots` supports single-level `*`, not recursive `**`; the `//...:check`
+task pattern still matches configured descendants at any depth.
+
+Prefer short TOML tasks; put substantial scripts in file tasks. Describe public
+tasks, including side effects such as an image build that also pushes. Keep task
+delegation one-way: mise tasks may invoke package-owned scripts or native tools,
+but package scripts must not call mise or recursively orchestrate sibling packages.
+Omit package-script aliases whose only purpose is to call mise.
 
 - `depends` schedules independent prerequisites in parallel. Use a `run` array
   for ordered steps; build before deploying and instrument before reporting.
@@ -139,6 +178,7 @@ select job-specific tools while keeping versions in the repository configuration
 See [migration results and reproducible probes](../../../../evals/mise/README.md)
 and the [working repository configuration](../../../../mise.toml).
 Primary references: [task configuration](https://mise.jdx.dev/tasks/task-configuration.html),
+[monorepo tasks](https://mise.jdx.dev/tasks/monorepo.html),
 [lockfiles](https://mise.jdx.dev/dev-tools/mise-lock.html),
 [package-manager discovery](https://mise.jdx.dev/mise-cookbook/nodejs.html#replacing-corepack),
 [pnpm execution settings](https://pnpm.io/settings/build#verifydepsbeforerun),
